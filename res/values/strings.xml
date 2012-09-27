@@ -1,0 +1,16 @@
+<resources>
+
+    <string name="app_name">PocketMon</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="app_launcher_text">Pocket Monsters</string>
+    
+    <!-- New Account / Login -->
+
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="login_register">Login/Register</string>
+    <string name="main_menu">Main Menu</string>
+    <string name="game">Game</string>
+    
+</resources>

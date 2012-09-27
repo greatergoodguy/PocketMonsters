@@ -1,0 +1,54 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <EditText
+        android:id="@+id/user_email_edit_text"
+        style="@style/wrap"
+        android:layout_margin="@dimen/spacing_normal"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:hint="@string/hint_email" >
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/user_password_edit_text"
+        style="@style/wrap"
+        android:layout_margin="@dimen/spacing_normal"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/user_email_edit_text"
+        android:inputType="textPassword"
+        android:hint="@string/hint_password" />
+
+    <Button
+        android:id="@+id/login_register_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_password_edit_text"
+        android:text="@string/login_register" />
+
+    <Button
+        android:id="@+id/main_menu_activity_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/login_register_button"
+        android:layout_below="@id/login_register_button"
+        android:text="@string/main_menu" />
+
+    <Button
+        android:id="@+id/game_activity_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/main_menu_activity_button"
+        android:layout_below="@+id/main_menu_activity_button"
+        android:text="@string/game" />
+
+</RelativeLayout>
