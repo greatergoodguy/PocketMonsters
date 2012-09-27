@@ -5,3 +5,10 @@
 *.DS_Store
 *.swp
 *.out
+
+*.apk
+*.ap_
+*.dex
+
+bin/
+gen/
