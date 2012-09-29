@@ -1,12 +1,9 @@
 package org.burstingbrains.pocketmonsters;
 
-import java.util.ArrayList;
-
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.FillResolutionPolicy;
-import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.opengl.texture.TextureOptions;
@@ -20,8 +17,6 @@ import org.burstingbrains.pocketmonsters.universe.Universe;
 public class GameMapActivity extends SimpleBaseGameActivity implements GameConstants{
 	private Camera camera;
 	private BitmapTextureAtlas cardDeckTexture;
-	
-	private ArrayList<ArrayList<Rectangle>> grid;
 
 	private Universe universe;
 
@@ -47,8 +42,6 @@ public class GameMapActivity extends SimpleBaseGameActivity implements GameConst
 	@Override
 	public Scene onCreateScene() {
 		mEngine.registerUpdateHandler(new FPSLogger());
-
-		grid = new ArrayList<ArrayList<Rectangle>>();
 				
 		universe = new Universe(this, new Scene());
 		new Grid(universe);
