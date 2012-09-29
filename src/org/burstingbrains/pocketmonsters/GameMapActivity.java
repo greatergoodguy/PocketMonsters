@@ -6,19 +6,26 @@ import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.FillResolutionPolicy;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.util.FPSLogger;
-import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.burstingbrains.pocketmon.constants.GameConstants;
 import org.burstingbrains.pocketmon.grid.Grid;
+import org.burstingbrains.pocketmon.singleton.MusicPlayerSingleton;
+import org.burstingbrains.pocketmonsters.assets.GameMapActivityAssets;
 import org.burstingbrains.pocketmonsters.universe.Universe;
 
+import android.util.Log;
+
 public class GameMapActivity extends SimpleBaseGameActivity implements GameConstants{
+	private final String TAG = this.getClass().getSimpleName();
+	
+	private static MusicPlayerSingleton musicPlayer = MusicPlayerSingleton.getSingleton();
+	private static GameMapActivityAssets assets = GameMapActivityAssets.getSingleton();
+	
 	private Camera camera;
 	private BitmapTextureAtlas cardDeckTexture;
 
-	private Universe universe;
+	private Universe gameMapUniverse;
 
 	@Override
 	public EngineOptions onCreateEngineOptions() {
@@ -26,26 +33,28 @@ public class GameMapActivity extends SimpleBaseGameActivity implements GameConst
 
 		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new FillResolutionPolicy(), this.camera);
 		engineOptions.getTouchOptions().setNeedsMultiTouch(true);
+		engineOptions.getAudioOptions().setNeedsSound(true);
+		engineOptions.getAudioOptions().setNeedsMusic(true);
 
 		return engineOptions;
 	}
 
 	@Override
 	public void onCreateResources() {
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-
-		cardDeckTexture = new BitmapTextureAtlas(getTextureManager(), 1024, 512, TextureOptions.BILINEAR);
-		BitmapTextureAtlasTextureRegionFactory.createFromAsset(cardDeckTexture, this, "carddeck_tiled.png", 0, 0);
-		cardDeckTexture.load();
+		assets.init(this);
+		assets.load();
+		musicPlayer.init(assets.haven_v2Music);
 	}
 
 	@Override
 	public Scene onCreateScene() {
 		mEngine.registerUpdateHandler(new FPSLogger());
 				
-		universe = new Universe(this, new Scene());
-		new Grid(universe);
-
-		return universe.getGameScene();
+		gameMapUniverse = new Universe(this, new Scene());
+		new Grid(gameMapUniverse);
+		
+		musicPlayer.play();
+		
+		return gameMapUniverse.getGameScene();
 	}
 }
