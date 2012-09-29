@@ -57,4 +57,24 @@ public class GameMapActivity extends SimpleBaseGameActivity implements GameConst
 		
 		return gameMapUniverse.getGameScene();
 	}
+	
+	@Override
+	public void onPauseGame() {
+		super.onPauseGame();
+		
+		musicPlayer.pause();
+	}
+
+	@Override
+	public synchronized void onResumeGame() {
+		super.onResumeGame();
+		
+		musicPlayer.resume();
+	}
+	
+	@Override
+	protected void onDestroy(){
+
+		super.onDestroy();
+	}
 }

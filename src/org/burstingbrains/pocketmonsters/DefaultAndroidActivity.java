@@ -76,10 +76,11 @@ public class DefaultAndroidActivity extends Activity{
         if("".equals(email) || "".equals(password)){
             Toast.makeText(DefaultAndroidActivity.this, "Field cannot be empty.", Toast.LENGTH_SHORT).show();
         }
-        
-        new CreateDomainRequestTask().execute(USER_ACCOUNTS_DOMAIN);
-        new PutAttributesInUserAccountRequestTask().execute(email, password);
-        Toast.makeText(DefaultAndroidActivity.this, "Success!!", Toast.LENGTH_SHORT).show();
+	    else{
+	        new CreateDomainRequestTask().execute(USER_ACCOUNTS_DOMAIN);
+	        new PutAttributesInUserAccountRequestTask().execute(email, password);
+	        Toast.makeText(DefaultAndroidActivity.this, "Success!!", Toast.LENGTH_SHORT).show();
+	    }
 	}
 
 	@Override

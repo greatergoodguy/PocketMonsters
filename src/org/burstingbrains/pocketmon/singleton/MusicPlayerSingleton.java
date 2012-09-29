@@ -17,10 +17,6 @@ public class MusicPlayerSingleton {
 	}
 	
 	public void init(Music music){
-		if(music != null){
-			cleanUp();
-		}
-		
 		this.music = music;
 	}
 
@@ -52,10 +48,5 @@ public class MusicPlayerSingleton {
 		if(music != null){
 			music.release();
 		}
-	}
-	
-	private void cleanUp() {
-		stop();
-		release();
 	}
 }
