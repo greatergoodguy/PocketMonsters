@@ -60,6 +60,13 @@ public class DefaultAndroidActivity extends Activity{
             	handler.postDelayed(launchGameActivityRunnable, delayInMilliSeconds);
             }
         });
+
+        final Button gameMapActivityButton = (Button) findViewById(R.id.game_map_activity_button);
+        gameMapActivityButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            	handler.postDelayed(launchGameMapActivityRunnable, delayInMilliSeconds);
+            }
+        });
     }
 
 	protected void LoginOrRegister() {
@@ -81,6 +88,13 @@ public class DefaultAndroidActivity extends Activity{
         return true;
     }
 
+	private Runnable launchMainMenuActivityRunnable = new Runnable(){
+		public void run(){
+			Intent myIntent = new Intent(DefaultAndroidActivity.this, MainMenuActivity.class);
+			startActivity(myIntent);
+		}
+	};
+	
 	private Runnable launchGameActivityRunnable = new Runnable(){
 		public void run(){
 			Intent myIntent = new Intent(DefaultAndroidActivity.this, GameActivity.class);
@@ -88,9 +102,9 @@ public class DefaultAndroidActivity extends Activity{
 		}
 	};
 
-	private Runnable launchMainMenuActivityRunnable = new Runnable(){
+	private Runnable launchGameMapActivityRunnable = new Runnable(){
 		public void run(){
-			Intent myIntent = new Intent(DefaultAndroidActivity.this, MainMenuActivity.class);
+			Intent myIntent = new Intent(DefaultAndroidActivity.this, GameMapActivity.class);
 			startActivity(myIntent);
 		}
 	};

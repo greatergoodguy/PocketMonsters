@@ -51,4 +51,13 @@
         android:layout_below="@+id/main_menu_activity_button"
         android:text="@string/game" />
 
+    <Button
+        android:id="@+id/game_map_activity_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/game_activity_button"
+        android:layout_below="@+id/game_activity_button"
+        android:text="@string/game_map" />
+
 </RelativeLayout>

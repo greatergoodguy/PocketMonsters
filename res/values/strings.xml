@@ -12,5 +12,6 @@
     <string name="login_register">Login/Register</string>
     <string name="main_menu">Main Menu</string>
     <string name="game">Game</string>
+    <string name="game_map">Game Map</string>
     
 </resources>
