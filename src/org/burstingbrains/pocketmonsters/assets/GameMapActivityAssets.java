@@ -4,8 +4,8 @@ import java.io.IOException;
 
 import org.andengine.audio.music.Music;
 import org.andengine.audio.music.MusicFactory;
-import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.debug.Debug;
+import org.burstingbrains.andengineext.BBSGameActivity;
 
 public class GameMapActivityAssets implements IAssets{
 	private static final GameMapActivityAssets gameMapActivityAssets = new GameMapActivityAssets();
@@ -23,11 +23,12 @@ public class GameMapActivityAssets implements IAssets{
 	}
 
 	@Override
-	public void init(SimpleBaseGameActivity baseGameActivity) {
+	public void init(BBSGameActivity baseGameActivity) {
 		MusicFactory.setAssetBasePath("music/");
 		try {
-			haven_v2Music = MusicFactory.createMusicFromAsset(baseGameActivity.getEngine().getMusicManager(), baseGameActivity, "Haven_v2.mp3");
-			haven_v2Music.setLooping(true);
+			//haven_v2Music = MusicFactory.createMusicFromAsset(baseGameActivity.getEngine().getMusicManager(), baseGameActivity, "Haven_v2.mp3");
+			haven_v2Music = MusicFactory.createMusicFromAsset(baseGameActivity.getEngine().getMusicManager(), baseGameActivity, "dummySong.mp3");
+			//haven_v2Music.setLooping(true);
 		} catch (final IOException e) {
 			Debug.e(e);
 		}

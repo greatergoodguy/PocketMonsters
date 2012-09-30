@@ -7,15 +7,16 @@ import org.andengine.entity.scene.ITouchArea;
 import org.andengine.entity.scene.Scene;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
+import org.burstingbrains.andengineext.BBSGameActivity;
 
 public class Universe{
 	
-	protected final SimpleBaseGameActivity gameActivity;	
+	protected final BBSGameActivity gameActivity;	
 	protected final Scene gameScene;
 	protected final VertexBufferObjectManager vertexBufferObjectManager;
 	protected final Engine engine;
 	
-	public Universe(SimpleBaseGameActivity gameActivity, Scene gameScene){		
+	public Universe(BBSGameActivity gameActivity, Scene gameScene){		
 		this.gameActivity = gameActivity;
 		this.gameScene = gameScene;
 		this.vertexBufferObjectManager = gameActivity.getVertexBufferObjectManager();
@@ -39,7 +40,7 @@ public class Universe{
 		gameScene.attachChild(scene);
 	}
 
-	public SimpleBaseGameActivity getGameActivity(){
+	public BBSGameActivity getGameActivity(){
 		return gameActivity;
 	}
 	

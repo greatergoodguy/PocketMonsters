@@ -1,9 +1,9 @@
 package org.burstingbrains.pocketmonsters.assets;
 
-import org.andengine.ui.activity.SimpleBaseGameActivity;
+import org.burstingbrains.andengineext.BBSGameActivity;
 
 public interface IAssets {
-	public void init(SimpleBaseGameActivity baseGameActivity);
+	public void init(BBSGameActivity baseGameActivity);
 	public void load();
 	public void unload();
 }
