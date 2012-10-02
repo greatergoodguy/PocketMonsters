@@ -109,7 +109,6 @@ public class DefaultAndroidActivity extends Activity{
 			startActivity(myIntent);
 		}
 	};
-	
 	class CreateDomainRequestTask extends AsyncTask<String, Void, Void> {
 	    @Override
 	    protected Void doInBackground(String... domainNames) {

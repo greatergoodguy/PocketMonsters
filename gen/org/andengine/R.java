@@ -48,6 +48,7 @@ public final class R {
         public static final int login_register=0x7f050006;
         public static final int main_menu=0x7f050007;
         public static final int menu_settings=0x7f050002;
+        public static final int scalable_sprite=0x7f05000a;
     }
     public static final class style {
         public static final int AppTheme=0x7f060000;

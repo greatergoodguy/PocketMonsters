@@ -24,7 +24,8 @@
         
 		<activity android:name=".MainMenuActivity" android:configChanges="orientation"/>
 		<activity android:name=".GameActivity" android:configChanges="orientation"/>
-		<activity android:name=".GameMapActivity" android:configChanges="orientation|screenSize"/>
+		<activity android:name=".GameMapActivity" android:configChanges="orientation"/>
+		<activity android:name=".ScalableSpriteActivity" android:configChanges="orientation"/>
 		
     </application>
     

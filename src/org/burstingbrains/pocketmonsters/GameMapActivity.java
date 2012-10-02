@@ -11,6 +11,7 @@ import org.burstingbrains.andengineext.BBSGameActivity;
 import org.burstingbrains.pocketmon.constants.GameConstants;
 import org.burstingbrains.pocketmon.grid.Grid;
 import org.burstingbrains.pocketmon.singleton.MusicPlayerSingleton;
+import org.burstingbrains.pocketmonster.monster.Monster;
 import org.burstingbrains.pocketmonsters.assets.GameMapActivityAssets;
 import org.burstingbrains.pocketmonsters.universe.Universe;
 
@@ -50,7 +51,12 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 		mEngine.registerUpdateHandler(new FPSLogger());
 				
 		gameMapUniverse = new Universe(this, new Scene());
+
 		new Grid(gameMapUniverse);
+		new Monster(gameMapUniverse);
+		
+//		Sprite sprite = new Sprite(800, 300, assets.badlyDrawnMonsterDown2TextureRegion, getVertexBufferObjectManager());
+//		gameMapUniverse.getGameScene().attachChild(sprite);
 		
 		musicPlayer.play();
 		
