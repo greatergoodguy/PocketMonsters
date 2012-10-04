@@ -40,6 +40,11 @@ public class GameMapActivityAssets implements IAssets{
 	public ITextureRegion menuButtonResetTextureRegion;
 	public ITextureRegion menuButtonQuitTextureRegion;
 	
+
+	public BuildableBitmapTextureAtlas touchTargetTexture;
+	public ITextureRegion touchTargetTransparentTextureRegion;
+	public ITextureRegion touchTargetLightBlueTextureRegion;
+	
 	private boolean isInitialized;
 	
 	private GameMapActivityAssets(){
@@ -111,8 +116,18 @@ public class GameMapActivityAssets implements IAssets{
 			Debug.e(e);
 		}
 		
-		isInitialized = true;
+
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("images/touchtargets/");
+		touchTargetTexture = new BuildableBitmapTextureAtlas(bbsGameActivity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		touchTargetTransparentTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(touchTargetTexture, bbsGameActivity, "Transparent.png");
+		touchTargetLightBlueTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(touchTargetTexture, bbsGameActivity, "LightBlue.png");
+		try{ 
+			touchTargetTexture.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(1, 1, 1));
+		} catch (final TextureAtlasBuilderException e) {
+			Debug.e(e);
+		}
 		
+		isInitialized = true;
 	}
 
 	@Override
@@ -121,6 +136,8 @@ public class GameMapActivityAssets implements IAssets{
 			badlyDrawnMonsterTexture.load();
 			orangeMonTexture.load();
 			menuButtonTexture.load();
+			
+			touchTargetTexture.load();
 		}
 	}
 
@@ -129,6 +146,9 @@ public class GameMapActivityAssets implements IAssets{
 		if(isInitialized){
 			badlyDrawnMonsterTexture.unload();
 			orangeMonTexture.unload();
+			menuButtonTexture.unload();
+			
+			touchTargetTexture.unload();
 		}
 	}
 }

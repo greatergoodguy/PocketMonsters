@@ -3,11 +3,12 @@ package org.burstingbrains.pocketmonsters.monster;
 import org.andengine.entity.Entity;
 import org.andengine.entity.IEntity;
 import org.andengine.entity.sprite.Sprite;
+import org.burstingbrains.pocketmon.constants.GameConstants;
 import org.burstingbrains.pocketmonsters.assets.GameMapActivityAssets;
 import org.burstingbrains.pocketmonsters.universe.Universe;
 import org.burstingbrains.sharedlibs.handler.IButtonHandler;
 
-public class Monster implements IMonster{
+public class Monster implements IMonster, GameConstants{
 	GameMapActivityAssets assets = GameMapActivityAssets.getSingleton();
 	
 	// Monster Data Members
@@ -17,38 +18,29 @@ public class Monster implements IMonster{
 	Sprite monsterSpriteLeft;
 	Sprite monsterSpriteDown;
 	Sprite monsterSpriteRight;
+	Sprite monsterTouchTargetSprite;
 	
 	Sprite activeSprite;
 	Dir monsterDir;
 
 	// Menu Data Members
+	IEntity monsterMenuEntity;
+	
 	Sprite buttonOk;
 	Sprite buttonReset;
 	Sprite buttonQuit;
 	
+	boolean isMonsterMenuVisible;
 
 	public Monster(Universe universe){
-		initializeSprites(universe);
+		initializeMonsterSprites(universe);
 		setFaceDirection(Dir.LEFT);
 		
-		buttonOk = universe.createButtonSprite(assets.menuButtonOkTextureRegion, new TurnLeftButtonHandler());
-		universe.registerTouchArea(buttonOk);
-		buttonOk.setPosition(0, 0);
-		monsterEntity.attachChild(buttonOk);
-		
-		buttonReset = universe.createButtonSprite(assets.menuButtonResetTextureRegion, new TurnRightButtonHandler());
-		universe.registerTouchArea(buttonReset);
-		buttonReset.setPosition(0, 120);
-		monsterEntity.attachChild(buttonReset);
-		
-		buttonQuit = universe.createButtonSprite(assets.menuButtonQuitTextureRegion);
-		universe.registerTouchArea(buttonQuit);
-		buttonQuit.setPosition(0, 240);
-		monsterEntity.attachChild(buttonQuit);
-		
+		initializeMonsterMenu(universe);
 		
 		universe.attachChild(monsterEntity);
 	}
+
 
 	@Override
 	public void setPosition(float posX, float posY) {
@@ -56,7 +48,7 @@ public class Monster implements IMonster{
 		
 	}
 	
-	private void initializeSprites(Universe universe) {
+	private void initializeMonsterSprites(Universe universe) {
 		monsterEntity = new Entity(0, 0);
 		
 		monsterSpriteUp = universe.createSprite(assets.orangeMonUpTextureRegion);
@@ -75,7 +67,35 @@ public class Monster implements IMonster{
 		monsterSpriteRight.setVisible(false);
 		monsterEntity.attachChild(monsterSpriteRight);	
 		
+		monsterTouchTargetSprite = universe.createButtonSprite(assets.touchTargetTransparentTextureRegion, new ToggleMenuButtonHandler());
+		universe.registerTouchArea(monsterTouchTargetSprite);
+		monsterTouchTargetSprite.setVisible(true);
+		monsterEntity.attachChild(monsterTouchTargetSprite);
+		
 		activeSprite = monsterSpriteDown;
+	}
+
+	private void initializeMonsterMenu(Universe universe) {
+		monsterMenuEntity = new Entity(0, 0);
+		
+		buttonOk = universe.createButtonSprite(assets.menuButtonOkTextureRegion, new TurnLeftButtonHandler());
+		universe.registerTouchArea(buttonOk);
+		buttonOk.setPosition(0, -120);
+		monsterMenuEntity.attachChild(buttonOk);
+		
+		buttonReset = universe.createButtonSprite(assets.menuButtonResetTextureRegion, new TurnRightButtonHandler());
+		universe.registerTouchArea(buttonReset);
+		buttonReset.setPosition(0, -60);
+		monsterMenuEntity.attachChild(buttonReset);
+		
+		buttonQuit = universe.createButtonSprite(assets.menuButtonQuitTextureRegion);
+		universe.registerTouchArea(buttonQuit);
+		buttonQuit.setPosition(0, 0);
+		monsterMenuEntity.attachChild(buttonQuit);
+		
+		monsterEntity.attachChild(monsterMenuEntity);
+		
+		isMonsterMenuVisible = true;
 	}
 
 	private void setFaceDirection(Dir direction) {
@@ -134,18 +154,33 @@ public class Monster implements IMonster{
 		}
 	}
 	
+	private void toggleMenuState() {
+		if(isMonsterMenuVisible)
+			monsterMenuEntity.setPosition(CAMERA_WIDTH, CAMERA_HEIGHT);
+		else
+			monsterMenuEntity.setPosition(0, 0);
+		
+		isMonsterMenuVisible = !isMonsterMenuVisible;
+	}
+	
 	public class TurnLeftButtonHandler implements IButtonHandler{
 		@Override
 		public void onButtonUp(){
 			turnLeft();
 		}
 	};
-
 	
 	public class TurnRightButtonHandler implements IButtonHandler{
 		@Override
 		public void onButtonUp(){
 			turnRight();
+		}
+	};
+	
+	public class ToggleMenuButtonHandler implements IButtonHandler{
+		@Override
+		public void onButtonUp(){
+			toggleMenuState();
 		}
 	};
 }
