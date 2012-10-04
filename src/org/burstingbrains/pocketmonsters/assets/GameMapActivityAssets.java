@@ -34,6 +34,12 @@ public class GameMapActivityAssets implements IAssets{
 	public ITextureRegion orangeMonDownTextureRegion;
 	public ITextureRegion orangeMonRightTextureRegion;
 	
+
+	public BuildableBitmapTextureAtlas menuButtonTexture;
+	public ITextureRegion menuButtonOkTextureRegion;
+	public ITextureRegion menuButtonResetTextureRegion;
+	public ITextureRegion menuButtonQuitTextureRegion;
+	
 	private boolean isInitialized;
 	
 	private GameMapActivityAssets(){
@@ -90,6 +96,20 @@ public class GameMapActivityAssets implements IAssets{
 		} catch (final TextureAtlasBuilderException e) {
 			Debug.e(e);
 		}
+
+		//======================================
+		// Buttons
+		//======================================
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("images/buttons/");
+		menuButtonTexture = new BuildableBitmapTextureAtlas(bbsGameActivity.getTextureManager(), 2048, 2048, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		menuButtonOkTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuButtonTexture, bbsGameActivity, "menu_ok.png");
+		menuButtonResetTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuButtonTexture, bbsGameActivity, "menu_reset.png");
+		menuButtonQuitTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuButtonTexture, bbsGameActivity, "menu_quit.png");
+		try{ 
+			menuButtonTexture.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(1, 1, 1));
+		} catch (final TextureAtlasBuilderException e) {
+			Debug.e(e);
+		}
 		
 		isInitialized = true;
 		
@@ -100,6 +120,7 @@ public class GameMapActivityAssets implements IAssets{
 		if(isInitialized){
 			badlyDrawnMonsterTexture.load();
 			orangeMonTexture.load();
+			menuButtonTexture.load();
 		}
 	}
 

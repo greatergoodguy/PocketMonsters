@@ -9,6 +9,8 @@ import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.burstingbrains.andengineext.BBSGameActivity;
+import org.burstingbrains.pocketmonsters.sprite.ButtonSprite;
+import org.burstingbrains.sharedlibs.handler.IButtonHandler;
 
 public class Universe{
 	
@@ -24,6 +26,7 @@ public class Universe{
 		this.engine = gameActivity.getEngine();
 
 		gameScene.setOnAreaTouchTraversalFrontToBack();
+		//gameScene.setOnAreaTouchTraversalBackToFront();
 		gameScene.setTouchAreaBindingOnActionDownEnabled(true);
 	}
 	
@@ -47,6 +50,14 @@ public class Universe{
 		return new Sprite(0, 0, textureRegion, vertexBufferObjectManager);
 	}
 	
+	public Sprite createButtonSprite(final ITextureRegion textureRegion){
+		return new ButtonSprite(0, 0, textureRegion, vertexBufferObjectManager);
+	}
+
+	public Sprite createButtonSprite(ITextureRegion textureRegion, IButtonHandler buttonHandler) {
+		return new ButtonSprite(0, 0, textureRegion, vertexBufferObjectManager, buttonHandler);
+	}
+	
 	public final void registerUpdateHandler(IUpdateHandler pUpdateHandler) {
 		engine.registerUpdateHandler(pUpdateHandler);
 	}
@@ -63,4 +74,5 @@ public class Universe{
 	public void attachChild(IEntity entity) {
 		gameScene.attachChild(entity);
 	}
+
 }

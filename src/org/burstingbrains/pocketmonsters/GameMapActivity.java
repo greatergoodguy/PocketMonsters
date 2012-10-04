@@ -11,8 +11,8 @@ import org.burstingbrains.andengineext.BBSGameActivity;
 import org.burstingbrains.pocketmon.constants.GameConstants;
 import org.burstingbrains.pocketmon.grid.Grid;
 import org.burstingbrains.pocketmon.singleton.MusicPlayerSingleton;
-import org.burstingbrains.pocketmonster.monster.Monster;
 import org.burstingbrains.pocketmonsters.assets.GameMapActivityAssets;
+import org.burstingbrains.pocketmonsters.monster.Monster;
 import org.burstingbrains.pocketmonsters.universe.Universe;
 
 import android.view.KeyEvent;
@@ -53,7 +53,8 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 		gameMapUniverse = new Universe(this, new Scene());
 
 		new Grid(gameMapUniverse);
-		new Monster(gameMapUniverse);
+		Monster monster = new Monster(gameMapUniverse);
+		monster.setPosition(700, 200);
 		
 //		Sprite sprite = new Sprite(800, 300, assets.badlyDrawnMonsterDown2TextureRegion, getVertexBufferObjectManager());
 //		gameMapUniverse.getGameScene().attachChild(sprite);
