@@ -15,9 +15,10 @@ import org.burstingbrains.pocketmon.constants.GameConstants;
 import org.burstingbrains.pocketmon.grid.Grid;
 import org.burstingbrains.pocketmon.singleton.MusicPlayerSingleton;
 import org.burstingbrains.pocketmonsters.assets.GameMapActivityAssets;
-import org.burstingbrains.pocketmonsters.handler.IOnGridTouchUp;
+import org.burstingbrains.pocketmonsters.handler.BBSHandler;
 import org.burstingbrains.pocketmonsters.monster.Monster;
 import org.burstingbrains.pocketmonsters.universe.Universe;
+import org.burstingbrains.sharedlibs.handler.IButtonHandler;
 
 import android.view.KeyEvent;
 
@@ -62,9 +63,9 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 		grid = new Grid(gameMapUniverse, new MoveMonsterHandler());
 		
 		monsters = new ArrayList<Monster>();
-		monsters.add(new Monster(gameMapUniverse));
+		monsters.add(new Monster(gameMapUniverse, new MoveMonsterHandler()));
 		monsters.get(0).setGridPos(4, 4);
-		monsters.add(new Monster(gameMapUniverse));
+		monsters.add(new Monster(gameMapUniverse, new MoveMonsterHandler()));
 		monsters.get(1).setGridPos(2, 2);
 		
 		activeMonster = monsters.get(0);
@@ -115,17 +116,24 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 		
 	}
 	
-	private class MoveMonsterHandler implements IOnGridTouchUp{
+	private class MoveMonsterHandler implements BBSHandler{
 		@Override
 		public void onGridTouchUp() {
 			if(grid.isValidPosition()){
-				activeMonster.setGridPos(grid.getPositionX(), grid.getPositionY());
+				if(activeMonster != null)
+					activeMonster.setGridPos(grid.getPositionX(), grid.getPositionY());
+				/*
 				monsterSelector += 1;
 				monsterSelector %= monsters.size();
 				activeMonster = monsters.get(monsterSelector);
+				*/
 			}
 		}
-		
+
+		@Override
+		public void onMonsterSelected(Monster m) {
+			activeMonster = m;
+		}
 	}
 
 	@Override

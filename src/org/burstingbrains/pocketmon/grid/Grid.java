@@ -6,14 +6,14 @@ import org.andengine.opengl.vbo.DrawType;
 import org.andengine.util.color.Color;
 import org.burstingbrains.pocketmon.constants.GameConstants;
 import org.burstingbrains.pocketmon.singleton.RandomSingleton;
-import org.burstingbrains.pocketmonsters.handler.IOnGridTouchUp;
+import org.burstingbrains.pocketmonsters.handler.BBSHandler;
 import org.burstingbrains.pocketmonsters.universe.Universe;
 
 import android.util.Log;
 
 public class Grid extends Rectangle implements GameConstants{
 	Universe universe;
-	IOnGridTouchUp handler;
+	BBSHandler handler;
 	
 	private Rectangle dummyRectangle;
 	private Rectangle activeRectangle;
@@ -22,7 +22,7 @@ public class Grid extends Rectangle implements GameConstants{
 	private int posX = -1;
 	private int posY = -1;
 	
-	public Grid(final Universe universe, IOnGridTouchUp handler) {
+	public Grid(final Universe universe, BBSHandler handler) {
 		super(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT, universe.getVertexBufferObjectManager(), DrawType.STATIC);
 		this.universe = universe;
 		this.handler = handler;
