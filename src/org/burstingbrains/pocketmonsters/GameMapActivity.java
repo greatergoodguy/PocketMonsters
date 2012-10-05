@@ -1,5 +1,8 @@
 package org.burstingbrains.pocketmonsters;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.engine.options.EngineOptions;
@@ -29,7 +32,9 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 	private Universe gameMapUniverse;
 	
 	private Grid grid;
-	private Monster monster;
+	private List<Monster> monsters;
+	private Monster activeMonster;
+	private int monsterSelector = 0;
 
 	@Override
 	public EngineOptions onCreateEngineOptions() {
@@ -53,12 +58,14 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 	@Override
 	public Scene onCreateScene() {
 		mEngine.registerUpdateHandler(new FPSLogger());
-				
 		gameMapUniverse = new Universe(this, new Scene());
-
 		grid = new Grid(gameMapUniverse, new MoveMonsterHandler());
-		monster = new Monster(gameMapUniverse);
-		monster.setGridPos(4, 4);
+		
+		monsters = new ArrayList<Monster>();
+		monsters.add(new Monster(gameMapUniverse));
+		monsters.get(0).setGridPos(4, 4);
+		monsters.add(new Monster(gameMapUniverse));
+		monsters.get(1).setGridPos(2, 2);
 		
 //		Sprite sprite = new Sprite(800, 300, assets.badlyDrawnMonsterDown2TextureRegion, getVertexBufferObjectManager());
 //		gameMapUniverse.getGameScene().attachChild(sprite);
@@ -110,7 +117,9 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 		@Override
 		public void onGridTouchUp() {
 			if(grid.isValidPosition()){
-				monster.setGridPos(grid.getPositionX(), grid.getPositionY());
+				monsters.get(monsterSelector).setGridPos(grid.getPositionX(), grid.getPositionY());
+				monsterSelector += 1;
+				monsterSelector %= monsters.size();
 			}
 		}
 		
