@@ -77,7 +77,7 @@ public class Monster implements IMonster, GameConstants{
 		monsterSpriteRight.setVisible(false);
 		monsterEntity.attachChild(monsterSpriteRight);	
 		
-		monsterTouchTargetSprite = universe.createButtonSprite(assets.touchTargetLightBlueTextureRegion, new ToggleMenuButtonHandler());
+		monsterTouchTargetSprite = universe.createButtonSprite(assets.touchTargetTransparentTextureRegion, new ToggleMenuButtonHandler());
 		universe.registerTouchArea(monsterTouchTargetSprite);
 		monsterTouchTargetSprite.setVisible(true);
 		monsterEntity.attachChild(monsterTouchTargetSprite);
@@ -106,6 +106,7 @@ public class Monster implements IMonster, GameConstants{
 		monsterEntity.attachChild(monsterMenuEntity);
 		
 		isMonsterMenuVisible = true;
+		toggleMenuState();
 	}
 
 	private void setFaceDirection(Dir direction) {
@@ -203,7 +204,7 @@ public class Monster implements IMonster, GameConstants{
 		@Override
 		public void onButtonUp(){
 			handler.onMonsterSelected(Monster.this);
-			toggleMenuState();
+			// toggleMenuState();
 		}
 	}
 }
