@@ -43,9 +43,7 @@ public class Monster implements IMonster, GameConstants{
 		universe.attachChild(monsterEntity);
 	}
 
-
-	@Override
-	public void setPos(float posX, float posY) {
+	private void setPos(float posX, float posY) {
 		monsterEntity.setPosition(posX - monsterSpriteUp.getWidth()/2, posY - monsterSpriteUp.getHeight()/2);
 		
 	}

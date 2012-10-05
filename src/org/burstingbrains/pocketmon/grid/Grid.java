@@ -1,28 +1,31 @@
 package org.burstingbrains.pocketmon.grid;
 
-import java.util.ArrayList;
-
 import org.andengine.entity.primitive.Rectangle;
-import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.vbo.DrawType;
 import org.andengine.util.color.Color;
 import org.burstingbrains.pocketmon.constants.GameConstants;
 import org.burstingbrains.pocketmon.singleton.RandomSingleton;
+import org.burstingbrains.pocketmonsters.handler.IOnGridTouchUp;
 import org.burstingbrains.pocketmonsters.universe.Universe;
 
 import android.util.Log;
 
 public class Grid extends Rectangle implements GameConstants{
 	Universe universe;
+	IOnGridTouchUp handler;
 	
 	private Rectangle dummyRectangle;
 	private Rectangle activeRectangle;
 	private Rectangle[][] grid2;
 	
-	public Grid(final Universe universe) {
+	private int posX = -1;
+	private int posY = -1;
+	
+	public Grid(final Universe universe, IOnGridTouchUp handler) {
 		super(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT, universe.getVertexBufferObjectManager(), DrawType.STATIC);
 		this.universe = universe;
+		this.handler = handler;
 		
 		universe.registerTouchArea(this);
 		universe.attachChild(this);
@@ -38,7 +41,6 @@ public class Grid extends Rectangle implements GameConstants{
 			for(int row = 0; row < GRID_HEIGHT_IN_METERS; row++){
 				Rectangle tile = new Rectangle(column * PIXELS_PER_METER, row * PIXELS_PER_METER, PIXELS_PER_METER,
 											   PIXELS_PER_METER, getVertexBufferObjectManager());
-				//tile.setColor(Color.GREEN);
 				tile.setColor(
 						RandomSingleton.getRandomInt(256), 
 						RandomSingleton.getRandomInt(256), 
@@ -65,9 +67,13 @@ public class Grid extends Rectangle implements GameConstants{
 				Rectangle currentRectangle;
 				if(posXInMeters < GRID_WIDTH_IN_METERS && posYInMeters < GRID_HEIGHT_IN_METERS) {
 					currentRectangle = grid2[posXInMeters][posYInMeters];
+					posX = posXInMeters + 1;
+					posY = posYInMeters + 1;
 				}
 				else {
 					currentRectangle = dummyRectangle;
+					posX = 0;
+					posY = 0;
 				}
 				
 				if(activeRectangle != currentRectangle){
@@ -76,11 +82,22 @@ public class Grid extends Rectangle implements GameConstants{
 					activeRectangle.setColor(Color.BLUE);
 				}
 				break;
-			case TouchEvent.ACTION_OUTSIDE:
-			case TouchEvent.ACTION_CANCEL:
 			case TouchEvent.ACTION_UP:
+				handler.onGridTouchUp();
 				break;
 		}
 		return true;
+	}
+	
+	public boolean isValidPosition() {
+		return activeRectangle != dummyRectangle;
+	}
+	
+	public int getPositionX() {
+		return posX;
+	}
+	
+	public int getPositionY() {
+		return posY;
 	}
 }

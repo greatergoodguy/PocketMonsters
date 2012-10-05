@@ -12,6 +12,7 @@ import org.burstingbrains.pocketmon.constants.GameConstants;
 import org.burstingbrains.pocketmon.grid.Grid;
 import org.burstingbrains.pocketmon.singleton.MusicPlayerSingleton;
 import org.burstingbrains.pocketmonsters.assets.GameMapActivityAssets;
+import org.burstingbrains.pocketmonsters.handler.IOnGridTouchUp;
 import org.burstingbrains.pocketmonsters.monster.Monster;
 import org.burstingbrains.pocketmonsters.universe.Universe;
 
@@ -26,6 +27,9 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 	private Camera camera;
 
 	private Universe gameMapUniverse;
+	
+	private Grid grid;
+	private Monster monster;
 
 	@Override
 	public EngineOptions onCreateEngineOptions() {
@@ -52,9 +56,8 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 				
 		gameMapUniverse = new Universe(this, new Scene());
 
-		new Grid(gameMapUniverse);
-		Monster monster = new Monster(gameMapUniverse);
-		monster.setPos(700, 200);
+		grid = new Grid(gameMapUniverse, new MoveMonsterHandler());
+		monster = new Monster(gameMapUniverse);
 		monster.setGridPos(4, 4);
 		
 //		Sprite sprite = new Sprite(800, 300, assets.badlyDrawnMonsterDown2TextureRegion, getVertexBufferObjectManager());
@@ -103,6 +106,15 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 		
 	}
 	
+	private class MoveMonsterHandler implements IOnGridTouchUp{
+		@Override
+		public void onGridTouchUp() {
+			if(grid.isValidPosition()){
+				monster.setGridPos(grid.getPositionX(), grid.getPositionY());
+			}
+		}
+		
+	}
 
 	@Override
 	public boolean onKeyUp(final int pKeyCode, final KeyEvent pEvent) {
