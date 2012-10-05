@@ -3,6 +3,7 @@ package org.burstingbrains.pocketmon.grid;
 import java.util.ArrayList;
 
 import org.andengine.entity.primitive.Rectangle;
+import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.vbo.DrawType;
 import org.andengine.util.color.Color;
@@ -14,10 +15,10 @@ import android.util.Log;
 
 public class Grid extends Rectangle implements GameConstants{
 	Universe universe;
-
+	
 	private Rectangle dummyRectangle;
 	private Rectangle activeRectangle;
-	private ArrayList<ArrayList<Rectangle>> grid;
+	private Rectangle[][] grid2;
 	
 	public Grid(final Universe universe) {
 		super(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT, universe.getVertexBufferObjectManager(), DrawType.STATIC);
@@ -31,21 +32,22 @@ public class Grid extends Rectangle implements GameConstants{
 		dummyRectangle = new Rectangle(0, 0, 1, 1, getVertexBufferObject());
 		activeRectangle = dummyRectangle;
 		
-		grid = new ArrayList<ArrayList<Rectangle>>();
+		grid2 = new Rectangle[GRID_WIDTH_IN_METERS][GRID_HEIGHT_IN_METERS];
 		
-		for(int row=0; row<GRID_WIDTH_IN_METERS; row++){
-			grid.add(new ArrayList<Rectangle>());
-			
-			for(int j=0; j<GRID_HEIGHT_IN_METERS; j++){
-				Rectangle tile = new Rectangle(0 + row*PIXELS_PER_METER, 0 + j*PIXELS_PER_METER, PIXELS_PER_METER, PIXELS_PER_METER, getVertexBufferObjectManager());
+		for(int column = 0; column < GRID_WIDTH_IN_METERS; column++){
+			for(int row = 0; row < GRID_HEIGHT_IN_METERS; row++){
+				Rectangle tile = new Rectangle(column * PIXELS_PER_METER, row * PIXELS_PER_METER, PIXELS_PER_METER,
+											   PIXELS_PER_METER, getVertexBufferObjectManager());
 				//tile.setColor(Color.GREEN);
 				tile.setColor(
 						RandomSingleton.getRandomInt(256), 
 						RandomSingleton.getRandomInt(256), 
 						RandomSingleton.getRandomInt(256));
+				
 				attachChild(tile);
 				
-				grid.get(row).add(tile);
+				grid2[column][row] = tile;
+				
 			}
 		}
 	}
@@ -61,10 +63,12 @@ public class Grid extends Rectangle implements GameConstants{
 				Log.d("Grid", "posX, posY: " + posXInMeters + ", " + posYInMeters);
 				
 				Rectangle currentRectangle;
-				if(posXInMeters < grid.size() && posYInMeters < grid.get(0).size())
-					currentRectangle = grid.get(posXInMeters).get(posYInMeters);
-				else
+				if(posXInMeters < GRID_WIDTH_IN_METERS && posYInMeters < GRID_HEIGHT_IN_METERS) {
+					currentRectangle = grid2[posXInMeters][posYInMeters];
+				}
+				else {
 					currentRectangle = dummyRectangle;
+				}
 				
 				if(activeRectangle != currentRectangle){
 					activeRectangle.setColor(Color.GREEN);
