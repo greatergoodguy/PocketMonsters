@@ -7,6 +7,7 @@ import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.vbo.DrawType;
 import org.andengine.util.color.Color;
 import org.burstingbrains.pocketmon.constants.GameConstants;
+import org.burstingbrains.pocketmon.singleton.RandomSingleton;
 import org.burstingbrains.pocketmonsters.universe.Universe;
 
 import android.util.Log;
@@ -37,7 +38,11 @@ public class Grid extends Rectangle implements GameConstants{
 			
 			for(int j=0; j<GRID_HEIGHT_IN_METERS; j++){
 				Rectangle tile = new Rectangle(0 + row*PIXELS_PER_METER, 0 + j*PIXELS_PER_METER, PIXELS_PER_METER, PIXELS_PER_METER, getVertexBufferObjectManager());
-				tile.setColor(Color.GREEN);
+				//tile.setColor(Color.GREEN);
+				tile.setColor(
+						RandomSingleton.getRandomInt(256), 
+						RandomSingleton.getRandomInt(256), 
+						RandomSingleton.getRandomInt(256));
 				attachChild(tile);
 				
 				grid.get(row).add(tile);

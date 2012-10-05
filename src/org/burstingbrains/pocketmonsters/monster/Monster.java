@@ -38,15 +38,22 @@ public class Monster implements IMonster, GameConstants{
 		
 		initializeMonsterMenu(universe);
 		
+		monsterEntity.setScale(0.6f);
+		
 		universe.attachChild(monsterEntity);
 	}
 
 
 	@Override
-	public void setPosition(float posX, float posY) {
-		monsterEntity.setPosition(posX, posY);
+	public void setPos(float posX, float posY) {
+		monsterEntity.setPosition(posX - monsterSpriteUp.getWidth()/2, posY - monsterSpriteUp.getHeight()/2);
 		
 	}
+	
+	@Override
+	public void setGridPos(int coordX, int coordY) {
+		setPos(coordX * PIXELS_PER_METER, coordY * PIXELS_PER_METER);
+	};
 	
 	private void initializeMonsterSprites(Universe universe) {
 		monsterEntity = new Entity(0, 0);
@@ -67,7 +74,7 @@ public class Monster implements IMonster, GameConstants{
 		monsterSpriteRight.setVisible(false);
 		monsterEntity.attachChild(monsterSpriteRight);	
 		
-		monsterTouchTargetSprite = universe.createButtonSprite(assets.touchTargetTransparentTextureRegion, new ToggleMenuButtonHandler());
+		monsterTouchTargetSprite = universe.createButtonSprite(assets.touchTargetLightBlueTextureRegion, new ToggleMenuButtonHandler());
 		universe.registerTouchArea(monsterTouchTargetSprite);
 		monsterTouchTargetSprite.setVisible(true);
 		monsterEntity.attachChild(monsterTouchTargetSprite);
@@ -153,10 +160,15 @@ public class Monster implements IMonster, GameConstants{
 			break;
 		}
 	}
+
+	private void toggleGridPos() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	private void toggleMenuState() {
 		if(isMonsterMenuVisible)
-			monsterMenuEntity.setPosition(CAMERA_WIDTH, CAMERA_HEIGHT);
+			monsterMenuEntity.setPosition(CAMERA_WIDTH * 5, CAMERA_HEIGHT * 5);
 		else
 			monsterMenuEntity.setPosition(0, 0);
 		
@@ -176,11 +188,18 @@ public class Monster implements IMonster, GameConstants{
 			turnRight();
 		}
 	};
+
+	public class ToggleGridPosButtonHandler implements IButtonHandler{
+		@Override
+		public void onButtonUp(){
+			toggleGridPos();
+		}
+	};
 	
 	public class ToggleMenuButtonHandler implements IButtonHandler{
 		@Override
 		public void onButtonUp(){
 			toggleMenuState();
 		}
-	};
+	}
 }

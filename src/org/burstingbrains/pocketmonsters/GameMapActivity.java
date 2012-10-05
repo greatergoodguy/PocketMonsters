@@ -54,7 +54,8 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 
 		new Grid(gameMapUniverse);
 		Monster monster = new Monster(gameMapUniverse);
-		monster.setPosition(700, 200);
+		monster.setPos(700, 200);
+		monster.setGridPos(4, 4);
 		
 //		Sprite sprite = new Sprite(800, 300, assets.badlyDrawnMonsterDown2TextureRegion, getVertexBufferObjectManager());
 //		gameMapUniverse.getGameScene().attachChild(sprite);
