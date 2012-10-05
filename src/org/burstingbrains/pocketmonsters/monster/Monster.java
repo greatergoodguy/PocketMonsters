@@ -2,7 +2,14 @@ package org.burstingbrains.pocketmonsters.monster;
 
 import org.andengine.entity.Entity;
 import org.andengine.entity.IEntity;
+import org.andengine.entity.modifier.LoopEntityModifier;
+import org.andengine.entity.modifier.PathModifier;
+import org.andengine.entity.modifier.PathModifier.IPathModifierListener;
+import org.andengine.entity.modifier.PathModifier.Path;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.util.debug.Debug;
+import org.andengine.util.modifier.ease.EaseLinear;
+import org.andengine.util.modifier.ease.EaseSineInOut;
 import org.burstingbrains.pocketmon.constants.GameConstants;
 import org.burstingbrains.pocketmonsters.assets.GameMapActivityAssets;
 import org.burstingbrains.pocketmonsters.handler.BBSHandler;
@@ -34,6 +41,8 @@ public class Monster implements IMonster, GameConstants{
 	BBSHandler handler;
 	
 	boolean isMonsterMenuVisible;
+	
+	boolean isMonsterEntityModifierActive;
 
 	public Monster(Universe universe, BBSHandler handler){
 		initializeMonsterSprites(universe);
@@ -98,7 +107,7 @@ public class Monster implements IMonster, GameConstants{
 		buttonReset.setPosition(0, -60);
 		monsterMenuEntity.attachChild(buttonReset);
 		
-		buttonQuit = universe.createButtonSprite(assets.menuButtonQuitTextureRegion);
+		buttonQuit = universe.createButtonSprite(assets.menuButtonQuitTextureRegion, new TranslateMonsterButtonHandler());
 		universe.registerTouchArea(buttonQuit);
 		buttonQuit.setPosition(0, 0);
 		monsterMenuEntity.attachChild(buttonQuit);
@@ -165,6 +174,40 @@ public class Monster implements IMonster, GameConstants{
 		}
 	}
 
+	private void translateMonster() {
+		if(!isMonsterEntityModifierActive){
+			float durationInSec = 3;
+			final Path path = new Path(2).to(10, 10).to(600, 10); // Creates a new 'Path' that can hold 2 coordinates
+	
+			monsterEntity.registerEntityModifier(new PathModifier(durationInSec, path, null, new IPathModifierListener() {
+				@Override
+				public void onPathStarted(final PathModifier pPathModifier, final IEntity pEntity) {
+					Debug.d("onPathStarted");
+	
+					isMonsterEntityModifierActive = true;
+				}
+	
+				@Override
+				public void onPathWaypointStarted(final PathModifier pPathModifier, final IEntity pEntity, final int pWaypointIndex) {
+					Debug.d("onPathWaypointStarted:  " + pWaypointIndex);
+				}
+	
+				@Override
+				public void onPathWaypointFinished(final PathModifier pPathModifier, final IEntity pEntity, final int pWaypointIndex) {
+					Debug.d("onPathWaypointFinished: " + pWaypointIndex);
+				}
+	
+				@Override
+				public void onPathFinished(final PathModifier pPathModifier, final IEntity pEntity) {
+					Debug.d("onPathFinished");
+					
+					isMonsterEntityModifierActive = false;
+				}
+			}, EaseLinear.getInstance()));
+		}
+		
+	}
+
 	private void toggleGridPos() {
 		// TODO Auto-generated method stub
 		
@@ -190,6 +233,13 @@ public class Monster implements IMonster, GameConstants{
 		@Override
 		public void onButtonUp(){
 			turnRight();
+		}
+	};
+	
+	public class TranslateMonsterButtonHandler implements IButtonHandler{
+		@Override
+		public void onButtonUp(){
+			translateMonster();
 		}
 	};
 
