@@ -12,6 +12,7 @@ import org.andengine.util.modifier.ease.EaseLinear;
 import org.andengine.util.modifier.ease.EaseSineInOut;
 import org.burstingbrains.pocketmon.constants.GameConstants;
 import org.burstingbrains.pocketmonsters.assets.GameMapActivityAssets;
+import org.burstingbrains.pocketmonsters.handler.BBSHandler;
 import org.burstingbrains.pocketmonsters.universe.Universe;
 import org.burstingbrains.sharedlibs.handler.IButtonHandler;
 
@@ -37,12 +38,16 @@ public class Monster implements IMonster, GameConstants{
 	Sprite buttonReset;
 	Sprite buttonQuit;
 	
+	BBSHandler handler;
+	
 	boolean isMonsterMenuVisible;
 	
 	boolean isMonsterEntityModifierActive;
 
-	public Monster(Universe universe){
+	public Monster(Universe universe, BBSHandler handler){
 		initializeMonsterSprites(universe);
+		this.handler = handler;
+		
 		setFaceDirection(Dir.LEFT);
 		
 		initializeMonsterMenu(universe);
@@ -247,6 +252,7 @@ public class Monster implements IMonster, GameConstants{
 	public class ToggleMenuButtonHandler implements IButtonHandler{
 		@Override
 		public void onButtonUp(){
+			handler.onMonsterSelected(Monster.this);
 			toggleMenuState();
 		}
 	}
