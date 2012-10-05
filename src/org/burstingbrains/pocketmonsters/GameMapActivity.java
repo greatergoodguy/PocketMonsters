@@ -67,6 +67,8 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 		monsters.add(new Monster(gameMapUniverse));
 		monsters.get(1).setGridPos(2, 2);
 		
+		activeMonster = monsters.get(0);
+		
 //		Sprite sprite = new Sprite(800, 300, assets.badlyDrawnMonsterDown2TextureRegion, getVertexBufferObjectManager());
 //		gameMapUniverse.getGameScene().attachChild(sprite);
 		
@@ -117,9 +119,10 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 		@Override
 		public void onGridTouchUp() {
 			if(grid.isValidPosition()){
-				monsters.get(monsterSelector).setGridPos(grid.getPositionX(), grid.getPositionY());
+				activeMonster.setGridPos(grid.getPositionX(), grid.getPositionY());
 				monsterSelector += 1;
 				monsterSelector %= monsters.size();
+				activeMonster = monsters.get(monsterSelector);
 			}
 		}
 		
