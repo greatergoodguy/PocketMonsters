@@ -22,10 +22,8 @@
             </intent-filter>
         </activity>
         
-		<activity android:name=".MainMenuActivity" android:configChanges="orientation"/>
-		<activity android:name=".GameActivity" android:configChanges="orientation"/>
 		<activity android:name=".GameMapActivity" android:configChanges="orientation"/>
-		<activity android:name=".ScalableSpriteActivity" android:configChanges="orientation"/>
+		<activity android:name=".MultiplayerActivity" android:configChanges="orientation"/>
 		
     </application>
     

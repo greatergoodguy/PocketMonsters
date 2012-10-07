@@ -18,15 +18,24 @@ import org.burstingbrains.pocketmonsters.assets.GameMapActivityAssets;
 import org.burstingbrains.pocketmonsters.handler.BBSHandler;
 import org.burstingbrains.pocketmonsters.monster.Monster;
 import org.burstingbrains.pocketmonsters.universe.Universe;
-import org.burstingbrains.sharedlibs.handler.IButtonHandler;
 
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.KeyEvent;
 
-public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, GameConstants{
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.services.simpledb.AmazonSimpleDBClient;
+import com.amazonaws.services.simpledb.model.PutAttributesRequest;
+import com.amazonaws.services.simpledb.model.ReplaceableAttribute;
+
+public class MultiplayerActivity extends BBSGameActivity implements IUpdateHandler, GameConstants{
 	private final String TAG = this.getClass().getSimpleName();
 	
 	private static MusicPlayerSingleton musicPlayer = MusicPlayerSingleton.getSingleton();
 	private static GameMapActivityAssets assets = GameMapActivityAssets.getSingleton();
+	
+	protected AmazonSimpleDBClient sdbClient;
 	
 	private Camera camera;
 
@@ -54,6 +63,12 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 		assets.init(this);
 		assets.load();
 		musicPlayer.init(assets.haven_v2Music);
+		
+
+        AWSCredentials credentials = new BasicAWSCredentials(PropertyLoader.getInstance().getAccessKey(), PropertyLoader.getInstance().getSecretKey()  );
+        sdbClient = new AmazonSimpleDBClient(credentials);
+        
+        new PutAttributesInUserAccountRequestTask().execute("MultiplayerActivity", "onCreateResources()");
 	}
 
 	@Override
@@ -73,9 +88,25 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 //		Sprite sprite = new Sprite(800, 300, assets.badlyDrawnMonsterDown2TextureRegion, getVertexBufferObjectManager());
 //		gameMapUniverse.getGameScene().attachChild(sprite);
 		
+		gameMapUniverse.registerUpdateHandler(this);
+		
 		musicPlayer.play();
 		
 		return gameMapUniverse.getGameScene();
+	}
+	
+
+
+	@Override
+	public void onUpdate(float pSecondsElapsed) {
+		Log.d("MultiplayerActivity", "onUpdate()");
+		
+	}
+
+	@Override
+	public void reset() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	@Override
@@ -102,18 +133,6 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 	protected void onDestroy(){
 
 		super.onDestroy();
-	}
-
-	@Override
-	public void onUpdate(float pSecondsElapsed) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void reset() {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	private class MoveMonsterHandler implements BBSHandler{
@@ -152,4 +171,20 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 			return super.onKeyUp(pKeyCode, pEvent);
 		}
 	}
+	
+
+	class PutAttributesInUserAccountRequestTask extends AsyncTask<String, Void, Void> {
+	    @Override
+	    protected Void doInBackground(String... keyValuePair) {
+	        ReplaceableAttribute scoreAttribute = new ReplaceableAttribute( "Password", keyValuePair[1], Boolean.TRUE );
+	        		
+	        List<ReplaceableAttribute> attrs = new ArrayList<ReplaceableAttribute>(1);
+	        attrs.add( scoreAttribute );
+	        		
+	        PutAttributesRequest par = new PutAttributesRequest("UserAccount", keyValuePair[0], attrs);		
+	        sdbClient.putAttributes( par );
+	    	
+	    	return null;
+	    }
+	 }
 }

@@ -53,6 +53,13 @@ public class DefaultAndroidActivity extends Activity{
             	handler.postDelayed(launchGameMapActivityRunnable, delayInMilliSeconds);
             }
         });
+        
+        final Button multiplayerActivityButton = (Button) findViewById(R.id.multiplayer_activity_button);
+        multiplayerActivityButton.setOnClickListener(new View.OnClickListener() {
+        	public void onClick(View v) {
+        		handler.postDelayed(launchMultiplayerActivityRunnable, delayInMilliSeconds);
+        	}
+        });
     }
 
 	protected void LoginOrRegister() {
@@ -79,6 +86,14 @@ public class DefaultAndroidActivity extends Activity{
 	private Runnable launchGameMapActivityRunnable = new Runnable(){
 		public void run(){
 			Intent myIntent = new Intent(DefaultAndroidActivity.this, GameMapActivity.class);
+			startActivity(myIntent);
+		}
+	};
+	
+	
+	private Runnable launchMultiplayerActivityRunnable = new Runnable(){
+		public void run(){
+			Intent myIntent = new Intent(DefaultAndroidActivity.this, MultiplayerActivity.class);
 			startActivity(myIntent);
 		}
 	};
