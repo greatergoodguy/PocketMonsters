@@ -46,20 +46,6 @@ public class DefaultAndroidActivity extends Activity{
                 LoginOrRegister();
             }
         });
-        
-        final Button mainMenuActivityButton = (Button) findViewById(R.id.main_menu_activity_button);
-        mainMenuActivityButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            	handler.postDelayed(launchMainMenuActivityRunnable, delayInMilliSeconds);
-            }
-        });
-
-        final Button gameActivityButton = (Button) findViewById(R.id.game_activity_button);
-        gameActivityButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            	handler.postDelayed(launchGameActivityRunnable, delayInMilliSeconds);
-            }
-        });
 
         final Button gameMapActivityButton = (Button) findViewById(R.id.game_map_activity_button);
         gameMapActivityButton.setOnClickListener(new View.OnClickListener() {
@@ -88,20 +74,7 @@ public class DefaultAndroidActivity extends Activity{
     	getMenuInflater().inflate(R.menu.activity_main, menu);
         return true;
     }
-
-	private Runnable launchMainMenuActivityRunnable = new Runnable(){
-		public void run(){
-			Intent myIntent = new Intent(DefaultAndroidActivity.this, MainMenuActivity.class);
-			startActivity(myIntent);
-		}
-	};
 	
-	private Runnable launchGameActivityRunnable = new Runnable(){
-		public void run(){
-			Intent myIntent = new Intent(DefaultAndroidActivity.this, GameActivity.class);
-			startActivity(myIntent);
-		}
-	};
 
 	private Runnable launchGameMapActivityRunnable = new Runnable(){
 		public void run(){
@@ -109,6 +82,7 @@ public class DefaultAndroidActivity extends Activity{
 			startActivity(myIntent);
 		}
 	};
+	
 	class CreateDomainRequestTask extends AsyncTask<String, Void, Void> {
 	    @Override
 	    protected Void doInBackground(String... domainNames) {
