@@ -14,13 +14,18 @@ import org.burstingbrains.andengineext.BBSGameActivity;
 import org.burstingbrains.pocketmon.constants.GameConstants;
 import org.burstingbrains.pocketmon.grid.Grid;
 import org.burstingbrains.pocketmon.singleton.MusicPlayerSingleton;
+import org.burstingbrains.pocketmon.singleton.SettingsSingleton;
+import org.burstingbrains.pocketmon.singleton.SettingsSingleton.Player;
 import org.burstingbrains.pocketmonsters.assets.GameMapActivityAssets;
+import org.burstingbrains.pocketmonsters.gamephase.IPlayerState;
+import org.burstingbrains.pocketmonsters.gamephase.InitConnectionState;
+import org.burstingbrains.pocketmonsters.gamephase.SendState;
+import org.burstingbrains.pocketmonsters.gamephase.WaitAndReceiveState;
 import org.burstingbrains.pocketmonsters.handler.BBSHandler;
 import org.burstingbrains.pocketmonsters.monster.Monster;
 import org.burstingbrains.pocketmonsters.universe.Universe;
 
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.KeyEvent;
 
 import com.amazonaws.auth.AWSCredentials;
@@ -35,7 +40,7 @@ public class MultiplayerActivity extends BBSGameActivity implements IUpdateHandl
 	private static MusicPlayerSingleton musicPlayer = MusicPlayerSingleton.getSingleton();
 	private static GameMapActivityAssets assets = GameMapActivityAssets.getSingleton();
 	
-	protected AmazonSimpleDBClient sdbClient;
+	private AmazonSimpleDBClient sdbClient;
 	
 	private Camera camera;
 
@@ -46,6 +51,9 @@ public class MultiplayerActivity extends BBSGameActivity implements IUpdateHandl
 	private Monster activeMonster;
 	private int monsterSelector = 0;
 
+	private List<IPlayerState> playerStates;
+	IPlayerState activePlayerState;
+	
 	@Override
 	public EngineOptions onCreateEngineOptions() {
 		camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
@@ -64,11 +72,15 @@ public class MultiplayerActivity extends BBSGameActivity implements IUpdateHandl
 		assets.load();
 		musicPlayer.init(assets.haven_v2Music);
 		
-
         AWSCredentials credentials = new BasicAWSCredentials(PropertyLoader.getInstance().getAccessKey(), PropertyLoader.getInstance().getSecretKey()  );
         sdbClient = new AmazonSimpleDBClient(credentials);
-        
         new PutAttributesInUserAccountRequestTask().execute("MultiplayerActivity", "onCreateResources()");
+
+        playerStates = new ArrayList<IPlayerState>();
+        playerStates.add(new InitConnectionState(sdbClient));
+        playerStates.add(new WaitAndReceiveState(sdbClient));
+        playerStates.add(new SendState(sdbClient));
+        activePlayerState = playerStates.get(0);
 	}
 
 	@Override
@@ -99,7 +111,30 @@ public class MultiplayerActivity extends BBSGameActivity implements IUpdateHandl
 
 	@Override
 	public void onUpdate(float pSecondsElapsed) {
-		Log.d("MultiplayerActivity", "onUpdate()");
+		// Log.d("MultiplayerActivity", "onUpdate()");
+		
+		if(activePlayerState.isStateFinished())
+			togglePlayerState();
+		else
+			activePlayerState.onUpdate(pSecondsElapsed);
+		
+		
+		
+	}
+
+	private void togglePlayerState() {
+		if(activePlayerState == playerStates.get(0)){
+			if(SettingsSingleton.player == Player.PlayerOne)
+				activePlayerState = playerStates.get(1);
+			else
+				activePlayerState = playerStates.get(2);	
+		}
+		else if(activePlayerState == playerStates.get(1)){
+			activePlayerState = playerStates.get(2);
+		}
+		else if(activePlayerState == playerStates.get(2)){
+			activePlayerState = playerStates.get(1);
+		}
 		
 	}
 

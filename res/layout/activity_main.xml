@@ -6,14 +6,16 @@
     <EditText
         android:id="@+id/user_email_edit_text"
         style="@style/wrap"
-        android:layout_margin="@dimen/spacing_normal"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:layout_margin="@dimen/spacing_normal"
         android:ems="10"
-        android:inputType="textEmailAddress"
-        android:hint="@string/hint_email" >
+        android:hint="@string/hint_email"
+        android:inputType="textEmailAddress" >
+
         <requestFocus />
+
     </EditText>
 
     <EditText
@@ -50,5 +52,28 @@
         android:layout_alignRight="@+id/game_map_activity_button"
         android:layout_below="@+id/game_map_activity_button"
         android:text="@string/multiplayer" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/multiplayer_activity_button" >
+
+        <RadioButton
+            android:id="@+id/player_one_radio_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+        	android:onClick="onRadioButtonClicked"
+            android:text="@string/player_one" />
+
+        <RadioButton
+            android:id="@+id/player_two_radio_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        	android:onClick="onRadioButtonClicked"
+            android:text="@string/player_two" />
+    </RadioGroup>
 
 </RelativeLayout>

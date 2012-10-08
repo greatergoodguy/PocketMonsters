@@ -3,6 +3,9 @@ package org.burstingbrains.pocketmonsters;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.burstingbrains.pocketmon.singleton.SettingsSingleton;
+import org.burstingbrains.pocketmon.singleton.SettingsSingleton.Player;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -12,6 +15,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.amazonaws.auth.AWSCredentials;
@@ -82,6 +86,26 @@ public class DefaultAndroidActivity extends Activity{
         return true;
     }
 	
+	public void onRadioButtonClicked(View view) {
+	    // Is the button now checked?
+	    boolean checked = ((RadioButton) view).isChecked();
+	    
+	    // Check which radio button was clicked
+	    switch(view.getId()) {
+	        case R.id.player_one_radio_button:
+	            if (checked){
+	            	SettingsSingleton.player = Player.PlayerOne;
+	    	        Toast.makeText(DefaultAndroidActivity.this, "P1", Toast.LENGTH_SHORT).show();
+	            }
+	            break;
+	        case R.id.player_two_radio_button:
+	            if (checked){
+	            	SettingsSingleton.player = Player.PlayerTwo;
+	    	        Toast.makeText(DefaultAndroidActivity.this, "P2", Toast.LENGTH_SHORT).show();
+	            }
+	            break;
+	    }
+	}
 
 	private Runnable launchGameMapActivityRunnable = new Runnable(){
 		public void run(){
