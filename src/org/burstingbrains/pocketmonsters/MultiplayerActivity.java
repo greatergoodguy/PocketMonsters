@@ -12,17 +12,17 @@ import org.andengine.entity.scene.Scene;
 import org.andengine.entity.util.FPSLogger;
 import org.burstingbrains.andengineext.BBSGameActivity;
 import org.burstingbrains.pocketmon.constants.GameConstants;
-import org.burstingbrains.pocketmon.grid.Grid;
 import org.burstingbrains.pocketmon.singleton.MusicPlayerSingleton;
 import org.burstingbrains.pocketmon.singleton.SettingsSingleton;
 import org.burstingbrains.pocketmon.singleton.SettingsSingleton.Player;
+import org.burstingbrains.pocketmonsters.actor.Grid;
+import org.burstingbrains.pocketmonsters.actor.Monster;
 import org.burstingbrains.pocketmonsters.assets.GameMapActivityAssets;
 import org.burstingbrains.pocketmonsters.gamephase.IPlayerState;
 import org.burstingbrains.pocketmonsters.gamephase.InitConnectionState;
 import org.burstingbrains.pocketmonsters.gamephase.SendState;
 import org.burstingbrains.pocketmonsters.gamephase.WaitAndReceiveState;
 import org.burstingbrains.pocketmonsters.handler.BBSHandler;
-import org.burstingbrains.pocketmonsters.monster.Monster;
 import org.burstingbrains.pocketmonsters.universe.Universe;
 
 import android.os.AsyncTask;
@@ -87,13 +87,13 @@ public class MultiplayerActivity extends BBSGameActivity implements IUpdateHandl
 	public Scene onCreateScene() {
 		mEngine.registerUpdateHandler(new FPSLogger());
 		gameMapUniverse = new Universe(this, new Scene());
-		grid = new Grid(gameMapUniverse, new MoveMonsterHandler());
+		grid = new Grid(gameMapUniverse);
 		
-		monsters = new ArrayList<Monster>();
-		monsters.add(new Monster(gameMapUniverse, new MoveMonsterHandler()));
-		monsters.get(0).setGridPos(4, 4);
-		monsters.add(new Monster(gameMapUniverse, new MoveMonsterHandler()));
-		monsters.get(1).setGridPos(2, 2);
+//		monsters = new ArrayList<Monster>();
+//		monsters.add(new Monster(gameMapUniverse, new MoveMonsterHandler()));
+//		monsters.get(0).setGridPos(4, 4);
+//		monsters.add(new Monster(gameMapUniverse, new MoveMonsterHandler()));
+//		monsters.get(1).setGridPos(2, 2);
 		
 		activeMonster = monsters.get(0);
 		

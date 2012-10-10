@@ -12,11 +12,11 @@ import org.andengine.entity.scene.Scene;
 import org.andengine.entity.util.FPSLogger;
 import org.burstingbrains.andengineext.BBSGameActivity;
 import org.burstingbrains.pocketmon.constants.GameConstants;
-import org.burstingbrains.pocketmon.grid.Grid;
 import org.burstingbrains.pocketmon.singleton.MusicPlayerSingleton;
+import org.burstingbrains.pocketmonsters.actor.Grid;
+import org.burstingbrains.pocketmonsters.actor.Monster;
 import org.burstingbrains.pocketmonsters.assets.GameMapActivityAssets;
 import org.burstingbrains.pocketmonsters.handler.BBSHandler;
-import org.burstingbrains.pocketmonsters.monster.Monster;
 import org.burstingbrains.pocketmonsters.universe.Universe;
 import org.burstingbrains.sharedlibs.handler.IButtonHandler;
 
@@ -33,9 +33,6 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 	private Universe gameMapUniverse;
 	
 	private Grid grid;
-	private List<Monster> monsters;
-	private Monster activeMonster;
-	private int monsterSelector = 0;
 
 	@Override
 	public EngineOptions onCreateEngineOptions() {
@@ -60,18 +57,17 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 	public Scene onCreateScene() {
 		mEngine.registerUpdateHandler(new FPSLogger());
 		gameMapUniverse = new Universe(this, new Scene());
-		grid = new Grid(gameMapUniverse, new MoveMonsterHandler());
-		
-		monsters = new ArrayList<Monster>();
-		monsters.add(new Monster(gameMapUniverse, new MoveMonsterHandler()));
-		monsters.get(0).setGridPos(4, 4);
-		monsters.add(new Monster(gameMapUniverse, new MoveMonsterHandler()));
-		monsters.get(1).setGridPos(2, 2);
-		
-		activeMonster = monsters.get(0);
+		grid = new Grid(gameMapUniverse);
 		
 //		Sprite sprite = new Sprite(800, 300, assets.badlyDrawnMonsterDown2TextureRegion, getVertexBufferObjectManager());
 //		gameMapUniverse.getGameScene().attachChild(sprite);
+		
+		
+		//---------------------------------------------------------------------
+		// Create monsters here !!
+		// GameLogic.addMonster(new Monster(), grid.getMapTileAt(x, y))
+		//---------------------------------------------------------------------
+		GameLogic.addMonster(new Monster(gameMapUniverse), grid.getMapTileAt(4, 4));
 		
 		musicPlayer.play();
 		
@@ -116,23 +112,20 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 		
 	}
 	
+	
 	private class MoveMonsterHandler implements BBSHandler{
 		@Override
 		public void onGridTouchUp() {
-			if(grid.isValidPosition()){
-				if(activeMonster != null)
-					activeMonster.setGridPos(grid.getPositionX(), grid.getPositionY());
-				/*
-				monsterSelector += 1;
-				monsterSelector %= monsters.size();
-				activeMonster = monsters.get(monsterSelector);
-				*/
-			}
+//			if(grid.isValidPosition()){
+//				if(activeMonster != null){
+//					activeMonster.setGridPos(grid.getPositionX(), grid.getPositionY());
+//				}
+//			}
 		}
 
 		@Override
 		public void onMonsterSelected(Monster m) {
-			activeMonster = m;
+//			activeMonster = m;
 		}
 	}
 
