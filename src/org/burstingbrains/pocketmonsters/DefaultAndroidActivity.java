@@ -50,6 +50,13 @@ public class DefaultAndroidActivity extends Activity{
                 LoginOrRegister();
             }
         });
+        
+        final Button waitingRoomActivityButton = (Button) findViewById(R.id.waiting_room_activity_button);
+        waitingRoomActivityButton.setOnClickListener(new View.OnClickListener() {
+        	public void onClick(View v) {
+        		handler.postDelayed(launchWaitingRoomActivityRunnable, delayInMilliSeconds);
+        	}
+        });
 
         final Button gameMapActivityButton = (Button) findViewById(R.id.game_map_activity_button);
         gameMapActivityButton.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +114,14 @@ public class DefaultAndroidActivity extends Activity{
 	    }
 	}
 
+
+	private Runnable launchWaitingRoomActivityRunnable = new Runnable(){
+		public void run(){
+			Intent myIntent = new Intent(DefaultAndroidActivity.this, WaitingRoomActivity.class);
+			startActivity(myIntent);
+		}
+	};
+	
 	private Runnable launchGameMapActivityRunnable = new Runnable(){
 		public void run(){
 			Intent myIntent = new Intent(DefaultAndroidActivity.this, GameMapActivity.class);
