@@ -1,6 +1,6 @@
 package org.burstingbrains.pocketmonsters.handler;
 
-import org.burstingbrains.pocketmonsters.monster.Monster;
+import org.burstingbrains.pocketmonsters.actor.Monster;
 
 public interface BBSHandler {
 	
