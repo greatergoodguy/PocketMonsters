@@ -34,6 +34,15 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/user_password_edit_text"
         android:text="@string/login_register" />
+    
+    <Button
+        android:id="@+id/waiting_room_activity_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/multiplayer_activity_button"
+        android:layout_below="@+id/login_register_button"
+        android:text="@string/waiting_room" />
 
     <Button
         android:id="@+id/game_map_activity_button"
@@ -41,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignRight="@+id/login_register_button"
-        android:layout_below="@+id/login_register_button"
+        android:layout_below="@+id/waiting_room_activity_button"
         android:text="@string/game_map" />
 
     <Button

@@ -4,6 +4,9 @@ import java.io.IOException;
 
 import org.andengine.audio.music.Music;
 import org.andengine.audio.music.MusicFactory;
+import org.andengine.opengl.font.Font;
+import org.andengine.opengl.font.FontFactory;
+import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -17,6 +20,17 @@ import org.burstingbrains.andengineext.BBSGameActivity;
 
 public class GameMapActivityAssets implements IAssets{
 	private static final GameMapActivityAssets gameMapActivityAssets = new GameMapActivityAssets();
+	
+
+
+	private static final int FONT_SIZE_SMALL = 30;
+	private static final int FONT_SIZE_MEDIUM = 50;
+	private static final int FONT_SIZE_LARGE = 70;
+	
+
+	public Font fontJokalSmall;
+	public Font fontJokalMedium;
+	public Font fontJokalLarge;
 	
 	public Music haven_v2Music;
 
@@ -57,10 +71,24 @@ public class GameMapActivityAssets implements IAssets{
 
 	@Override
 	public void init(BBSGameActivity bbsGameActivity) {
+
+		//======================================
+		// Font
+		//======================================
+		FontFactory.setAssetBasePath("font/");
+		final ITexture jokalFontSmallTexture = new BitmapTextureAtlas(bbsGameActivity.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
+		fontJokalSmall = FontFactory.createFromAsset(bbsGameActivity.getFontManager(), jokalFontSmallTexture, bbsGameActivity.getAssets(), "Jokal.ttf", FONT_SIZE_SMALL, true, android.graphics.Color.BLACK);
+		
+		final ITexture jokalFontMediumTexture = new BitmapTextureAtlas(bbsGameActivity.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
+		fontJokalMedium = FontFactory.createFromAsset(bbsGameActivity.getFontManager(), jokalFontMediumTexture, bbsGameActivity.getAssets(), "Jokal.ttf", FONT_SIZE_MEDIUM, true, android.graphics.Color.BLACK);
+
+		final ITexture jokalFontLargeTexture = new BitmapTextureAtlas(bbsGameActivity.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
+		fontJokalLarge = FontFactory.createFromAsset(bbsGameActivity.getFontManager(), jokalFontLargeTexture, bbsGameActivity.getAssets(), "Jokal.ttf", FONT_SIZE_LARGE, true, android.graphics.Color.BLACK);
+
+	
 		//======================================
 		// Music
 		//======================================
-		
 		MusicFactory.setAssetBasePath("music/");
 		try {
 			//haven_v2Music = MusicFactory.createMusicFromAsset(baseGameActivity.getEngine().getMusicManager(), baseGameActivity, "Haven_v2.mp3");
@@ -133,6 +161,10 @@ public class GameMapActivityAssets implements IAssets{
 	@Override
 	public void load() {
 		if(isInitialized){
+			fontJokalSmall.load();
+			fontJokalMedium.load();
+			fontJokalLarge.load();
+			
 			badlyDrawnMonsterTexture.load();
 			orangeMonTexture.load();
 			menuButtonTexture.load();
@@ -144,6 +176,10 @@ public class GameMapActivityAssets implements IAssets{
 	@Override
 	public void unload() {
 		if(isInitialized){
+			fontJokalSmall.unload();
+			fontJokalMedium.unload();
+			fontJokalLarge.unload();
+			
 			badlyDrawnMonsterTexture.unload();
 			orangeMonTexture.unload();
 			menuButtonTexture.unload();

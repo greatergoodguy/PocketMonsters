@@ -16,5 +16,13 @@
     <string name="multiplayer">Multiplayer</string>
     <string name="player_one">Player 1</string>
     <string name="player_two">Player 2</string>
+    <string name="waiting_room">Waiting Room</string>
+    
+    <!-- Waiting Room -->
+    <string name="game_name">Game Name</string>
+    <string name="sit">Sit</string>
+    <string name="p1">P1</string>
+    <string name="p2">P2</string>
+    <string name="refresh">Refresh</string>
     
 </resources>

@@ -22,6 +22,7 @@
             </intent-filter>
         </activity>
         
+		<activity android:name=".WaitingRoomActivity" android:configChanges="orientation"/>
 		<activity android:name=".GameMapActivity" android:configChanges="orientation"/>
 		<activity android:name=".MultiplayerActivity" android:configChanges="orientation"/>
 		
