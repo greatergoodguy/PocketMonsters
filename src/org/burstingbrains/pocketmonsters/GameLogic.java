@@ -1,12 +1,10 @@
 package org.burstingbrains.pocketmonsters;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.andengine.util.color.Color;
 import org.burstingbrains.pocketmonsters.actor.*;
 
 public class GameLogic {
-	private GameLogic() {} //  Designed for static methods
+	public GameLogic() {} //  Designed for static methods
 
 	static MapTile startTile = null;
 	static MapTile finishTile = null;
@@ -68,13 +66,20 @@ public class GameLogic {
 	public static void actionUp(MapTile t) {
 		// We have a monster
 		if (startTile.getMonster() != null) {
-			if (t.getMonster() == null) {
-				moveMonster(finishTile);
+			int distance = Math.abs(t.getGridX() - startTile.getGridX()) + 
+					Math.abs(t.getGridY() - startTile.getGridY());
+			if (distance <= startTile.getMonster().getMaxMovement()) {
+				if (t.getMonster() == null) {
+					moveMonster(finishTile);
+				} else {
+					// TODO ATTACK !!
+				}
 				setStartTile(null);
-			} else {
-				// TODO ATTACK !!
 			}
 		} else setStartTile(t); // Just move to the new tile
 		setFinishTile(null);
+	}
+	
+	public void usesTheGrid(Grid g) {
 	}
 }

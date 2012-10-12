@@ -17,11 +17,7 @@ public class Grid extends Rectangle implements GameConstants{
 	BBSHandler handler;
 
 	private MapTile dummyMapTile;
-	private MapTile activeMapTile;
 	private MapTile[][] grid;
-
-	private int posX = -1;
-	private int posY = -1;
 
 	public Grid(final Universe universe) {
 		super(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT, universe.getVertexBufferObjectManager(), DrawType.STATIC);
@@ -29,11 +25,6 @@ public class Grid extends Rectangle implements GameConstants{
 
 		universe.registerTouchArea(this);
 		universe.attachChild(this);
-
-		// This dummyRectangle is what the activeRectangle will point to when 
-		// it is in an inactive state
-		dummyMapTile = new MapTile(0, 0, 1, 1, getVertexBufferObject());
-		activeMapTile = dummyMapTile;
 
 		grid = new MapTile[GRID_WIDTH_IN_METERS][GRID_HEIGHT_IN_METERS];
 
