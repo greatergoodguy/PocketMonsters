@@ -49,46 +49,35 @@ public class Grid extends Rectangle implements GameConstants{
 				attachChild(tile);
 
 				grid[column][row] = tile;
-
 			}
 		}
 	}
 
 	@Override
-	public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+	public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, 
+			final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+		int posXInMeters = (int) (pTouchAreaLocalX / PIXELS_PER_METER);
+		int posYInMeters = (int) (pTouchAreaLocalY / PIXELS_PER_METER);
+		Log.d("Grid", "posX, posY: " + posXInMeters + ", " + posYInMeters);
+		if (posXInMeters < GRID_WIDTH_IN_METERS &&
+				posYInMeters < GRID_HEIGHT_IN_METERS) {
 
-		switch(pSceneTouchEvent.getAction()) {
-		case TouchEvent.ACTION_DOWN:
-		case TouchEvent.ACTION_MOVE:
-			int posXInMeters = (int) (pTouchAreaLocalX / PIXELS_PER_METER);
-			int posYInMeters = (int) (pTouchAreaLocalY / PIXELS_PER_METER);
-			Log.d("Grid", "posX, posY: " + posXInMeters + ", " + posYInMeters);
-
-			if(posXInMeters < GRID_WIDTH_IN_METERS && posYInMeters < GRID_HEIGHT_IN_METERS) {
-				GameLogic.selectTile(grid[posXInMeters][posYInMeters]);
-				posX = posXInMeters + 1;
-				posY = posYInMeters + 1;
+			switch(pSceneTouchEvent.getAction()) {
+			case TouchEvent.ACTION_DOWN:
+				GameLogic.actionDown(grid[posXInMeters][posYInMeters]);
+				break;
+			case TouchEvent.ACTION_MOVE:
+				GameLogic.actionMove(grid[posXInMeters][posYInMeters]);
+				break;
+			case TouchEvent.ACTION_UP:
+				GameLogic.actionUp(grid[posXInMeters][posYInMeters]);
+				break;
 			}
-			break;
-		case TouchEvent.ACTION_UP:
-			break;
 		}
 		return true;
 	}
 
-	public boolean isValidPosition() {
-		return activeMapTile != dummyMapTile;
-	}
-
 	public MapTile getMapTileAt(int x, int y) {
 		return grid[x][y];
-	}
-
-	public int getPositionX() {
-		return posX;
-	}
-
-	public int getPositionY() {
-		return posY;
 	}
 }

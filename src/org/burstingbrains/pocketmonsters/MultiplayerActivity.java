@@ -169,26 +169,6 @@ public class MultiplayerActivity extends BBSGameActivity implements IUpdateHandl
 
 		super.onDestroy();
 	}
-	
-	private class MoveMonsterHandler implements BBSHandler{
-		@Override
-		public void onGridTouchUp() {
-			if(grid.isValidPosition()){
-				if(activeMonster != null)
-					activeMonster.setGridPos(grid.getPositionX(), grid.getPositionY());
-				/*
-				monsterSelector += 1;
-				monsterSelector %= monsters.size();
-				activeMonster = monsters.get(monsterSelector);
-				*/
-			}
-		}
-
-		@Override
-		public void onMonsterSelected(Monster m) {
-			activeMonster = m;
-		}
-	}
 
 	@Override
 	public boolean onKeyUp(final int pKeyCode, final KeyEvent pEvent) {
