@@ -1,20 +1,27 @@
 package org.burstingbrains.pocketmonsters;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.burstingbrains.pocketmon.constants.GameConstants;
 import org.burstingbrains.pocketmon.singleton.MusicPlayerSingleton;
 import org.burstingbrains.pocketmon.singleton.SimpleDBSingleton;
 import org.burstingbrains.pocketmonsters.assets.GameMapActivityAssets;
+import org.burstingbrains.pocketmonsters.waitingroom.WaitingRoomGameModel;
+import org.burstingbrains.pocketmonsters.waitingroom.WaitingRoomGameView;
+import org.burstingbrains.pocketmonsters.waitingroom.WaitingRoomListAdapter;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
+@TargetApi(11)
 public class WaitingRoomActivity extends Activity implements GameConstants{
 
 	private static final String DUMMY_STRING = "DummyString";
@@ -22,6 +29,11 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 	private static MusicPlayerSingleton musicPlayer = MusicPlayerSingleton.getSingleton();
 	private static GameMapActivityAssets assets = GameMapActivityAssets.getSingleton();
 	private static SimpleDBSingleton database = SimpleDBSingleton.getSingleton();
+	
+	
+	private ListView waitingRoomGamesListView;
+	private WaitingRoomListAdapter waitingRoomListAdapter;
+	
 	
 	private TextView gameNameTextView;
 	private Button p1SitButton;
@@ -31,6 +43,8 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 	private String gameName = DUMMY_STRING;
 	private String p1Ready = DUMMY_STRING;
 	private String p2Ready = DUMMY_STRING;
+	
+	private List<WaitingRoomGameModel> gameModels;
 
 
 	@Override
@@ -38,10 +52,27 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.waiting_room);
 
+		
+		gameModels = new ArrayList<WaitingRoomGameModel>();
+		for(int i=0; i<3; ++i){
+			WaitingRoomGameModel gameModel = new WaitingRoomGameModel();
+			gameModel.isActive = true;
+			gameModel.gameName = "qwe" + i;
+			gameModels.add(gameModel);
+		}
+		
 		//database.createItem(SimpleDBSingleton.WAITING_ROOM_DOMAIN, "3");
 		//database.updateAttribute(SimpleDBSingleton.WAITING_ROOM_DOMAIN, "1", "Name", "Value2");
 		//database.getAttributeValue(SimpleDBSingleton.WAITING_ROOM_DOMAIN, "2", "Name");
-
+		
+		waitingRoomGamesListView = (ListView) this.findViewById(R.id.waiting_room_listView);
+		//waitingRoomGamesListView.addView(new WaitingRoomGameView(this));
+		
+		waitingRoomListAdapter = new WaitingRoomListAdapter(this.getApplicationContext());
+		waitingRoomListAdapter.setGamesList(gameModels);
+		waitingRoomListAdapter.notifyDataSetChanged();
+		waitingRoomGamesListView.setAdapter(waitingRoomListAdapter);
+		
 		gameNameTextView = (TextView) this.findViewById(R.id.game_name_textView);
 		gameNameTextView.setText(gameName);
 		
@@ -52,16 +83,29 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 				new GetDataFromServerTask().execute();
 			}
 		});
+		
+
+		
+		
+//		new GetDataFromServerTask().execute();
 	}
 
+
+	public void updateWaitingRoomListView() {
+		waitingRoomListAdapter.setGamesList(gameModels);
+		waitingRoomListAdapter.notifyDataSetChanged();
+
+	}
+	  
 
 	private void updateWaitingRoom(CharSequence string){
+		
 		gameNameTextView.setText(string);
+		
 	}
 
-	
 	class GetDataFromServerTask extends AsyncTask<Void, Void, Void>{
-
+		
 		ProgressDialog dialog;
 		
 		@Override
@@ -72,11 +116,19 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 		@Override
 		protected Void doInBackground(Void... params) {
 			
-			HashMap<String,String> attributeHashMap = database.getAttributesForItem(SimpleDBSingleton.WAITING_ROOM_DOMAIN, "1");
-
-			gameName = attributeHashMap.get("GameName");
-			p1Ready = attributeHashMap.get("P1Ready");
-			p2Ready = attributeHashMap.get("P2Ready");
+			List<String> itemNames = database.getItemNamesForDomain(SimpleDBSingleton.WAITING_ROOM_DOMAIN);
+			
+			int i = 0;
+			for(String itemName : itemNames){
+				gameModels.get(0).gameName = itemName;
+				++i;
+			}
+			
+//			HashMap<String,String> attributeHashMap = database.getAttributesForItem(SimpleDBSingleton.WAITING_ROOM_DOMAIN, itemName);	
+//
+//			gameName = attributeHashMap.get("GameName");
+//			p1Ready = attributeHashMap.get("P1Ready");
+//			p2Ready = attributeHashMap.get("P2Ready");
 			
 //			Iterator<Entry<String, String>> it = attributeHashMap.entrySet().iterator();
 //			while(it.hasNext()){
@@ -92,7 +144,7 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 			updateWaitingRoom(gameName);
 			dialog.dismiss();
 		}
-	};
+	}
 }
 
 //private Camera camera;

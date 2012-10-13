@@ -1,7 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <style name="AppTheme" parent="android:Theme.Holo.Light" />
 
+    <!-- layout -->
+    
     <style name="block">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
@@ -17,9 +20,23 @@
         <item name="android:layout_width">wrap_content</item>
     </style>
 
-    <style name="fill">
+    <style name="match">
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">match_parent</item>
+    </style>
+    
+    <!-- divider -->
+    <style name="divider">
+        <item name="android:background">@android:color/background_dark</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">1dp</item>
+    </style>
+    
+    <!-- list -->
+    
+    <style name="list" parent="match">
+        <item name="android:dividerHeight">@dimen/divider_height</item>
+        <item name="android:divider">@android:color/background_light</item>
     </style>
     
 </resources>

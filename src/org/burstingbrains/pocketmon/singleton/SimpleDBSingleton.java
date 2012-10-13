@@ -7,6 +7,7 @@ import java.util.List;
 import org.burstingbrains.pocketmonsters.PropertyLoader;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -14,8 +15,10 @@ import com.amazonaws.services.simpledb.AmazonSimpleDBClient;
 import com.amazonaws.services.simpledb.model.Attribute;
 import com.amazonaws.services.simpledb.model.GetAttributesRequest;
 import com.amazonaws.services.simpledb.model.GetAttributesResult;
+import com.amazonaws.services.simpledb.model.Item;
 import com.amazonaws.services.simpledb.model.PutAttributesRequest;
 import com.amazonaws.services.simpledb.model.ReplaceableAttribute;
+import com.amazonaws.services.simpledb.model.SelectRequest;
 
 public class SimpleDBSingleton {
 	private static final SimpleDBSingleton simpleDBSingleton = new SimpleDBSingleton();
@@ -86,6 +89,18 @@ public class SimpleDBSingleton {
 		}
 
 		return attributes;
+	}
+	
+	public List<String> getItemNamesForDomain( String domainName ) {
+		SelectRequest selectRequest = new SelectRequest( "select itemName() from `" + domainName + "`" ).withConsistentRead( true );
+		List<Item> items = sdbClient.select( selectRequest ).getItems();	
+		
+		List<String> itemNames = new ArrayList<String>();
+		for ( int i = 0; i < items.size(); i++ ) {
+			itemNames.add( ((Item)items.get( i )).getName() );
+		}
+		
+		return itemNames;
 	}
 	
 	// =============================

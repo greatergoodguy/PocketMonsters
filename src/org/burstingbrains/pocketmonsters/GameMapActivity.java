@@ -1,8 +1,5 @@
 package org.burstingbrains.pocketmonsters;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.engine.options.EngineOptions;
@@ -18,8 +15,8 @@ import org.burstingbrains.pocketmonsters.actor.Monster;
 import org.burstingbrains.pocketmonsters.assets.GameMapActivityAssets;
 import org.burstingbrains.pocketmonsters.handler.BBSHandler;
 import org.burstingbrains.pocketmonsters.universe.Universe;
-import org.burstingbrains.sharedlibs.handler.IButtonHandler;
 
+import android.util.Log;
 import android.view.KeyEvent;
 
 public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, GameConstants{
@@ -37,6 +34,7 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 	@Override
 	public EngineOptions onCreateEngineOptions() {
 		camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
+		
 
 		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new FillResolutionPolicy(), this.camera);
 		engineOptions.getTouchOptions().setNeedsMultiTouch(true);
@@ -51,6 +49,8 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 		assets.init(this);
 		assets.load();
 		musicPlayer.init(assets.haven_v2Music);
+		
+		
 	}
 
 	@Override
@@ -70,6 +70,8 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 		GameLogic.addMonster(new Monster(gameMapUniverse), grid.getMapTileAt(4, 4));
 		
 		musicPlayer.play();
+		
+		gameMapUniverse.registerUpdateHandler(this);
 		
 		return gameMapUniverse.getGameScene();
 	}
@@ -102,7 +104,7 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 
 	@Override
 	public void onUpdate(float pSecondsElapsed) {
-		// TODO Auto-generated method stub
+		Log.d("onUpdate", "" + pSecondsElapsed);
 		
 	}
 
