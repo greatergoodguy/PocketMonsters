@@ -34,10 +34,6 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 	private ListView waitingRoomGamesListView;
 	private WaitingRoomListAdapter waitingRoomListAdapter;
 	
-	
-	private TextView gameNameTextView;
-	private Button p1SitButton;
-	private Button p2SitButton;
 	private Button refreshButton;
 	
 	private String gameName = DUMMY_STRING;
@@ -73,9 +69,6 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 		waitingRoomListAdapter.notifyDataSetChanged();
 		waitingRoomGamesListView.setAdapter(waitingRoomListAdapter);
 		
-		gameNameTextView = (TextView) this.findViewById(R.id.game_name_textView);
-		gameNameTextView.setText(gameName);
-		
 		refreshButton = (Button) this.findViewById(R.id.refresh_button);
 		refreshButton.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -95,13 +88,6 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 		waitingRoomListAdapter.setGamesList(gameModels);
 		waitingRoomListAdapter.notifyDataSetChanged();
 
-	}
-	  
-
-	private void updateWaitingRoom(CharSequence string){
-		
-		gameNameTextView.setText(string);
-		
 	}
 
 	class GetDataFromServerTask extends AsyncTask<Void, Void, Void>{
@@ -123,25 +109,13 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 				gameModels.get(0).gameName = itemName;
 				++i;
 			}
-			
-//			HashMap<String,String> attributeHashMap = database.getAttributesForItem(SimpleDBSingleton.WAITING_ROOM_DOMAIN, itemName);	
-//
-//			gameName = attributeHashMap.get("GameName");
-//			p1Ready = attributeHashMap.get("P1Ready");
-//			p2Ready = attributeHashMap.get("P2Ready");
-			
-//			Iterator<Entry<String, String>> it = attributeHashMap.entrySet().iterator();
-//			while(it.hasNext()){
-//				Entry<String, String> pairs = it.next();
-//				Log.d("qwe", "key: " + pairs.getKey() + ", value: " + pairs.getValue());
-//			}
-			
+	
 			return null;
 		}
 		
 		@Override
 		protected void onPostExecute(Void result) {
-			updateWaitingRoom(gameName);
+			updateWaitingRoomListView();
 			dialog.dismiss();
 		}
 	}

@@ -1,79 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/match"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/block"
     android:orientation="vertical" >
 
-    
-    
-    <ListView
-        android:id="@+id/waiting_room_listView"
-        style="@style/match"
-        android:scrollbars="none" >
-    </ListView>
-    
-   
+    <!--
     <View 
+        android:id="@+id/waiting_room_divider"
         style="@style/divider"
         android:layout_margin="@dimen/spacing_small" />
-    
-    <LinearLayout
-        style="@style/block"
-    	android:orientation="horizontal"
-    	android:background="@android:color/background_light"
-    	android:weightSum="4" >
-
-        <TextView
-            android:id="@+id/game_name_textView"
-			style="@style/wrap"
-			android:layout_width="0dp"
-            android:text="@string/game_name"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:layout_weight="2" />
-
-	        
-	    <LinearLayout
-	        style="@style/wrap"
-			android:layout_width="0dp"
-	    	android:orientation="vertical"
-	    	android:layout_weight="1" >
-	        
-	        <TextView
-	            android:id="@+id/p1_textView"
-				style="@style/wrap"
-	            android:text="@string/p1"
-	            android:textAppearance="?android:attr/textAppearanceLarge" />
-	        
-	        <Button
-	            android:id="@+id/p1_sit_button"
-	            style="@style/wrap"
-	            android:text="@string/sit" />
-    	</LinearLayout>
-
-	        
-	    <LinearLayout
-	        style="@style/wrap"
-			android:layout_width="0dp"
-	    	android:orientation="vertical"
-	    	android:layout_weight="1" >
-	        
-	        <TextView
-	            android:id="@+id/p2_textView"
-				style="@style/wrap"
-	            android:text="@string/p2"
-	            android:textAppearance="?android:attr/textAppearanceLarge" />
-	        
-	        <Button
-	            android:id="@+id/p2_sit_button"
-	            style="@style/wrap"
-	            android:text="@string/sit" />
-    	</LinearLayout>
-    	
-    </LinearLayout>
+    -->
 
     <Button
         android:id="@+id/refresh_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:text="@string/refresh" />
 
-</LinearLayout>
+    <ListView
+        android:id="@+id/waiting_room_listView"
+        style="@style/block"
+        android:layout_alignParentTop="true"
+        android:layout_above="@id/refresh_button" >
+    </ListView>
+
+</RelativeLayout>

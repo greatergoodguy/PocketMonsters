@@ -13,26 +13,26 @@ public class WaitingRoomListAdapter extends BaseAdapter {
 
 	private final Context applicationContext;
 
-	private List<WaitingRoomGameModel> games;
+	private List<WaitingRoomGameModel> gameModels;
 
 	public WaitingRoomListAdapter(final Context applicationContext) {
 		this.applicationContext = applicationContext;
 
-		games = new ArrayList<WaitingRoomGameModel>();
+		gameModels = new ArrayList<WaitingRoomGameModel>();
 	}
 	
-	public void setGamesList(List<WaitingRoomGameModel> games){
-		this.games = games;
+	public void setGamesList(List<WaitingRoomGameModel> gameModels){
+		this.gameModels = gameModels;
 	}
 
 	@Override
 	public int getCount() {
-		return games.size();
+		return gameModels.size();
 	}
 
 	@Override
 	public WaitingRoomGameModel getItem(final int position) {
-		return (games.get(position));
+		return (gameModels.get(position));
 	}
 
 	@Override
@@ -51,6 +51,8 @@ public class WaitingRoomListAdapter extends BaseAdapter {
 			returnView = (WaitingRoomGameView) convertView;
 		}
 
+		returnView.setGameName(gameModels.get(position).gameName);
+		
 		return returnView;
 
 	}
