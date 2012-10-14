@@ -3,6 +3,8 @@ package org.burstingbrains.pocketmonsters.waitingroom;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.burstingbrains.pocketmonsters.WaitingRoomActivity.WaitingRoomHandler;
+
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +13,13 @@ import android.widget.BaseAdapter;
 public class WaitingRoomListAdapter extends BaseAdapter {
 
 	private final Context applicationContext;
+	private final WaitingRoomHandler handler;
 
 	private List<WaitingRoomGameModel> gameModels;
 
-	public WaitingRoomListAdapter(final Context applicationContext) {
+	public WaitingRoomListAdapter(final Context applicationContext, WaitingRoomHandler handler) {
 		this.applicationContext = applicationContext;
+		this.handler = handler;
 
 		gameModels = new ArrayList<WaitingRoomGameModel>();
 	}
@@ -45,12 +49,12 @@ public class WaitingRoomListAdapter extends BaseAdapter {
 		WaitingRoomGameView returnView;
 
 		if (convertView == null) {
-			returnView = new WaitingRoomGameView(applicationContext);
+			returnView = new WaitingRoomGameView(applicationContext, handler);
 		} else {
 			returnView = (WaitingRoomGameView) convertView;
 		}
 
-		returnView.setGameName(gameModels.get(position).gameName);
+		returnView.updateView(gameModels.get(position));
 		
 		return returnView;
 	}

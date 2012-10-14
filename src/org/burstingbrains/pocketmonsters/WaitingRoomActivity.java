@@ -1,6 +1,7 @@
 package org.burstingbrains.pocketmonsters;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.burstingbrains.pocketmon.constants.GameConstants;
 import org.burstingbrains.pocketmon.singleton.SimpleDBSingleton;
 import org.burstingbrains.pocketmonsters.waitingroom.WaitingRoomGameModel;
 import org.burstingbrains.pocketmonsters.waitingroom.WaitingRoomListAdapter;
+import org.burstingbrains.sharedlibs.handler.BBSHandler;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -28,6 +30,10 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 //	private static GameMapActivityAssets assets = GameMapActivityAssets.getSingleton();
 	private static SimpleDBSingleton database = SimpleDBSingleton.getSingleton();
 	
+	private WaitingRoomHandler handler;
+	
+	private List<WaitingRoomGameModel> gameModels;
+	private LinkedList<WaitingRoomGameModel> gameModelsPool;
 	
 	private ListView waitingRoomGamesListView;
 	private WaitingRoomListAdapter waitingRoomListAdapter;
@@ -35,16 +41,15 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 	private String gameName = DUMMY_STRING;
 	private String p1Ready = DUMMY_STRING;
 	private String p2Ready = DUMMY_STRING;
-	
-	private List<WaitingRoomGameModel> gameModels;
-	private LinkedList<WaitingRoomGameModel> gameModelsPool;
 
+	private Button activeSitButton;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.waiting_room);
 
+		handler = new WaitingRoomHandler();
 		
 		gameModels = new ArrayList<WaitingRoomGameModel>();
 		gameModelsPool = new LinkedList<WaitingRoomGameModel>();
@@ -55,7 +60,7 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 		
 		waitingRoomGamesListView = (ListView) this.findViewById(R.id.waiting_room_listView);
 		
-		waitingRoomListAdapter = new WaitingRoomListAdapter(this.getApplicationContext());
+		waitingRoomListAdapter = new WaitingRoomListAdapter(this.getApplicationContext(), handler);
 		waitingRoomListAdapter.setGamesList(gameModels);
 		waitingRoomListAdapter.notifyDataSetChanged();
 		waitingRoomGamesListView.setAdapter(waitingRoomListAdapter);
@@ -122,8 +127,11 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 			}
 
 			int i = 0;
-			for(String itemName : itemNames){
-				gameModels.get(i).gameName = itemName;
+			for(String gameId : itemNames){
+				HashMap<String, String> attributes = database.getAttributesForItem(SimpleDBSingleton.WAITING_ROOM_DOMAIN, gameId);
+				gameModels.get(i).gameId = gameId;
+				gameModels.get(i).p1Ready = attributes.get("P1Ready");
+				gameModels.get(i).p2Ready = attributes.get("P2Ready");
 				++i;
 			}
 	
@@ -136,67 +144,24 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 			dialog.dismiss();
 		}
 	}
-}
+	
+	public class WaitingRoomHandler extends BBSHandler{
+		
+		public boolean isPlayerSatDown(){
+			return activeSitButton != null;
+		}
+		
+		public void setActiveSitButton(Button newSitButton){
+			activeSitButton = newSitButton;
+		}
+		
+		public void deactiveSitButton(){
+			activeSitButton = null;
+		}
 
-//private Camera camera;
-//
-//@Override
-//public EngineOptions onCreateEngineOptions() {
-//	camera = new Camera(0, 0, CAMERA_HEIGHT, CAMERA_WIDTH);
-//
-//	final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.PORTRAIT_FIXED, new FillResolutionPolicy(), camera);
-//	
-//	engineOptions.getTouchOptions().setNeedsMultiTouch(true);
-//	engineOptions.getAudioOptions().setNeedsSound(true);
-//	engineOptions.getAudioOptions().setNeedsMusic(true);
-//	
-//	return engineOptions;
-//}
-//
-//
-//@Override
-//protected void onCreateResources() {
-//	assets.init(this);
-//	assets.load();
-//}
-//
-//
-//@Override
-//protected Scene onCreateScene() {
-//	 
-//	final FPSCounter fpsCounter = new FPSCounter();
-//	this.mEngine.registerUpdateHandler(fpsCounter);
-//
-//	final Scene scene = new Scene();
-//	scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
-//
-////	final Text elapsedText = new Text(100, 160, assets.fontJokalLarge, "Seconds elapsed:", "Seconds elapsed: XXXXXXXXXXXXXXXXXXXXXXXXXX".length(), this.getVertexBufferObjectManager());
-////	final Text fpsText = new Text(250, 240, assets.fontJokalLarge, "FPS:", "FPS: XXXXXXXXXXXXXXXXXXXXXXXXXX".length(), this.getVertexBufferObjectManager());
-////	scene.attachChild(elapsedText);
-////	scene.attachChild(fpsText);
-//	
-//	final Text gameNameText = new Text(50, 50, assets.fontJokalMedium, "Game Name:", "Game Name:".length(), this.getVertexBufferObjectManager());
-//	final Text p1Text = new Text(50, 150, assets.fontJokalMedium, "Player 1", "Player 1".length(), this.getVertexBufferObjectManager());
-//	final Text p2Text = new Text(50, 250, assets.fontJokalMedium, "Player 2", "Player 2".length(), this.getVertexBufferObjectManager());
-//
-//	scene.attachChild(gameNameText);
-//	scene.attachChild(p1Text);
-//	scene.attachChild(p2Text);
-//
-//
-//	Log.d("qwe", "gameName: " + gameName);
-//	Log.d("qwe", "p1Ready: " + p1Ready);
-//	Log.d("qwe", "p2Ready: " + p2Ready);
-//	
-//	new GetDataFromServerTask().execute();
-//	
-////	scene.registerUpdateHandler(new TimerHandler(1 / 20.0f, true, new ITimerCallback() {
-////		@Override
-////		public void onTimePassed(final TimerHandler pTimerHandler) {
-////			elapsedText.setText("Seconds elapsed: " + WaitingRoomActivity.this.mEngine.getSecondsElapsedTotal());
-////			fpsText.setText("FPS: " + fpsCounter.getFPS());
-////		}
-////	}));
-//
-//	return scene;
-//}
+		public Button getActiveButton() {
+			return activeSitButton;
+		}
+		
+	}
+}

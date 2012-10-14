@@ -63,15 +63,15 @@ public class SimpleDBSingleton {
 	// DB Requests
 	// =============================
 	
-	public void createItem( String domainName, String itemName ) {		
+	public void asyncCreateItem( String domainName, String itemName ) {		
 		new PutAttributesRequestTask().execute(domainName, itemName, "Name", "Value");
 	}
 	
-	public void updateAttribute(String domainName, String itemName, String attributeName, String attributeValue){
+	public void asyncUpdateAttribute(String domainName, String itemName, String attributeName, String attributeValue){
 		new PutAttributesRequestTask().execute(domainName, itemName, attributeName, attributeValue);		
 	}
 
-	public void getAttributeValue(String domainName, String itemName, String attributeName){
+	public void asyncGetAttributeValue(String domainName, String itemName, String attributeName){
 		new GetAttributesRequestTask().execute(domainName, itemName, attributeName );
 	}
 	

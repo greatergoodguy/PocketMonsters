@@ -14,7 +14,7 @@
         android:textColor="@android:color/black"
         android:textSize="@dimen/text_large" />
 
-    <LinearLayout
+    <RelativeLayout
         style="@style/wrap"
         android:layout_width="0dp"
         android:layout_weight="1"
@@ -26,16 +26,27 @@
             android:text="@string/p1"
             android:textColor="@android:color/black"
             android:textSize="@dimen/text_large" />
-
+	
         <Button
             android:id="@+id/p1_sit_button"
             style="@style/wrap"
+            android:layout_below="@id/p1_textView"
             android:text="@string/sit"
             android:textColor="@android:color/black"
             android:textSize="@dimen/text_large" />
-    </LinearLayout>
+        
+        
+        <TextView
+            android:id="@+id/p1_ready_textView"
+            style="@style/wrap"
+            android:layout_below="@id/p1_textView"
+            android:text="@string/ready"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="@dimen/text_large"
+            android:visibility="invisible" />
+    </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         style="@style/wrap"
         android:layout_width="0dp"
         android:layout_weight="1"
@@ -51,9 +62,20 @@
         <Button
             android:id="@+id/p2_sit_button"
             style="@style/wrap"
+            android:layout_below="@id/p2_textView"
             android:text="@string/sit"
             android:textColor="@android:color/black"
             android:textSize="@dimen/text_large" />
-    </LinearLayout>
+        
+        <TextView
+            android:id="@+id/p2_ready_textView"
+            style="@style/wrap"
+            android:layout_below="@id/p2_textView"
+            android:text="@string/ready"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="@dimen/text_large" 
+            android:visibility="invisible" />
+        
+    </RelativeLayout>
 
 </LinearLayout>
