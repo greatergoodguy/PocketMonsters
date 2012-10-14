@@ -35,7 +35,7 @@
     <!-- list -->
     
     <style name="list" parent="match">
-        <item name="android:dividerHeight">@dimen/divider_height</item>
+        <item name="android:dividerHeight">20dp</item>
         <item name="android:divider">@android:color/background_light</item>
     </style>
     

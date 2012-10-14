@@ -3,7 +3,6 @@ package org.burstingbrains.pocketmonsters.waitingroom;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +53,6 @@ public class WaitingRoomListAdapter extends BaseAdapter {
 		returnView.setGameName(gameModels.get(position).gameName);
 		
 		return returnView;
-
 	}
 
 }

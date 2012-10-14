@@ -24,4 +24,11 @@
         android:layout_above="@id/refresh_button" >
     </ListView>
 
+    <Button
+        android:id="@+id/create_button"
+		style="@style/wrap"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/refresh_button"
+        android:text="@string/create" />
+
 </RelativeLayout>

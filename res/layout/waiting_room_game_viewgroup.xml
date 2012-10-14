@@ -11,7 +11,8 @@
         android:layout_width="0dp"
         android:layout_weight="2"
         android:text="@string/game_name"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_large" />
 
     <LinearLayout
         style="@style/wrap"
@@ -23,12 +24,15 @@
             android:id="@+id/p1_textView"
             style="@style/wrap"
             android:text="@string/p1"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_large" />
 
         <Button
             android:id="@+id/p1_sit_button"
             style="@style/wrap"
-            android:text="@string/sit" />
+            android:text="@string/sit"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_large" />
     </LinearLayout>
 
     <LinearLayout
@@ -41,12 +45,15 @@
             android:id="@+id/p2_textView"
             style="@style/wrap"
             android:text="@string/p2"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_large" />
 
         <Button
             android:id="@+id/p2_sit_button"
             style="@style/wrap"
-            android:text="@string/sit" />
+            android:text="@string/sit"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_large" />
     </LinearLayout>
 
 </LinearLayout>

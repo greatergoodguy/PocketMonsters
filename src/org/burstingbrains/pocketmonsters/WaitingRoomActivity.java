@@ -1,14 +1,12 @@
 package org.burstingbrains.pocketmonsters;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.burstingbrains.pocketmon.constants.GameConstants;
-import org.burstingbrains.pocketmon.singleton.MusicPlayerSingleton;
 import org.burstingbrains.pocketmon.singleton.SimpleDBSingleton;
-import org.burstingbrains.pocketmonsters.assets.GameMapActivityAssets;
 import org.burstingbrains.pocketmonsters.waitingroom.WaitingRoomGameModel;
-import org.burstingbrains.pocketmonsters.waitingroom.WaitingRoomGameView;
 import org.burstingbrains.pocketmonsters.waitingroom.WaitingRoomListAdapter;
 
 import android.annotation.TargetApi;
@@ -19,28 +17,27 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 @TargetApi(11)
 public class WaitingRoomActivity extends Activity implements GameConstants{
 
 	private static final String DUMMY_STRING = "DummyString";
+	private static final int WAITING_ROOM_MAX_SIZE = 10;
 	
-	private static MusicPlayerSingleton musicPlayer = MusicPlayerSingleton.getSingleton();
-	private static GameMapActivityAssets assets = GameMapActivityAssets.getSingleton();
+//	private static MusicPlayerSingleton musicPlayer = MusicPlayerSingleton.getSingleton();
+//	private static GameMapActivityAssets assets = GameMapActivityAssets.getSingleton();
 	private static SimpleDBSingleton database = SimpleDBSingleton.getSingleton();
 	
 	
 	private ListView waitingRoomGamesListView;
 	private WaitingRoomListAdapter waitingRoomListAdapter;
 	
-	private Button refreshButton;
-	
 	private String gameName = DUMMY_STRING;
 	private String p1Ready = DUMMY_STRING;
 	private String p2Ready = DUMMY_STRING;
 	
 	private List<WaitingRoomGameModel> gameModels;
+	private LinkedList<WaitingRoomGameModel> gameModelsPool;
 
 
 	@Override
@@ -50,26 +47,20 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 
 		
 		gameModels = new ArrayList<WaitingRoomGameModel>();
-		for(int i=0; i<3; ++i){
-			WaitingRoomGameModel gameModel = new WaitingRoomGameModel();
-			gameModel.isActive = true;
-			gameModel.gameName = "qwe" + i;
-			gameModels.add(gameModel);
-		}
+		gameModelsPool = new LinkedList<WaitingRoomGameModel>();
 		
 		//database.createItem(SimpleDBSingleton.WAITING_ROOM_DOMAIN, "3");
 		//database.updateAttribute(SimpleDBSingleton.WAITING_ROOM_DOMAIN, "1", "Name", "Value2");
 		//database.getAttributeValue(SimpleDBSingleton.WAITING_ROOM_DOMAIN, "2", "Name");
 		
 		waitingRoomGamesListView = (ListView) this.findViewById(R.id.waiting_room_listView);
-		//waitingRoomGamesListView.addView(new WaitingRoomGameView(this));
 		
 		waitingRoomListAdapter = new WaitingRoomListAdapter(this.getApplicationContext());
 		waitingRoomListAdapter.setGamesList(gameModels);
 		waitingRoomListAdapter.notifyDataSetChanged();
 		waitingRoomGamesListView.setAdapter(waitingRoomListAdapter);
 		
-		refreshButton = (Button) this.findViewById(R.id.refresh_button);
+		Button refreshButton = (Button) this.findViewById(R.id.refresh_button);
 		refreshButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -77,8 +68,13 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 			}
 		});
 		
-
-		
+		Button createButton = (Button) this.findViewById(R.id.create_button);
+		createButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				new GetDataFromServerTask().execute();
+			}
+		});
 		
 //		new GetDataFromServerTask().execute();
 	}
@@ -104,9 +100,30 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 			
 			List<String> itemNames = database.getItemNamesForDomain(SimpleDBSingleton.WAITING_ROOM_DOMAIN);
 			
+			// Create the necessary amount of new GameModels and add it to the List
+			int numNewItems = itemNames.size() - gameModels.size();
+			for(int i=0; i<numNewItems; ++i ){
+				// If the pool is empty, add a fresh brand new game model
+				if(gameModelsPool.isEmpty()){
+					gameModels.add(new WaitingRoomGameModel());
+				}
+				// Else, reuse a game model from the pool
+				else{
+					WaitingRoomGameModel reusedGameModel = gameModelsPool.removeLast();
+					gameModels.add(reusedGameModel);
+				}
+			}
+			
+			// Remove the necessary amount of new GameModels from the List
+			int numRemoveItems = gameModels.size() - itemNames.size();
+			for(int i=0; i<numRemoveItems; ++i ){
+				WaitingRoomGameModel removedGameModel = gameModels.remove(gameModels.size() - 1);
+				gameModelsPool.add(removedGameModel);
+			}
+
 			int i = 0;
 			for(String itemName : itemNames){
-				gameModels.get(0).gameName = itemName;
+				gameModels.get(i).gameName = itemName;
 				++i;
 			}
 	
