@@ -16,8 +16,6 @@ public class RandomSingleton {
 		return randomSingleton;
 	}
 	
-	
-	
 	public static int getRandomInt(int sizeOfRange){
 		
 		return getSingleton().random.nextInt(sizeOfRange);

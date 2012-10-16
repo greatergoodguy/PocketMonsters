@@ -154,38 +154,6 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 		
 		@Override
 		protected Void doInBackground(Void... params) {
-			
-			List<String> itemNames = database.getItemNamesForDomain(SimpleDBSingleton.WAITING_ROOM_DOMAIN);
-			
-			// Create the necessary amount of new GameModels and add it to the List
-			int numNewItems = itemNames.size() - gameModels.size();
-			for(int i=0; i<numNewItems; ++i ){
-				// If the pool is empty, add a fresh brand new game model
-				if(gameModelsPool.isEmpty()){
-					gameModels.add(new WaitingRoomGameModel());
-				}
-				// Else, reuse a game model from the pool
-				else{
-					WaitingRoomGameModel reusedGameModel = gameModelsPool.removeLast();
-					gameModels.add(reusedGameModel);
-				}
-			}
-			
-			// Remove the necessary amount of new GameModels from the List
-			int numRemoveItems = gameModels.size() - itemNames.size();
-			for(int i=0; i<numRemoveItems; ++i ){
-				WaitingRoomGameModel removedGameModel = gameModels.remove(gameModels.size() - 1);
-				gameModelsPool.add(removedGameModel);
-			}
-
-			int i = 0;
-			for(String gameId : itemNames){
-				HashMap<String, String> attributes = database.getAttributesForItem(SimpleDBSingleton.WAITING_ROOM_DOMAIN, gameId);
-				gameModels.get(i).gameId = gameId;
-				gameModels.get(i).p1Ready = attributes.get("P1Ready");
-				gameModels.get(i).p2Ready = attributes.get("P2Ready");
-				++i;
-			}
 	
 			return null;
 		}

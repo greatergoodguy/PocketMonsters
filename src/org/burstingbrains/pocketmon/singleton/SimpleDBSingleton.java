@@ -5,9 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.burstingbrains.pocketmonsters.PropertyLoader;
+import org.burstingbrains.pocketmonsters.util.Pool;
+import org.burstingbrains.pocketmonsters.util.Pool.PoolObjectFactory;
+import org.burstingbrains.pocketmonsters.waitingroom.WaitingRoomGameModel;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -28,9 +30,13 @@ public class SimpleDBSingleton {
 	
 	private static final String DUMMY_STRING = "DummyString";
 	
+	private static final PoolManagerSingleton poolManager = PoolManagerSingleton.getSingleton();
+	
 	private AmazonSimpleDBClient sdbClient;
 	
 	List<ReplaceableAttribute> reusablePutAttribute; // This list holds one element. This is so that it plays nice with Amazon's APIs
+	List<ReplaceableAttribute> reusablePutAttributes;
+	
 	List<Attribute> reusableGetAttributes;
 	
 	String reusableAttributeValue;
@@ -44,6 +50,13 @@ public class SimpleDBSingleton {
         reusablePutAttribute.add(new ReplaceableAttribute( "SimpleDBSingleton", "constructor", Boolean.TRUE ));
         
         reusableAttributeValue = DUMMY_STRING;
+
+        PoolObjectFactory<ReplaceableAttribute> purple_ghost_factory = new PoolObjectFactory<ReplaceableAttribute>(){
+			public ReplaceableAttribute createObject(){
+				return new ReplaceableAttribute();
+			}
+		};
+        //replacableAttributePool = new Pool<ReplaceableAttribute>();
 	}
 	
 	public static SimpleDBSingleton getSingleton(){
@@ -75,6 +88,21 @@ public class SimpleDBSingleton {
 		new GetAttributesRequestTask().execute(domainName, itemName, attributeName );
 	}
 	
+	public void createItem( String domainName, String itemName ) {		
+		new PutAttributesRequestTask().execute(domainName, itemName, "Name", "Value");
+	}
+	
+	public List<String> getItemNamesForDomain( String domainName ) {
+		SelectRequest selectRequest = new SelectRequest( "select itemName() from `" + domainName + "`" ).withConsistentRead( true );
+		List<Item> items = sdbClient.select( selectRequest ).getItems();	
+		
+		List<String> itemNames = new ArrayList<String>();
+		for ( int i = 0; i < items.size(); i++ ) {
+			itemNames.add( ((Item)items.get( i )).getName() );
+		}
+		
+		return itemNames;
+	}	
 
 	public HashMap<String,String> getAttributesForItem( String domainName, String itemName ) {
 		GetAttributesRequest getRequest = new GetAttributesRequest( domainName, itemName ).withConsistentRead( true );
@@ -91,18 +119,6 @@ public class SimpleDBSingleton {
 		return attributes;
 	}
 	
-	public List<String> getItemNamesForDomain( String domainName ) {
-		SelectRequest selectRequest = new SelectRequest( "select itemName() from `" + domainName + "`" ).withConsistentRead( true );
-		List<Item> items = sdbClient.select( selectRequest ).getItems();	
-		
-		List<String> itemNames = new ArrayList<String>();
-		for ( int i = 0; i < items.size(); i++ ) {
-			itemNames.add( ((Item)items.get( i )).getName() );
-		}
-		
-		return itemNames;
-	}
-	
 	public void updateAttribute(String domainName, String itemName, String attributeName, String attributeValue){
 		ReplaceableAttribute attribute = reusablePutAttribute.get(0);
 
@@ -110,6 +126,31 @@ public class SimpleDBSingleton {
 		attribute.setValue(attributeValue);
 
 		PutAttributesRequest putRequest = new PutAttributesRequest(domainName, itemName, reusablePutAttribute);	
+		sdbClient.putAttributes( putRequest );
+	}
+	
+	public void updateAttributes(String domainName, String itemName, HashMap<String,String> attributes){
+		// Create the necessary amount of replaceable attributes
+		int numNewItems = attributes.size() - reusablePutAttributes.size();
+		for(int i=0; i<numNewItems; ++i ){
+			reusablePutAttributes.add(poolManager.replacableAttributePool.newObject());
+		}
+		
+		// Remove the necessary amount of replaceable attributes
+		int numRemoveItems = reusablePutAttributes.size() - attributes.size();
+		for(int i=0; i<numRemoveItems; ++i ){
+			ReplaceableAttribute removeAttribute = reusablePutAttributes.remove(reusablePutAttributes.size() - 1);
+			poolManager.replacableAttributePool.free(removeAttribute);
+		}
+		
+		int i = 0;
+		for ( String attributeName : attributes.keySet() ) {
+			reusablePutAttributes.add( 
+					new ReplaceableAttribute().withName( attributeName ).withValue( attributes.get( attributeName ) ).withReplace( true ) );
+			i++;
+		}
+
+		PutAttributesRequest putRequest = new PutAttributesRequest(domainName, itemName, reusablePutAttributes);	
 		sdbClient.putAttributes( putRequest );
 	}
 	
