@@ -12,7 +12,10 @@ import android.widget.TextView;
 
 public class WaitingRoomGameView extends LinearLayout{
 
+	private WaitingRoomHandler handler;
 	private WaitingRoomGameModel gameModel;
+	
+	
 	
 	private ViewGroup waitingRoomGame;
 	
@@ -22,9 +25,10 @@ public class WaitingRoomGameView extends LinearLayout{
 	private TextView p1ReadyTextView;
 	private TextView p2ReadyTextView;
 	
-	public WaitingRoomGameView(Context context, final WaitingRoomHandler handler, WaitingRoomGameModel gameModelParam) {
+	public WaitingRoomGameView(Context context, WaitingRoomHandler handlerParam, WaitingRoomGameModel gameModelParam) {
 		super(context);
 
+		this.handler = handlerParam;
 		this.gameModel = gameModelParam;
 		
 		waitingRoomGame = (ViewGroup) View.inflate(context, R.layout.waiting_room_game_viewgroup, this);
