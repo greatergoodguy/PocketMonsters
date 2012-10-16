@@ -49,14 +49,9 @@ public class SimpleDBSingleton {
         reusablePutAttribute = new ArrayList<ReplaceableAttribute>(1);
         reusablePutAttribute.add(new ReplaceableAttribute( "SimpleDBSingleton", "constructor", Boolean.TRUE ));
         
+        reusablePutAttributes = new ArrayList<ReplaceableAttribute>();
+        
         reusableAttributeValue = DUMMY_STRING;
-
-        PoolObjectFactory<ReplaceableAttribute> purple_ghost_factory = new PoolObjectFactory<ReplaceableAttribute>(){
-			public ReplaceableAttribute createObject(){
-				return new ReplaceableAttribute();
-			}
-		};
-        //replacableAttributePool = new Pool<ReplaceableAttribute>();
 	}
 	
 	public static SimpleDBSingleton getSingleton(){

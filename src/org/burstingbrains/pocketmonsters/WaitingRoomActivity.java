@@ -2,12 +2,12 @@ package org.burstingbrains.pocketmonsters;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.burstingbrains.pocketmon.constants.GameConstants;
 import org.burstingbrains.pocketmon.singleton.PoolManagerSingleton;
 import org.burstingbrains.pocketmon.singleton.SimpleDBSingleton;
+import org.burstingbrains.pocketmonsters.util.Pool;
 import org.burstingbrains.pocketmonsters.waitingroom.WaitingRoomGameModel;
 import org.burstingbrains.pocketmonsters.waitingroom.WaitingRoomListAdapter;
 import org.burstingbrains.sharedlibs.handler.BBSHandler;
@@ -20,6 +20,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+
+import com.amazonaws.services.simpledb.model.ReplaceableAttribute;
 
 @TargetApi(11)
 public class WaitingRoomActivity extends Activity implements GameConstants{
@@ -143,14 +145,20 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 		
 		@Override
 		protected Void doInBackground(Void... params) {
-	
+			HashMap<String,String> attributes = new HashMap<String, String>();
+			attributes.put("P1Ready", "false");
+			attributes.put("P2Ready", "false");
+			
+			int newGameId = Integer.parseInt(gameModels.get(gameModels.size()-1).gameId) + 1;
+			database.updateAttributes(SimpleDBSingleton.WAITING_ROOM_DOMAIN, String.valueOf(newGameId), attributes);
+			
 			return null;
 		}
 		
 		@Override
 		protected void onPostExecute(Void result) {
-			updateWaitingRoomListView();
 			dialog.dismiss();
+			new GetAndShowDataFromServerTask().execute();
 		}
 	}
 	
