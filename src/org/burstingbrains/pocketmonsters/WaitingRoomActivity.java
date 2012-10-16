@@ -69,7 +69,7 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 		refreshButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				new GetDataFromServerTask().execute();
+				new GetAndShowDataFromServerTask().execute();
 			}
 		});
 		
@@ -77,11 +77,9 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 		createButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				new GetDataFromServerTask().execute();
+				new CreateGameTask().execute();
 			}
 		});
-		
-//		new GetDataFromServerTask().execute();
 	}
 
 
@@ -91,7 +89,61 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 
 	}
 
-	class GetDataFromServerTask extends AsyncTask<Void, Void, Void>{
+	class GetAndShowDataFromServerTask extends AsyncTask<Void, Void, Void>{
+		
+		ProgressDialog dialog;
+		
+		@Override
+		protected void onPreExecute() {
+			dialog = ProgressDialog.show(WaitingRoomActivity.this, "Hello", "Loading. Please wait...", true);
+		}
+		
+		@Override
+		protected Void doInBackground(Void... params) {
+			
+			List<String> itemNames = database.getItemNamesForDomain(SimpleDBSingleton.WAITING_ROOM_DOMAIN);
+			
+			// Create the necessary amount of new GameModels and add it to the List
+			int numNewItems = itemNames.size() - gameModels.size();
+			for(int i=0; i<numNewItems; ++i ){
+				// If the pool is empty, add a fresh brand new game model
+				if(gameModelsPool.isEmpty()){
+					gameModels.add(new WaitingRoomGameModel());
+				}
+				// Else, reuse a game model from the pool
+				else{
+					WaitingRoomGameModel reusedGameModel = gameModelsPool.removeLast();
+					gameModels.add(reusedGameModel);
+				}
+			}
+			
+			// Remove the necessary amount of new GameModels from the List
+			int numRemoveItems = gameModels.size() - itemNames.size();
+			for(int i=0; i<numRemoveItems; ++i ){
+				WaitingRoomGameModel removedGameModel = gameModels.remove(gameModels.size() - 1);
+				gameModelsPool.add(removedGameModel);
+			}
+
+			int i = 0;
+			for(String gameId : itemNames){
+				HashMap<String, String> attributes = database.getAttributesForItem(SimpleDBSingleton.WAITING_ROOM_DOMAIN, gameId);
+				gameModels.get(i).gameId = gameId;
+				gameModels.get(i).p1Ready = attributes.get("P1Ready");
+				gameModels.get(i).p2Ready = attributes.get("P2Ready");
+				++i;
+			}
+	
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			updateWaitingRoomListView();
+			dialog.dismiss();
+		}
+	}
+	
+	class CreateGameTask extends AsyncTask<Void, Void, Void>{
 		
 		ProgressDialog dialog;
 		
@@ -151,17 +203,51 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 			return activeSitButton != null;
 		}
 		
-		public void setActiveSitButton(Button newSitButton){
+		public void activatePlayerSitDown(Button newSitButton, String gameId, String playerReady){
 			activeSitButton = newSitButton;
+			new SitTask().execute(gameId, playerReady);
 		}
 		
-		public void deactiveSitButton(){
-			activeSitButton = null;
+		public void activatePlayerStandUp(String gameId, String playerReady){
+			if(activeSitButton != null){
+				new UnSitTask().execute(gameId, playerReady);
+			}
 		}
 
 		public Button getActiveButton() {
 			return activeSitButton;
 		}
 		
+	}
+	
+	class SitTask extends AsyncTask<String, Void, Void>{
+		
+		@Override
+		protected Void doInBackground(String... params) {
+			
+			database.updateAttribute(SimpleDBSingleton.WAITING_ROOM_DOMAIN, params[0], params[1], "true");
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			activeSitButton.setText("Unsit");
+		}
+	}
+	
+	class UnSitTask extends AsyncTask<String, Void, Void>{
+		
+		@Override
+		protected Void doInBackground(String... params) {
+			
+			database.updateAttribute(SimpleDBSingleton.WAITING_ROOM_DOMAIN, params[0], params[1], "false");
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			activeSitButton.setText("Sit");
+			activeSitButton = null;
+		}
 	}
 }

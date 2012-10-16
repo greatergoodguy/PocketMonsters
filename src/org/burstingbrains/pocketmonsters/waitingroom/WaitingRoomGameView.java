@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 public class WaitingRoomGameView extends LinearLayout{
 
-	private WaitingRoomHandler handler;
+	private WaitingRoomGameModel gameModel;
 	
 	private ViewGroup waitingRoomGame;
 	
@@ -22,10 +22,10 @@ public class WaitingRoomGameView extends LinearLayout{
 	private TextView p1ReadyTextView;
 	private TextView p2ReadyTextView;
 	
-	public WaitingRoomGameView(Context context, final WaitingRoomHandler handler) {
+	public WaitingRoomGameView(Context context, final WaitingRoomHandler handler, WaitingRoomGameModel gameModelParam) {
 		super(context);
 
-		this.handler = handler;
+		this.gameModel = gameModelParam;
 		
 		waitingRoomGame = (ViewGroup) View.inflate(context, R.layout.waiting_room_game_viewgroup, this);
 		
@@ -43,12 +43,10 @@ public class WaitingRoomGameView extends LinearLayout{
 
 			private void toggleSitButton() {
 				if(p1SitButton.getText().toString().equals("Sit")){
-					handler.setActiveSitButton(p1SitButton);
-					p1SitButton.setText("Unsit");
+					handler.activatePlayerSitDown(p1SitButton, gameModel.gameId, "P1Ready");
 				}
 				else if(p1SitButton.getText().toString().equals("Unsit")){
-					handler.deactiveSitButton();
-					p1SitButton.setText("Sit");
+					handler.activatePlayerStandUp(gameModel.gameId, "P1Ready");
 				}
 			}
 		});
@@ -66,35 +64,35 @@ public class WaitingRoomGameView extends LinearLayout{
 
 			private void toggleSitButton() {
 				if(p2SitButton.getText().toString().equals("Sit")){
-					handler.setActiveSitButton(p2SitButton);
-					p2SitButton.setText("Unsit");
+					handler.activatePlayerSitDown(p2SitButton, gameModel.gameId, "P2Ready");
 				}
 				else if(p2SitButton.getText().toString().equals("Unsit")){
-					handler.deactiveSitButton();
-					p2SitButton.setText("Sit");
+					handler.activatePlayerStandUp(gameModel.gameId, "P2Ready");
 				}
 			}
 		});
 		
 	}
 
-	public void updateView(WaitingRoomGameModel waitingRoomGameModel) {
-		gameNameTextView.setText("Game " + waitingRoomGameModel.gameId);
+	public void updateView(final WaitingRoomGameModel waitingRoomGameModel) {
+		gameModel = waitingRoomGameModel;
 		
-		if(waitingRoomGameModel.p1Ready.equals("true")){
+		gameNameTextView.setText("Game " + gameModel.gameId);
+		
+		if(gameModel.p1Ready.equals("true")){
 			p1ReadyTextView.setVisibility(View.VISIBLE);
 			p1SitButton.setVisibility(View.INVISIBLE);
 		}
-		else if(waitingRoomGameModel.p1Ready.equals("false")){
+		else if(gameModel.p1Ready.equals("false")){
 			p1ReadyTextView.setVisibility(View.INVISIBLE);
 			p1SitButton.setVisibility(View.VISIBLE);
 		}
 		
-		if(waitingRoomGameModel.p2Ready.equals("true")){
+		if(gameModel.p2Ready.equals("true")){
 			p2ReadyTextView.setVisibility(View.VISIBLE);
 			p2SitButton.setVisibility(View.INVISIBLE);
 		}
-		else if(waitingRoomGameModel.p2Ready.equals("false")){
+		else if(gameModel.p2Ready.equals("false")){
 			p2ReadyTextView.setVisibility(View.INVISIBLE);
 			p2SitButton.setVisibility(View.VISIBLE);
 		}

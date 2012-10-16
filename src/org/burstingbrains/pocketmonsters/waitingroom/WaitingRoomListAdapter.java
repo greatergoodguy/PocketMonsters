@@ -49,7 +49,7 @@ public class WaitingRoomListAdapter extends BaseAdapter {
 		WaitingRoomGameView returnView;
 
 		if (convertView == null) {
-			returnView = new WaitingRoomGameView(applicationContext, handler);
+			returnView = new WaitingRoomGameView(applicationContext, handler, gameModels.get(position));
 		} else {
 			returnView = (WaitingRoomGameView) convertView;
 		}

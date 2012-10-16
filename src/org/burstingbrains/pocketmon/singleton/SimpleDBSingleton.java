@@ -103,6 +103,16 @@ public class SimpleDBSingleton {
 		return itemNames;
 	}
 	
+	public void updateAttribute(String domainName, String itemName, String attributeName, String attributeValue){
+		ReplaceableAttribute attribute = reusablePutAttribute.get(0);
+
+		attribute.setName(attributeName);
+		attribute.setValue(attributeValue);
+
+		PutAttributesRequest putRequest = new PutAttributesRequest(domainName, itemName, reusablePutAttribute);	
+		sdbClient.putAttributes( putRequest );
+	}
+	
 	// =============================
 	// Async Tasks
 	// =============================
