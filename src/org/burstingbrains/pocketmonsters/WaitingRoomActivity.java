@@ -7,8 +7,8 @@ import java.util.List;
 import org.burstingbrains.pocketmon.constants.GameConstants;
 import org.burstingbrains.pocketmon.singleton.PoolManagerSingleton;
 import org.burstingbrains.pocketmon.singleton.SimpleDBSingleton;
-import org.burstingbrains.pocketmonsters.util.Pool;
 import org.burstingbrains.pocketmonsters.waitingroom.WaitingRoomGameModel;
+import org.burstingbrains.pocketmonsters.waitingroom.WaitingRoomGameView;
 import org.burstingbrains.pocketmonsters.waitingroom.WaitingRoomListAdapter;
 import org.burstingbrains.sharedlibs.handler.BBSHandler;
 
@@ -17,11 +17,10 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-
-import com.amazonaws.services.simpledb.model.ReplaceableAttribute;
 
 @TargetApi(11)
 public class WaitingRoomActivity extends Activity implements GameConstants{
@@ -42,7 +41,8 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 	private String p1Ready = DUMMY_STRING;
 	private String p2Ready = DUMMY_STRING;
 
-	private Button activeSitButton;
+	private WaitingRoomGameView selectedGameView;
+	private Button selectedSitButton;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -149,8 +149,10 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 			attributes.put("P1Ready", "false");
 			attributes.put("P2Ready", "false");
 			
-			int newGameId = Integer.parseInt(gameModels.get(gameModels.size()-1).gameId) + 1;
-			database.updateAttributes(SimpleDBSingleton.WAITING_ROOM_DOMAIN, String.valueOf(newGameId), attributes);
+			if(!gameModels.isEmpty()){
+				int newGameId = Integer.parseInt(gameModels.get(gameModels.size()-1).gameId) + 1;
+				database.updateAttributes(SimpleDBSingleton.WAITING_ROOM_DOMAIN, String.valueOf(newGameId), attributes);
+			}
 			
 			return null;
 		}
@@ -165,22 +167,23 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 	public class WaitingRoomHandler extends BBSHandler{
 		
 		public boolean isPlayerSatDown(){
-			return activeSitButton != null;
+			return selectedSitButton != null;
 		}
 		
-		public void activatePlayerSitDown(Button newSitButton, String gameId, String playerReady){
-			activeSitButton = newSitButton;
+		public void activatePlayerSitDown(WaitingRoomGameView newGameView, Button newSitButton, String gameId, String playerReady){
+			selectedGameView = newGameView;
+			selectedSitButton = newSitButton;
 			new SitTask().execute(gameId, playerReady);
 		}
 		
 		public void activatePlayerStandUp(String gameId, String playerReady){
-			if(activeSitButton != null){
-				new UnSitTask().execute(gameId, playerReady);
+			if(selectedSitButton != null){
+				new UnsitTask().execute(gameId, playerReady);
 			}
 		}
 
 		public Button getActiveButton() {
-			return activeSitButton;
+			return selectedSitButton;
 		}
 		
 	}
@@ -196,11 +199,11 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 		
 		@Override
 		protected void onPostExecute(Void result) {
-			activeSitButton.setText("Unsit");
+			selectedSitButton.setText("Unsit");
 		}
 	}
 	
-	class UnSitTask extends AsyncTask<String, Void, Void>{
+	class UnsitTask extends AsyncTask<String, Void, Void>{
 		
 		@Override
 		protected Void doInBackground(String... params) {
@@ -211,8 +214,25 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 		
 		@Override
 		protected void onPostExecute(Void result) {
-			activeSitButton.setText("Sit");
-			activeSitButton = null;
+			selectedSitButton.setText("Sit");
+			selectedSitButton = null;
 		}
 	}
+	
+
+//	class Checkf extends AsyncTask<String, Void, Void>{
+//		
+//		@Override
+//		protected Void doInBackground(String... params) {
+//			
+//			database.updateAttribute(SimpleDBSingleton.WAITING_ROOM_DOMAIN, params[0], params[1], "false");
+//			return null;
+//		}
+//		
+//		@Override
+//		protected void onPostExecute(Void result) {
+//			selectedSitButton.setText("Sit");
+//			selectedSitButton = null;
+//		}
+//	}
 }

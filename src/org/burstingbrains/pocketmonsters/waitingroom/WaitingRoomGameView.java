@@ -47,7 +47,7 @@ public class WaitingRoomGameView extends LinearLayout{
 
 			private void toggleSitButton() {
 				if(p1SitButton.getText().toString().equals("Sit")){
-					handler.activatePlayerSitDown(p1SitButton, gameModel.gameId, "P1Ready");
+					handler.activatePlayerSitDown(WaitingRoomGameView.this, p1SitButton, gameModel.gameId, "P1Ready");
 				}
 				else if(p1SitButton.getText().toString().equals("Unsit")){
 					handler.activatePlayerStandUp(gameModel.gameId, "P1Ready");
@@ -68,7 +68,7 @@ public class WaitingRoomGameView extends LinearLayout{
 
 			private void toggleSitButton() {
 				if(p2SitButton.getText().toString().equals("Sit")){
-					handler.activatePlayerSitDown(p2SitButton, gameModel.gameId, "P2Ready");
+					handler.activatePlayerSitDown(WaitingRoomGameView.this, p2SitButton, gameModel.gameId, "P2Ready");
 				}
 				else if(p2SitButton.getText().toString().equals("Unsit")){
 					handler.activatePlayerStandUp(gameModel.gameId, "P2Ready");
@@ -78,6 +78,14 @@ public class WaitingRoomGameView extends LinearLayout{
 		
 	}
 
+	public Button getP1SitButton(){
+		return p1SitButton;
+	}
+	
+	public Button getP2SitButton(){
+		return p2SitButton;
+	}
+	
 	public void updateView(final WaitingRoomGameModel waitingRoomGameModel) {
 		gameModel = waitingRoomGameModel;
 		
