@@ -3,6 +3,8 @@ package org.burstingbrains.pocketmonsters;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.burstingbrains.pocketmon.constants.GameConstants;
 import org.burstingbrains.pocketmon.singleton.PoolManagerSingleton;
@@ -15,9 +17,10 @@ import org.burstingbrains.sharedlibs.handler.BBSHandler;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -30,7 +33,7 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 	private static SimpleDBSingleton database = SimpleDBSingleton.getSingleton();
 	private static final PoolManagerSingleton poolManager = PoolManagerSingleton.getSingleton();
 	
-	private WaitingRoomHandler handler;
+	private WaitingRoomHandler waitingRoomHandler;
 	
 	private List<WaitingRoomGameModel> gameModels;
 	
@@ -43,13 +46,16 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 
 	private WaitingRoomGameView selectedGameView;
 	private Button selectedSitButton;
+	
+	private Handler androidHandler;
+	private TimerTask mainLoopTimerTask;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.waiting_room);
 
-		handler = new WaitingRoomHandler();
+		waitingRoomHandler = new WaitingRoomHandler();
 		
 		gameModels = new ArrayList<WaitingRoomGameModel>();
 		
@@ -59,7 +65,7 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 		
 		waitingRoomGamesListView = (ListView) this.findViewById(R.id.waiting_room_listView);
 		
-		waitingRoomListAdapter = new WaitingRoomListAdapter(this.getApplicationContext(), handler);
+		waitingRoomListAdapter = new WaitingRoomListAdapter(this.getApplicationContext(), waitingRoomHandler);
 		waitingRoomListAdapter.setGamesList(gameModels);
 		waitingRoomListAdapter.notifyDataSetChanged();
 		waitingRoomGamesListView.setAdapter(waitingRoomListAdapter);
@@ -79,6 +85,12 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 				new CreateGameTask().execute();
 			}
 		});
+		
+		Timer timer = new Timer();
+		androidHandler = new Handler();
+		mainLoopTimerTask = new CheckIfGameIsReadyToStartTask(); 
+		int loopTimeInMilli = 1000;
+		timer.schedule(mainLoopTimerTask, 0, loopTimeInMilli);
 	}
 
 
@@ -219,20 +231,24 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 		}
 	}
 	
+	private class CheckIfGameIsReadyToStartTask extends TimerTask
+	{
+	    public void run()
+	    {
+	    	if(selectedGameView != null && selectedGameView.isGameModelReady()){
+	    		long delayInMilli = 80;
+	    		
+	    		androidHandler.postDelayed(cancelTimerTaskAndStartGameRunnable, delayInMilli);
+	    	}
 
-//	class Checkf extends AsyncTask<String, Void, Void>{
-//		
-//		@Override
-//		protected Void doInBackground(String... params) {
-//			
-//			database.updateAttribute(SimpleDBSingleton.WAITING_ROOM_DOMAIN, params[0], params[1], "false");
-//			return null;
-//		}
-//		
-//		@Override
-//		protected void onPostExecute(Void result) {
-//			selectedSitButton.setText("Sit");
-//			selectedSitButton = null;
-//		}
-//	}
+	    }
+	}
+	
+	public Runnable cancelTimerTaskAndStartGameRunnable = new Runnable(){
+		public void run(){
+			mainLoopTimerTask.cancel();
+			Intent myIntent = new Intent(WaitingRoomActivity.this, GameMapActivity.class);
+			startActivity(myIntent);
+		}
+	};
 }

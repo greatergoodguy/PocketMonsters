@@ -15,8 +15,6 @@ public class WaitingRoomGameView extends LinearLayout{
 	private WaitingRoomHandler handler;
 	private WaitingRoomGameModel gameModel;
 	
-	
-	
 	private ViewGroup waitingRoomGame;
 	
 	private TextView gameNameTextView;
@@ -48,9 +46,11 @@ public class WaitingRoomGameView extends LinearLayout{
 			private void toggleSitButton() {
 				if(p1SitButton.getText().toString().equals("Sit")){
 					handler.activatePlayerSitDown(WaitingRoomGameView.this, p1SitButton, gameModel.gameId, "P1Ready");
+					gameModel.p1Ready = "true";
 				}
 				else if(p1SitButton.getText().toString().equals("Unsit")){
 					handler.activatePlayerStandUp(gameModel.gameId, "P1Ready");
+					gameModel.p2Ready = "false";
 				}
 			}
 		});
@@ -69,9 +69,11 @@ public class WaitingRoomGameView extends LinearLayout{
 			private void toggleSitButton() {
 				if(p2SitButton.getText().toString().equals("Sit")){
 					handler.activatePlayerSitDown(WaitingRoomGameView.this, p2SitButton, gameModel.gameId, "P2Ready");
+					gameModel.p2Ready = "true";
 				}
 				else if(p2SitButton.getText().toString().equals("Unsit")){
 					handler.activatePlayerStandUp(gameModel.gameId, "P2Ready");
+					gameModel.p2Ready = "false";
 				}
 			}
 		});
@@ -108,6 +110,14 @@ public class WaitingRoomGameView extends LinearLayout{
 			p2ReadyTextView.setVisibility(View.INVISIBLE);
 			p2SitButton.setVisibility(View.VISIBLE);
 		}
+	}
+
+	public boolean isGameModelReady() {
+		
+		boolean p1Ready = gameModel.p1Ready.equals("true");
+		boolean p2Ready = gameModel.p2Ready.equals("true");
+		
+		return p1Ready && p2Ready;
 	}
 
 }
