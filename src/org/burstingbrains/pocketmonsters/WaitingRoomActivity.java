@@ -247,7 +247,7 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 	public Runnable cancelTimerTaskAndStartGameRunnable = new Runnable(){
 		public void run(){
 			mainLoopTimerTask.cancel();
-			Intent myIntent = new Intent(WaitingRoomActivity.this, GameMapActivity.class);
+			Intent myIntent = new Intent(WaitingRoomActivity.this, MultiplayerActivity.class);
 			startActivity(myIntent);
 		}
 	};
