@@ -23,9 +23,6 @@ public class Grid extends Rectangle implements GameConstants{
 		super(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT, universe.getVertexBufferObjectManager(), DrawType.STATIC);
 		this.universe = universe;
 
-		universe.registerTouchArea(this);
-		universe.attachChild(this);
-
 		grid = new MapTile[GRID_WIDTH_IN_METERS][GRID_HEIGHT_IN_METERS];
 
 		for(int column = 0; column < GRID_WIDTH_IN_METERS; column++){
@@ -42,6 +39,9 @@ public class Grid extends Rectangle implements GameConstants{
 				grid[column][row] = tile;
 			}
 		}
+
+		universe.attachChild(this);
+		universe.registerTouchArea(this);
 	}
 
 	@Override

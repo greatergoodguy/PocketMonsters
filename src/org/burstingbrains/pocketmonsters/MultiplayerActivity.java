@@ -5,6 +5,7 @@ import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.FillResolutionPolicy;
+import org.andengine.entity.IEntity;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.util.FPSLogger;
 import org.burstingbrains.andengineext.BBSGameActivity;
@@ -12,6 +13,7 @@ import org.burstingbrains.pocketmon.constants.GameConstants;
 import org.burstingbrains.pocketmon.singleton.MusicPlayerSingleton;
 import org.burstingbrains.pocketmonsters.actor.Grid;
 import org.burstingbrains.pocketmonsters.actor.Monster;
+import org.burstingbrains.pocketmonsters.actor.SharedMonsterMenu;
 import org.burstingbrains.pocketmonsters.assets.GameMapActivityAssets;
 import org.burstingbrains.pocketmonsters.handler.BBSHandler;
 import org.burstingbrains.pocketmonsters.universe.Universe;
@@ -69,6 +71,16 @@ public class MultiplayerActivity extends BBSGameActivity implements IUpdateHandl
 		//---------------------------------------------------------------------
 		GameLogic.addMonster(new Monster(gameMapUniverse), grid.getMapTileAt(4, 4));
 		
+		SharedMonsterMenu menu = new SharedMonsterMenu(gameMapUniverse, 4);
+		
+//		menu.setZIndex(2);
+//		Scene scene = gameMapUniverse.getGameScene();
+//		Log.d("qwe", "" + scene.getChildCount());
+//		for(int i=0; i<3; ++i){
+//			IEntity qwe = scene.getChildByIndex(i);
+//			Log.d("qwe", "qwe" + (i+1) + " , " + qwe.toString() + " " + qwe.getZIndex());
+//		}
+		
 		musicPlayer.play();
 		
 		gameMapUniverse.registerUpdateHandler(this);
@@ -104,7 +116,6 @@ public class MultiplayerActivity extends BBSGameActivity implements IUpdateHandl
 
 	@Override
 	public void onUpdate(float pSecondsElapsed) {
-		Log.d("onUpdate", "" + pSecondsElapsed);
 		
 	}
 
