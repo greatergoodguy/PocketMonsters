@@ -4,10 +4,10 @@ import org.andengine.entity.primitive.Rectangle;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.vbo.DrawType;
 import org.andengine.util.color.Color;
-import org.burstingbrains.pocketmon.constants.GameConstants;
-import org.burstingbrains.pocketmon.singleton.RandomSingleton;
 import org.burstingbrains.pocketmonsters.GameLogic;
+import org.burstingbrains.pocketmonsters.constants.GameConstants;
 import org.burstingbrains.pocketmonsters.handler.BBSHandler;
+import org.burstingbrains.pocketmonsters.singleton.RandomSingleton;
 import org.burstingbrains.pocketmonsters.universe.Universe;
 
 import android.util.Log;
@@ -16,6 +16,8 @@ public class Grid extends Rectangle implements GameConstants{
 	Universe universe;
 	BBSHandler handler;
 
+
+	private MapTile activeMapTile;
 	private MapTile dummyMapTile;
 	private MapTile[][] grid;
 

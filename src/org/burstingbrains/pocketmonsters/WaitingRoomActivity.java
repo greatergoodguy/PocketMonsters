@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.burstingbrains.pocketmon.constants.GameConstants;
-import org.burstingbrains.pocketmon.singleton.PoolManagerSingleton;
-import org.burstingbrains.pocketmon.singleton.SimpleDBSingleton;
+import org.burstingbrains.pocketmonsters.constants.GameConstants;
+import org.burstingbrains.pocketmonsters.singleton.PoolManagerSingleton;
+import org.burstingbrains.pocketmonsters.singleton.SimpleDBSingleton;
 import org.burstingbrains.pocketmonsters.waitingroom.WaitingRoomGameModel;
 import org.burstingbrains.pocketmonsters.waitingroom.WaitingRoomGameView;
 import org.burstingbrains.pocketmonsters.waitingroom.WaitingRoomListAdapter;

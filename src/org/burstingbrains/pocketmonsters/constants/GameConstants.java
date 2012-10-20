@@ -1,4 +1,4 @@
-package org.burstingbrains.pocketmon.constants;
+package org.burstingbrains.pocketmonsters.constants;
 
 public interface GameConstants {
 	public static final int CAMERA_WIDTH = 1280;

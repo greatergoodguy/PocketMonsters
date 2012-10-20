@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.vbo.DrawType;
-import org.burstingbrains.pocketmon.constants.GameConstants;
-import org.burstingbrains.pocketmon.singleton.RandomSingleton;
 import org.burstingbrains.pocketmonsters.assets.GameMapActivityAssets;
+import org.burstingbrains.pocketmonsters.constants.GameConstants;
+import org.burstingbrains.pocketmonsters.singleton.RandomSingleton;
 import org.burstingbrains.pocketmonsters.universe.Universe;
 
 import android.util.Log;

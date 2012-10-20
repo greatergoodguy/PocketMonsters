@@ -1,4 +1,4 @@
-package org.burstingbrains.pocketmon.singleton;
+package org.burstingbrains.pocketmonsters.singleton;
 
 import org.andengine.audio.music.Music;
 

@@ -3,8 +3,8 @@ package org.burstingbrains.pocketmonsters;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.burstingbrains.pocketmon.singleton.SettingsSingleton;
-import org.burstingbrains.pocketmon.singleton.SettingsSingleton.Player;
+import org.burstingbrains.pocketmonsters.singleton.SettingsSingleton;
+import org.burstingbrains.pocketmonsters.singleton.SettingsSingleton.Player;
 
 import android.app.Activity;
 import android.content.Intent;
