@@ -7,6 +7,7 @@ import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.FillResolutionPolicy;
 import org.andengine.entity.IEntity;
 import org.andengine.entity.scene.Scene;
+import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.util.FPSLogger;
 import org.burstingbrains.andengineext.BBSGameActivity;
 import org.burstingbrains.pocketmon.constants.GameConstants;
@@ -59,11 +60,11 @@ public class MultiplayerActivity extends BBSGameActivity implements IUpdateHandl
 	public Scene onCreateScene() {
 		mEngine.registerUpdateHandler(new FPSLogger());
 		gameMapUniverse = new Universe(this, new Scene());
+		
+		final Sprite background = new Sprite(0, 0, assets.skyConceptBGTextureRegion, this.getVertexBufferObjectManager());
+		gameMapUniverse.attachChild(background);
+		
 		grid = new Grid(gameMapUniverse);
-		
-//		Sprite sprite = new Sprite(800, 300, assets.badlyDrawnMonsterDown2TextureRegion, getVertexBufferObjectManager());
-//		gameMapUniverse.getGameScene().attachChild(sprite);
-		
 		
 		//---------------------------------------------------------------------
 		// Create monsters here !!
@@ -72,15 +73,8 @@ public class MultiplayerActivity extends BBSGameActivity implements IUpdateHandl
 		GameLogic.addMonster(new Monster(gameMapUniverse), grid.getMapTileAt(4, 4));
 		
 		SharedMonsterMenu menu = new SharedMonsterMenu(gameMapUniverse, 4);
-		
-//		menu.setZIndex(2);
-//		Scene scene = gameMapUniverse.getGameScene();
-//		Log.d("qwe", "" + scene.getChildCount());
-//		for(int i=0; i<3; ++i){
-//			IEntity qwe = scene.getChildByIndex(i);
-//			Log.d("qwe", "qwe" + (i+1) + " , " + qwe.toString() + " " + qwe.getZIndex());
-//		}
-		
+		menu.setPosition(CAMERA_WIDTH/2, 0);
+
 		musicPlayer.play();
 		
 		gameMapUniverse.registerUpdateHandler(this);

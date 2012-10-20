@@ -65,7 +65,7 @@ public class GameLogic {
 
 	public static void actionUp(MapTile t) {
 		// We have a monster
-		if (startTile.getMonster() != null) {
+		if (startTile != null & startTile.getMonster() != null) {
 			int distance = Math.abs(t.getGridX() - startTile.getGridX()) + 
 					Math.abs(t.getGridY() - startTile.getGridY());
 			if (distance <= startTile.getMonster().getMaxMovement()) {

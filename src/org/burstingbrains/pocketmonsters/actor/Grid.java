@@ -22,6 +22,8 @@ public class Grid extends Rectangle implements GameConstants{
 	public Grid(final Universe universe) {
 		super(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT, universe.getVertexBufferObjectManager(), DrawType.STATIC);
 		this.universe = universe;
+		
+		this.setColor(0, 0, 0, 0);
 
 		grid = new MapTile[GRID_WIDTH_IN_METERS][GRID_HEIGHT_IN_METERS];
 
@@ -32,7 +34,8 @@ public class Grid extends Rectangle implements GameConstants{
 				tile.setColor(
 						RandomSingleton.getRandomInt(256), 
 						RandomSingleton.getRandomInt(256), 
-						RandomSingleton.getRandomInt(256));
+						RandomSingleton.getRandomInt(256),
+						0.3f);
 
 				attachChild(tile);
 

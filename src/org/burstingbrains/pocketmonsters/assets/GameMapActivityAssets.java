@@ -33,6 +33,9 @@ public class GameMapActivityAssets implements IAssets{
 	public Font fontJokalLarge;
 	
 	public Music haven_v2Music;
+	
+	public BuildableBitmapTextureAtlas skyConceptBGTexture;
+	public ITextureRegion skyConceptBGTextureRegion;
 
 	public BuildableBitmapTextureAtlas badlyDrawnMonsterTexture;
 	public ITextureRegion badlyDrawnMonsterUp1TextureRegion;
@@ -97,11 +100,22 @@ public class GameMapActivityAssets implements IAssets{
 		} catch (final IOException e) {
 			Debug.e(e);
 		}
+		
+		//======================================
+		// Backgrounds
+		//======================================
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("images/backgrounds/");
+		skyConceptBGTexture = new BuildableBitmapTextureAtlas(bbsGameActivity.getTextureManager(), 2048, 2048, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		skyConceptBGTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(skyConceptBGTexture, bbsGameActivity, "skyconcept.jpg");
+		try{ 
+			skyConceptBGTexture.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(1, 1, 1));
+		} catch (final TextureAtlasBuilderException e) {
+			Debug.e(e);
+		}
 
 		//======================================
 		// Badly Drawn Monster
 		//======================================
-		
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("images/monsters/");
 		badlyDrawnMonsterTexture = new BuildableBitmapTextureAtlas(bbsGameActivity.getTextureManager(), 2048, 2048, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		badlyDrawnMonsterUp1TextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(badlyDrawnMonsterTexture, bbsGameActivity, "BadlyDrawnMonsterUp1.png");
@@ -165,6 +179,7 @@ public class GameMapActivityAssets implements IAssets{
 			fontJokalMedium.load();
 			fontJokalLarge.load();
 			
+			skyConceptBGTexture.load();
 			badlyDrawnMonsterTexture.load();
 			orangeMonTexture.load();
 			menuButtonTexture.load();
@@ -180,6 +195,7 @@ public class GameMapActivityAssets implements IAssets{
 			fontJokalMedium.unload();
 			fontJokalLarge.unload();
 			
+			skyConceptBGTexture.unload();
 			badlyDrawnMonsterTexture.unload();
 			orangeMonTexture.unload();
 			menuButtonTexture.unload();

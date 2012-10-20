@@ -55,7 +55,6 @@ public class SharedMonsterMenu extends Rectangle implements GameConstants{
 		
 
 		int selectedButtonIndex = ((int) pTouchAreaLocalY / ITEM_HEIGHT);
-		Log.d("qwer", "index" + selectedButtonIndex);
 
 		switch(pSceneTouchEvent.getAction()) {
 		case TouchEvent.ACTION_DOWN:
