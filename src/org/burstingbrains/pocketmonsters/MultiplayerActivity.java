@@ -65,15 +65,6 @@ public class MultiplayerActivity extends BBSGameActivity implements IUpdateHandl
 		gameMapUniverse.attachChild(background);
 		
 		grid = new Grid(gameMapUniverse);
-		
-		//---------------------------------------------------------------------
-		// Create monsters here !!
-		// GameLogic.addMonster(new Monster(), grid.getMapTileAt(x, y))
-		//---------------------------------------------------------------------
-		GameLogic.addMonster(new Monster(gameMapUniverse), grid.getMapTileAt(4, 4));
-		
-		SharedMonsterMenu menu = new SharedMonsterMenu(gameMapUniverse, 4);
-		menu.setPosition(CAMERA_WIDTH/2, 0);
 
 		musicPlayer.play();
 		
