@@ -14,6 +14,12 @@ import android.util.Log;
 
 public class SharedMonsterMenu extends Rectangle implements GameConstants{
 	
+	public static final int DEFAULT_POS_X = 2*CAMERA_WIDTH/3;
+	public static final int DEFAULT_POS_Y = 0;
+	
+	public static final int VOID_ZONE_POS_X = -2*CAMERA_WIDTH;
+	public static final int VOID_ZONE_POS_Y = -2*CAMERA_HEIGHT;
+	
 	public static final int ITEM_WIDTH = 500;
 	public static final int ITEM_HEIGHT = 100;
 	
@@ -46,6 +52,8 @@ public class SharedMonsterMenu extends Rectangle implements GameConstants{
 		}
 		this.attachChild(selectedRectangle);
 		
+		setPosition(DEFAULT_POS_X, DEFAULT_POS_Y);
+		
 		universe.attachChild(this);
 		universe.registerTouchArea(this);
 	}
@@ -76,6 +84,16 @@ public class SharedMonsterMenu extends Rectangle implements GameConstants{
 	
 	public int getSize(){
 		return size;
+	}
+
+	public void activate() {
+		setPosition(DEFAULT_POS_X, DEFAULT_POS_Y);
+		setVisible(true);
+	}
+
+	public void deactivate() {
+		setPosition(VOID_ZONE_POS_X, VOID_ZONE_POS_Y);
+		setVisible(false);		
 	}
 
 }

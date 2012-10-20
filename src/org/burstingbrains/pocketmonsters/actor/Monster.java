@@ -2,20 +2,18 @@ package org.burstingbrains.pocketmonsters.actor;
 
 import org.andengine.entity.Entity;
 import org.andengine.entity.IEntity;
-import org.andengine.entity.modifier.LoopEntityModifier;
 import org.andengine.entity.modifier.PathModifier;
 import org.andengine.entity.modifier.PathModifier.IPathModifierListener;
 import org.andengine.entity.modifier.PathModifier.Path;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.util.debug.Debug;
 import org.andengine.util.modifier.ease.EaseLinear;
-import org.andengine.util.modifier.ease.EaseSineInOut;
-import org.burstingbrains.pocketmonsters.GameLogic;
 import org.burstingbrains.pocketmonsters.assets.GameMapActivityAssets;
 import org.burstingbrains.pocketmonsters.constants.GameConstants;
-import org.burstingbrains.pocketmonsters.handler.BBSHandler;
 import org.burstingbrains.pocketmonsters.universe.Universe;
 import org.burstingbrains.sharedlibs.handler.IButtonHandler;
+
+import android.util.Log;
 
 public class Monster implements IMonster, GameConstants{
 	GameMapActivityAssets assets = GameMapActivityAssets.getSingleton();
@@ -39,6 +37,7 @@ public class Monster implements IMonster, GameConstants{
 	Sprite buttonQuit;
 
 	private int maxMovement = 3;
+	private float scaleFactor = 0.6f;
 
 	boolean isMonsterMenuVisible;
 
@@ -50,13 +49,17 @@ public class Monster implements IMonster, GameConstants{
 
 		initializeMonsterMenu(universe);
 
-		monsterEntity.setScale(0.6f);
+		monsterEntity.setScale(scaleFactor);
 
 		universe.attachChild(monsterEntity);
 	}
 
 	private void setPos(float posX, float posY) {
-		monsterEntity.setPosition(posX - monsterSpriteUp.getWidth()/2, posY - monsterSpriteUp.getHeight()/2);
+		monsterEntity.setPosition(posX - scaleFactor * monsterSpriteLeft.getWidth()/2 + PIXELS_PER_METER/2,
+								  posY - scaleFactor * monsterSpriteLeft.getHeight()/2 + PIXELS_PER_METER/2);
+		
+
+		//monsterEntity.setPosition(posX, posY);
 	}
 
 	@Override

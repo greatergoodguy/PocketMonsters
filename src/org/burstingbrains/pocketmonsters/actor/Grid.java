@@ -39,7 +39,6 @@ public class Grid extends Rectangle implements GameConstants{
 		initializeMonsters(universe);
 		
 		menu = new SharedMonsterMenu(universe, 4);
-		menu.setPosition(CAMERA_WIDTH/2, 0);
 	}
 
 	private void initializeGrid() {
@@ -71,8 +70,8 @@ public class Grid extends Rectangle implements GameConstants{
 		monsters = new Monster[GRID_WIDTH_IN_METERS][GRID_HEIGHT_IN_METERS];
 		
 		Monster monster1 = new Monster(universe);
-		monster1.setGridPos(4, 4);
-		monsters[4][4] = monster1;
+		monster1.setGridPos(1, 1);
+		monsters[1][1] = monster1;
 		
 	}
 
@@ -95,10 +94,10 @@ public class Grid extends Rectangle implements GameConstants{
 				int activeTilePosY = activeMapTile.getGridY();
 				activeMonster = monsters[activeTilePosX][activeTilePosY];
 				if(activeMonster != null){
-					menu.setVisible(true);
+					menu.activate();
 				}
 				else{
-					menu.setVisible(false);
+					menu.deactivate();
 				}
 				
 				break;

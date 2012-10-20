@@ -6,6 +6,7 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.burstingbrains.pocketmonsters.constants.GameConstants;
 
 public class MapTile extends Rectangle{
+	
 	public MapTile(float pX, float pY, float pWidth, float pHeight,
 			IRectangleVertexBufferObject iRectangleVertexBufferObject) {
 		super(pX, pY, pWidth, pHeight, iRectangleVertexBufferObject);
@@ -16,11 +17,11 @@ public class MapTile extends Rectangle{
 	}
 	
 	public int getGridX() {
-		return (int) (getX() / GameConstants.PIXELS_PER_METER) + 1;
+		return (int) (getX() / GameConstants.PIXELS_PER_METER);
 	}
 	
 	public int getGridY() {
-		return (int) (getY() / GameConstants.PIXELS_PER_METER) + 1;
+		return (int) (getY() / GameConstants.PIXELS_PER_METER);
 	}
 	
 	// Keep track of monsters on the grid position
