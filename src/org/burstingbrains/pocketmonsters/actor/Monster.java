@@ -14,17 +14,18 @@ import org.burstingbrains.pocketmonsters.constants.GameConstants;
 import org.burstingbrains.pocketmonsters.universe.Universe;
 import org.burstingbrains.sharedlibs.handler.IButtonHandler;
 
+import android.util.Log;
+
 public class Monster implements IMonster, GameConstants{
 	GameMapActivityAssets assets = GameMapActivityAssets.getSingleton();
 
 	// Monster Data Members
 	IEntity monsterEntity;
 
-	Sprite monsterSpriteUp;
-	Sprite monsterSpriteLeft;
+	AnimatedSprite monsterSpriteUp;
+	AnimatedSprite monsterSpriteLeft;
 	AnimatedSprite monsterSpriteDown;
-	Sprite monsterSpriteRight;
-	Sprite monsterTouchTargetSprite;
+	AnimatedSprite monsterSpriteRight;
 
 	Sprite activeSprite;
 	Dir monsterDir;
@@ -61,21 +62,24 @@ public class Monster implements IMonster, GameConstants{
 	private void initializeMonsterSprites(Universe universe) {
 		monsterEntity = new Entity(0, 0);
 
-		monsterSpriteUp = universe.createSprite(assets.orangeMonUpTextureRegion);
+		monsterSpriteUp = universe.createAnimatedSprite(assets.badlyDrawnMonsterUpTextureRegion);
 		monsterSpriteUp.setVisible(false);
+		monsterSpriteUp.animate(500);
 		monsterEntity.attachChild(monsterSpriteUp);
 
-		monsterSpriteLeft = universe.createSprite(assets.orangeMonLeftTextureRegion);
+		monsterSpriteLeft = universe.createAnimatedSprite(assets.badlyDrawnMonsterLeftTextureRegion);
 		monsterSpriteLeft.setVisible(false);
+		monsterSpriteLeft.animate(500);
 		monsterEntity.attachChild(monsterSpriteLeft);
 
-		monsterSpriteDown = new AnimatedSprite(0, 0, assets.badlyDrawnMonsterDownAnimatedTextureRegion, universe.getVertexBufferObjectManager());
+		monsterSpriteDown = universe.createAnimatedSprite(assets.badlyDrawnMonsterDownTextureRegion);
 		monsterSpriteDown.setVisible(false);
 		monsterSpriteDown.animate(500);
 		monsterEntity.attachChild(monsterSpriteDown);
 
-		monsterSpriteRight = universe.createSprite(assets.orangeMonRightTextureRegion);
+		monsterSpriteRight = universe.createAnimatedSprite(assets.badlyDrawnMonsterRightTextureRegion);
 		monsterSpriteRight.setVisible(false);
+		monsterSpriteRight.animate(500);
 		monsterEntity.attachChild(monsterSpriteRight);	
 
 		activeSprite = monsterSpriteDown;
@@ -104,6 +108,7 @@ public class Monster implements IMonster, GameConstants{
 	}
 
 	public void turnLeft(){
+		
 		switch(monsterDir){
 		case DOWN:
 			setFaceDirection(Dir.RIGHT);

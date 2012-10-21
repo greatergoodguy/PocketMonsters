@@ -39,12 +39,10 @@ public class GameMapActivityAssets implements IAssets{
 	public ITextureRegion skyConceptBGTextureRegion;
 
 	public BuildableBitmapTextureAtlas badlyDrawnMonsterTexture;
-	public ITextureRegion badlyDrawnMonsterUp1TextureRegion;
-	public ITextureRegion badlyDrawnMonsterLeft1TextureRegion;
-	public ITiledTextureRegion badlyDrawnMonsterDownAnimatedTextureRegion;
-	public ITextureRegion badlyDrawnMonsterDown1TextureRegion;
-	public ITextureRegion badlyDrawnMonsterDown2TextureRegion;
-	public ITextureRegion badlyDrawnMonsterRight1TextureRegion;
+	public ITiledTextureRegion badlyDrawnMonsterUpTextureRegion;
+	public ITiledTextureRegion badlyDrawnMonsterLeftTextureRegion;
+	public ITiledTextureRegion badlyDrawnMonsterDownTextureRegion;
+	public ITiledTextureRegion badlyDrawnMonsterRightTextureRegion;
 	
 
 	public BuildableBitmapTextureAtlas orangeMonTexture;
@@ -118,14 +116,12 @@ public class GameMapActivityAssets implements IAssets{
 		//======================================
 		// Badly Drawn Monster
 		//======================================
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("images/monsters/");
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("images/monsters/badlydrawnmonster/");
 		badlyDrawnMonsterTexture = new BuildableBitmapTextureAtlas(bbsGameActivity.getTextureManager(), 2048, 2048, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		badlyDrawnMonsterUp1TextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(badlyDrawnMonsterTexture, bbsGameActivity, "BadlyDrawnMonsterUp1.png");
-		badlyDrawnMonsterLeft1TextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(badlyDrawnMonsterTexture, bbsGameActivity, "BadlyDrawnMonsterLeft1.png");
-		badlyDrawnMonsterDownAnimatedTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(badlyDrawnMonsterTexture, bbsGameActivity, "BadlyDrawnMonsterDownAnimated.png", 1, 2);
-		badlyDrawnMonsterDown1TextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(badlyDrawnMonsterTexture, bbsGameActivity, "BadlyDrawnMonsterDown1.png");
-		badlyDrawnMonsterDown2TextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(badlyDrawnMonsterTexture, bbsGameActivity, "BadlyDrawnMonsterDown2.png");		
-		badlyDrawnMonsterRight1TextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(badlyDrawnMonsterTexture, bbsGameActivity, "BadlyDrawnMonsterRight1.png");		
+		badlyDrawnMonsterUpTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(badlyDrawnMonsterTexture, bbsGameActivity, "BadlyDrawnMonsterUp.png", 1, 2);
+		badlyDrawnMonsterLeftTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(badlyDrawnMonsterTexture, bbsGameActivity, "BadlyDrawnMonsterLeft.png", 2, 1);
+		badlyDrawnMonsterDownTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(badlyDrawnMonsterTexture, bbsGameActivity, "BadlyDrawnMonsterDown.png", 1, 2);
+		badlyDrawnMonsterRightTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(badlyDrawnMonsterTexture, bbsGameActivity, "BadlyDrawnMonsterRight.png", 1, 2);		
 		try{ 
 			badlyDrawnMonsterTexture.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(1, 1, 1));
 		} catch (final TextureAtlasBuilderException e) {

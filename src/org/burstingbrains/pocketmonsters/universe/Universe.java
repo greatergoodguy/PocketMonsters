@@ -5,8 +5,10 @@ import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.entity.IEntity;
 import org.andengine.entity.scene.ITouchArea;
 import org.andengine.entity.scene.Scene;
+import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.burstingbrains.andengineext.BBSGameActivity;
 import org.burstingbrains.pocketmonsters.sprite.ButtonSprite;
@@ -56,6 +58,10 @@ public class Universe{
 
 	public Sprite createButtonSprite(ITextureRegion textureRegion, IButtonHandler buttonHandler) {
 		return new ButtonSprite(0, 0, textureRegion, vertexBufferObjectManager, buttonHandler);
+	}
+	
+	public AnimatedSprite createAnimatedSprite(ITiledTextureRegion textureRegion) {
+		return new AnimatedSprite(0, 0, textureRegion, vertexBufferObjectManager);
 	}
 	
 	public final void registerUpdateHandler(IUpdateHandler pUpdateHandler) {
