@@ -5,6 +5,7 @@ import org.andengine.entity.IEntity;
 import org.andengine.entity.modifier.PathModifier;
 import org.andengine.entity.modifier.PathModifier.IPathModifierListener;
 import org.andengine.entity.modifier.PathModifier.Path;
+import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.util.debug.Debug;
 import org.andengine.util.modifier.ease.EaseLinear;
@@ -12,8 +13,6 @@ import org.burstingbrains.pocketmonsters.assets.GameMapActivityAssets;
 import org.burstingbrains.pocketmonsters.constants.GameConstants;
 import org.burstingbrains.pocketmonsters.universe.Universe;
 import org.burstingbrains.sharedlibs.handler.IButtonHandler;
-
-import android.util.Log;
 
 public class Monster implements IMonster, GameConstants{
 	GameMapActivityAssets assets = GameMapActivityAssets.getSingleton();
@@ -23,18 +22,12 @@ public class Monster implements IMonster, GameConstants{
 
 	Sprite monsterSpriteUp;
 	Sprite monsterSpriteLeft;
-	Sprite monsterSpriteDown;
+	AnimatedSprite monsterSpriteDown;
 	Sprite monsterSpriteRight;
 	Sprite monsterTouchTargetSprite;
 
 	Sprite activeSprite;
 	Dir monsterDir;
-
-	// Menu Data Members
-	IEntity monsterMenuEntity;
-	Sprite buttonOk;
-	Sprite buttonReset;
-	Sprite buttonQuit;
 
 	private int maxMovement = 3;
 	private float scaleFactor = 0.6f;
@@ -46,8 +39,6 @@ public class Monster implements IMonster, GameConstants{
 	public Monster(Universe universe){
 		initializeMonsterSprites(universe);
 		setFaceDirection(Dir.LEFT);
-
-		initializeMonsterMenu(universe);
 
 		monsterEntity.setScale(scaleFactor);
 
@@ -78,8 +69,9 @@ public class Monster implements IMonster, GameConstants{
 		monsterSpriteLeft.setVisible(false);
 		monsterEntity.attachChild(monsterSpriteLeft);
 
-		monsterSpriteDown = universe.createSprite(assets.orangeMonDownTextureRegion);
+		monsterSpriteDown = new AnimatedSprite(0, 0, assets.badlyDrawnMonsterDownAnimatedTextureRegion, universe.getVertexBufferObjectManager());
 		monsterSpriteDown.setVisible(false);
+		monsterSpriteDown.animate(500);
 		monsterEntity.attachChild(monsterSpriteDown);
 
 		monsterSpriteRight = universe.createSprite(assets.orangeMonRightTextureRegion);
@@ -87,30 +79,6 @@ public class Monster implements IMonster, GameConstants{
 		monsterEntity.attachChild(monsterSpriteRight);	
 
 		activeSprite = monsterSpriteDown;
-	}
-
-	private void initializeMonsterMenu(Universe universe) {
-		monsterMenuEntity = new Entity(0, 0);
-
-		buttonOk = universe.createButtonSprite(assets.menuButtonOkTextureRegion, new TurnLeftButtonHandler());
-		universe.registerTouchArea(buttonOk);
-		buttonOk.setPosition(0, -120);
-		monsterMenuEntity.attachChild(buttonOk);
-
-		buttonReset = universe.createButtonSprite(assets.menuButtonResetTextureRegion, new TurnRightButtonHandler());
-		universe.registerTouchArea(buttonReset);
-		buttonReset.setPosition(0, -60);
-		monsterMenuEntity.attachChild(buttonReset);
-
-		buttonQuit = universe.createButtonSprite(assets.menuButtonQuitTextureRegion, new TranslateMonsterButtonHandler());
-		universe.registerTouchArea(buttonQuit);
-		buttonQuit.setPosition(0, 0);
-		monsterMenuEntity.attachChild(buttonQuit);
-
-		monsterEntity.attachChild(monsterMenuEntity);
-
-		isMonsterMenuVisible = true;
-		toggleMenuState();
 	}
 
 	private void setFaceDirection(Dir direction) {
@@ -208,15 +176,6 @@ public class Monster implements IMonster, GameConstants{
 
 	}
 
-	private void toggleMenuState() {
-		if(isMonsterMenuVisible)
-			monsterMenuEntity.setPosition(CAMERA_WIDTH * 5, CAMERA_HEIGHT * 5);
-		else
-			monsterMenuEntity.setPosition(0, 0);
-
-		isMonsterMenuVisible = !isMonsterMenuVisible;
-	}
-
 	public int getMaxMovement() { return maxMovement; }
 
 	public class TurnLeftButtonHandler implements IButtonHandler{
@@ -246,11 +205,4 @@ public class Monster implements IMonster, GameConstants{
 			toggleGridPos();
 		}
 	};
-
-	public class ToggleMenuButtonHandler implements IButtonHandler{
-		@Override
-		public void onButtonUp(){
-			toggleMenuState();
-		}
-	}
 }

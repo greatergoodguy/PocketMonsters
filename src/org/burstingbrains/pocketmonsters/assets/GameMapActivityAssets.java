@@ -15,6 +15,7 @@ import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSourc
 import org.andengine.opengl.texture.atlas.buildable.builder.BlackPawnTextureAtlasBuilder;
 import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder.TextureAtlasBuilderException;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.util.debug.Debug;
 import org.burstingbrains.andengineext.BBSGameActivity;
 
@@ -40,6 +41,7 @@ public class GameMapActivityAssets implements IAssets{
 	public BuildableBitmapTextureAtlas badlyDrawnMonsterTexture;
 	public ITextureRegion badlyDrawnMonsterUp1TextureRegion;
 	public ITextureRegion badlyDrawnMonsterLeft1TextureRegion;
+	public ITiledTextureRegion badlyDrawnMonsterDownAnimatedTextureRegion;
 	public ITextureRegion badlyDrawnMonsterDown1TextureRegion;
 	public ITextureRegion badlyDrawnMonsterDown2TextureRegion;
 	public ITextureRegion badlyDrawnMonsterRight1TextureRegion;
@@ -120,6 +122,7 @@ public class GameMapActivityAssets implements IAssets{
 		badlyDrawnMonsterTexture = new BuildableBitmapTextureAtlas(bbsGameActivity.getTextureManager(), 2048, 2048, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		badlyDrawnMonsterUp1TextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(badlyDrawnMonsterTexture, bbsGameActivity, "BadlyDrawnMonsterUp1.png");
 		badlyDrawnMonsterLeft1TextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(badlyDrawnMonsterTexture, bbsGameActivity, "BadlyDrawnMonsterLeft1.png");
+		badlyDrawnMonsterDownAnimatedTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(badlyDrawnMonsterTexture, bbsGameActivity, "BadlyDrawnMonsterDownAnimated.png", 1, 2);
 		badlyDrawnMonsterDown1TextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(badlyDrawnMonsterTexture, bbsGameActivity, "BadlyDrawnMonsterDown1.png");
 		badlyDrawnMonsterDown2TextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(badlyDrawnMonsterTexture, bbsGameActivity, "BadlyDrawnMonsterDown2.png");		
 		badlyDrawnMonsterRight1TextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(badlyDrawnMonsterTexture, bbsGameActivity, "BadlyDrawnMonsterRight1.png");		
