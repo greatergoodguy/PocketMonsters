@@ -15,6 +15,7 @@ import org.burstingbrains.pocketmonsters.assets.GameMapActivityAssets;
 import org.burstingbrains.pocketmonsters.constants.GameConstants;
 import org.burstingbrains.pocketmonsters.singleton.RandomSingleton;
 import org.burstingbrains.pocketmonsters.universe.Universe;
+import org.burstingbrains.pocketmonsters.util.GridUtil;
 
 import android.util.Log;
 
@@ -44,7 +45,7 @@ public class SharedMonsterMenu extends Rectangle implements GameConstants{
 		
 		handler = worldHandler;
 		
-		secondaryMenu = new TileInputMenu(universe);
+		secondaryMenu = new TileInputMenu(universe, new SharedMonsterMenuHandler());
 		secondaryMenu.deactivate();
 		
 		// Create Buttons
@@ -139,6 +140,24 @@ public class SharedMonsterMenu extends Rectangle implements GameConstants{
 
 	public void setActiveMonster(IMonster activeMonster) {
 		this.activeMonster = activeMonster;
+	}
+	
+	public class SharedMonsterMenuHandler{
+
+		public void moveMonster(int newX, int newY) {
+			int oldX = activeMonster.getGridPosX();
+			int oldY = activeMonster.getGridPosY();
+			
+			int distance = GridUtil.getDistance(oldX, oldY, newX, newY);
+			
+			if(distance <= activeMonster.getMovementPoints()){
+				activeMonster.setGridPos(newX, newY);
+				handler.deactivateMovementSelectorGridTiles();
+				deactivate();
+			}
+
+		}
+		
 	}
 
 }
