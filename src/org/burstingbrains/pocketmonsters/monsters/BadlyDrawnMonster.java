@@ -6,8 +6,12 @@ import org.burstingbrains.pocketmonsters.universe.Universe;
 
 public class BadlyDrawnMonster extends Monster{
 
+	private final static int MONSTER_HP = 3;
+	private final static int MONSTER_ATTACK = 3;
+	private final static int MONSTER_MOVEMENT = 3;
+	
 	public BadlyDrawnMonster(Universe universe) {
-		super(universe);
+		super(universe, MONSTER_HP, MONSTER_ATTACK, MONSTER_MOVEMENT);
 	}
 
 	@Override

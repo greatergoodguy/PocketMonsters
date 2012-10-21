@@ -7,4 +7,9 @@ public interface IMonster {
 	public void setGridPos(int coordX, int coordY);
 
 	public void turnLeft();
+	
+	public int getHealthPoints();
+	public int getAttackPower();
+	public int getMovementPoints();
+	
 }

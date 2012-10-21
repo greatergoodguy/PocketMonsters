@@ -5,7 +5,6 @@ import org.andengine.entity.IEntity;
 import org.andengine.entity.modifier.PathModifier;
 import org.andengine.entity.modifier.PathModifier.IPathModifierListener;
 import org.andengine.entity.modifier.PathModifier.Path;
-import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.util.debug.Debug;
 import org.andengine.util.modifier.ease.EaseLinear;
@@ -28,14 +27,21 @@ public abstract class Monster implements IMonster, GameConstants{
 	private Sprite activeSprite;
 	private Dir monsterDir;
 
-	private int maxMovement = 3;
+	private final int healthPoints;
+	private final int attackPower;
+	private final int movementPoints;
+	
 	private float scaleFactor = 0.6f;
 
 	boolean isMonsterMenuVisible;
 
 	boolean isMonsterEntityModifierActive;
 
-	public Monster(Universe universe){
+	public Monster(Universe universe, int healthPoints, int attackPower, int movementPoints){
+		this.healthPoints = healthPoints;
+		this.attackPower = attackPower;
+		this.movementPoints = movementPoints;
+		
 		monsterEntity = new Entity(0, 0);
 		
 		initializeMonsterSprites(universe);
@@ -51,8 +57,6 @@ public abstract class Monster implements IMonster, GameConstants{
 		monsterEntity.setPosition(posX - scaleFactor * monsterSpriteLeft.getWidth()/2 + PIXELS_PER_METER/2,
 								  posY - scaleFactor * monsterSpriteLeft.getHeight()/2 + PIXELS_PER_METER/2);
 		
-
-		//monsterEntity.setPosition(posX, posY);
 	}
 
 	@Override
@@ -62,7 +66,6 @@ public abstract class Monster implements IMonster, GameConstants{
 
 	protected abstract void initializeMonsterSprites(Universe universe);
 	
-
 	private void attachMonsterSprites() {
 		monsterSpriteUp.setVisible(false);
 		monsterEntity.attachChild(monsterSpriteUp);
@@ -78,30 +81,6 @@ public abstract class Monster implements IMonster, GameConstants{
 		
 		activeSprite = monsterSpriteDown;
 	}
-	
-//	private void initializeMonsterSprites(Universe universe) {
-//
-//		monsterSpriteUp = universe.createAnimatedSprite(assets.badlyDrawnMonsterUpTextureRegion);
-//		monsterSpriteUp.setVisible(false);
-//		monsterSpriteUp.animate(500);
-//		monsterEntity.attachChild(monsterSpriteUp);
-//
-//		monsterSpriteLeft = universe.createAnimatedSprite(assets.badlyDrawnMonsterLeftTextureRegion);
-//		monsterSpriteLeft.setVisible(false);
-//		monsterSpriteLeft.animate(500);
-//		monsterEntity.attachChild(monsterSpriteLeft);
-//
-//		monsterSpriteDown = universe.createAnimatedSprite(assets.badlyDrawnMonsterDownTextureRegion);
-//		monsterSpriteDown.setVisible(false);
-//		monsterSpriteDown.animate(500);
-//		monsterEntity.attachChild(monsterSpriteDown);
-//
-//		monsterSpriteRight = universe.createAnimatedSprite(assets.badlyDrawnMonsterRightTextureRegion);
-//		monsterSpriteRight.setVisible(false);
-//		monsterSpriteRight.animate(500);
-//		monsterEntity.attachChild(monsterSpriteRight);	
-//
-//	}
 
 	private void setFaceDirection(Dir direction) {
 		activeSprite.setVisible(false);
@@ -195,12 +174,22 @@ public abstract class Monster implements IMonster, GameConstants{
 
 	}
 
-	private void toggleGridPos() {
-		// TODO Auto-generated method stub
-
+	public int getMaxMovement() { return 3; }
+	
+	@Override
+	public int getHealthPoints() {
+		return healthPoints;
 	}
 
-	public int getMaxMovement() { return maxMovement; }
+	@Override
+	public int getAttackPower() {
+		return attackPower;
+	}
+
+	@Override
+	public int getMovementPoints() {
+		return movementPoints;
+	}
 
 	public class TurnLeftButtonHandler implements IButtonHandler{
 		@Override
@@ -220,13 +209,6 @@ public abstract class Monster implements IMonster, GameConstants{
 		@Override
 		public void onButtonUp(){
 			translateMonster();
-		}
-	};
-
-	public class ToggleGridPosButtonHandler implements IButtonHandler{
-		@Override
-		public void onButtonUp(){
-			toggleGridPos();
 		}
 	};
 }
