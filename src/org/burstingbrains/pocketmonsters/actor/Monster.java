@@ -8,6 +8,7 @@ import org.andengine.entity.modifier.PathModifier.Path;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.util.debug.Debug;
 import org.andengine.util.modifier.ease.EaseLinear;
+import org.burstingbrains.pocketmonsters.actor.MonsterGrid.MonsterGridHandler;
 import org.burstingbrains.pocketmonsters.assets.GameMapActivityAssets;
 import org.burstingbrains.pocketmonsters.constants.GameConstants;
 import org.burstingbrains.pocketmonsters.universe.Universe;
@@ -16,6 +17,8 @@ import org.burstingbrains.sharedlibs.handler.IButtonHandler;
 public abstract class Monster implements IMonster, GameConstants{
 	protected GameMapActivityAssets assets = GameMapActivityAssets.getSingleton();
 
+	private MonsterGridHandler monsterGridHandler;
+	
 	// Monster Data Members
 	private IEntity monsterEntity;
 
@@ -40,7 +43,9 @@ public abstract class Monster implements IMonster, GameConstants{
 
 	boolean isMonsterEntityModifierActive;
 
-	public Monster(Universe universe, int healthPoints, int attackPower, int movementPoints){
+	public Monster(Universe universe, MonsterGridHandler handler, int healthPoints, int attackPower, int movementPoints){
+		this.monsterGridHandler = handler;
+		
 		this.healthPoints = healthPoints;
 		this.attackPower = attackPower;
 		this.movementPoints = movementPoints;
@@ -65,10 +70,16 @@ public abstract class Monster implements IMonster, GameConstants{
 	}
 
 	@Override
-	public void setGridPos(int coordX, int coordY) {
+	public void setGridPos(int coordX, int coordY) {	
+		final int oldGridPosX = getGridPosX();
+		final int oldGridPosY = getGridPosY();
+		
 		gridPosX = coordX;
 		gridPosY = coordY;
+		
 		setPos(coordX * PIXELS_PER_METER, coordY * PIXELS_PER_METER);
+		
+		monsterGridHandler.updateGrid(this, oldGridPosX, oldGridPosY, gridPosX, gridPosY);
 	}
 
 	protected abstract void initializeMonsterSprites(Universe universe);

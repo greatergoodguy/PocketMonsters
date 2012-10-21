@@ -2,6 +2,7 @@ package org.burstingbrains.pocketmonsters.monsters;
 
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.burstingbrains.pocketmonsters.actor.Monster;
+import org.burstingbrains.pocketmonsters.actor.MonsterGrid.MonsterGridHandler;
 import org.burstingbrains.pocketmonsters.universe.Universe;
 
 public class BadlyDrawnMonster extends Monster{
@@ -10,8 +11,8 @@ public class BadlyDrawnMonster extends Monster{
 	private final static int MONSTER_ATTACK = 3;
 	private final static int MONSTER_MOVEMENT = 3;
 	
-	public BadlyDrawnMonster(Universe universe) {
-		super(universe, MONSTER_HP, MONSTER_ATTACK, MONSTER_MOVEMENT);
+	public BadlyDrawnMonster(Universe universe, MonsterGridHandler handler) {
+		super(universe, handler, MONSTER_HP, MONSTER_ATTACK, MONSTER_MOVEMENT);
 	}
 
 	@Override

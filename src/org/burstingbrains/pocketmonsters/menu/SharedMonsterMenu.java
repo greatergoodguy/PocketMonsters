@@ -8,9 +8,9 @@ import org.andengine.entity.text.TextOptions;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.vbo.DrawType;
 import org.andengine.util.HorizontalAlign;
-import org.burstingbrains.pocketmonsters.actor.Grid;
+import org.burstingbrains.pocketmonsters.actor.World;
 import org.burstingbrains.pocketmonsters.actor.IMonster;
-import org.burstingbrains.pocketmonsters.actor.Grid.WorldHandler;
+import org.burstingbrains.pocketmonsters.actor.World.WorldHandler;
 import org.burstingbrains.pocketmonsters.assets.GameMapActivityAssets;
 import org.burstingbrains.pocketmonsters.constants.GameConstants;
 import org.burstingbrains.pocketmonsters.singleton.RandomSingleton;
@@ -32,7 +32,7 @@ public class SharedMonsterMenu extends Rectangle implements GameConstants{
 	
 	private WorldHandler handler;
 	
-	private GridMenu secondaryMenu;
+	private TileInputMenu secondaryMenu;
 	
 	private ArrayList<Rectangle> buttons;
 	private Rectangle selectedButton;
@@ -44,7 +44,7 @@ public class SharedMonsterMenu extends Rectangle implements GameConstants{
 		
 		handler = worldHandler;
 		
-		secondaryMenu = new GridMenu(universe);
+		secondaryMenu = new TileInputMenu(universe);
 		secondaryMenu.deactivate();
 		
 		// Create Buttons
@@ -111,6 +111,9 @@ public class SharedMonsterMenu extends Rectangle implements GameConstants{
 				else if(selectedButton.getY() == buttons.get(2).getY()){
 					secondaryMenu.deactivate();
 					handler.deactivateMovementSelectorGridTiles();
+				}
+				else if(selectedButton.getY() == buttons.get(3).getY()){
+					activeMonster.setGridPos(5, 5);
 				}
 			}
 			break;

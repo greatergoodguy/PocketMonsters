@@ -80,6 +80,6 @@ public class GameLogic {
 		setFinishTile(null);
 	}
 	
-	public void usesTheGrid(Grid g) {
+	public void usesTheGrid(World g) {
 	}
 }

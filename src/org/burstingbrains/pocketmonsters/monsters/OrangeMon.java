@@ -1,6 +1,7 @@
 package org.burstingbrains.pocketmonsters.monsters;
 
 import org.burstingbrains.pocketmonsters.actor.Monster;
+import org.burstingbrains.pocketmonsters.actor.MonsterGrid.MonsterGridHandler;
 import org.burstingbrains.pocketmonsters.universe.Universe;
 
 public class OrangeMon extends Monster{
@@ -9,8 +10,8 @@ public class OrangeMon extends Monster{
 	private final static int MONSTER_ATTACK = 3;
 	private final static int MONSTER_MOVEMENT = 3;
 	
-	public OrangeMon(Universe universe) {
-		super(universe, MONSTER_HP, MONSTER_ATTACK, MONSTER_MOVEMENT);
+	public OrangeMon(Universe universe, MonsterGridHandler handler) {
+		super(universe, handler, MONSTER_HP, MONSTER_ATTACK, MONSTER_MOVEMENT);
 	}
 	
 	@Override

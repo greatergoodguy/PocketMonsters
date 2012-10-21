@@ -13,7 +13,7 @@ import org.burstingbrains.pocketmonsters.singleton.RandomSingleton;
 import org.burstingbrains.pocketmonsters.universe.Universe;
 import org.burstingbrains.pocketmonsters.world.MovementSelectorGrid;
 
-public class Grid extends Rectangle implements GameConstants{
+public class World extends Rectangle implements GameConstants{
 	Universe universe;
 	BBSHandler handler;
 
@@ -23,12 +23,12 @@ public class Grid extends Rectangle implements GameConstants{
 	
 	private MovementSelectorGrid movementSelectorGrid;
 	
+	private MonsterGrid monsterGrid;
 	private IMonster activeMonster;
-	private IMonster[][] monsters;
 	
 	private SharedMonsterMenu sharedMonsterMenu;
 
-	public Grid(final Universe universe) {
+	public World(final Universe universe) {
 		super(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT, universe.getVertexBufferObjectManager());
 		this.universe = universe;
 		
@@ -40,7 +40,8 @@ public class Grid extends Rectangle implements GameConstants{
 		
 		initializeGrid();
 		movementSelectorGrid = new MovementSelectorGrid(universe);
-		initializeMonsters(universe);
+		monsterGrid = new MonsterGrid(universe);
+		//initializeMonsters(universe);
 		
 		sharedMonsterMenu = new SharedMonsterMenu(universe, new WorldHandler());
 		sharedMonsterMenu.deactivate();
@@ -71,18 +72,17 @@ public class Grid extends Rectangle implements GameConstants{
 		attachChild(selectorMapTile);		
 	}
 
-	private void initializeMonsters(Universe universe) {
-		monsters = new Monster[GRID_WIDTH_IN_METERS][GRID_HEIGHT_IN_METERS];
-		
-		Monster monster1 = new BadlyDrawnMonster(universe);
-		monster1.setGridPos(1, 1);
-		monsters[1][1] = monster1;
-		
-		Monster monster2 = new OrangeMon(universe);
-		monster2.setGridPos(3, 4);
-		monsters[3][4] = monster2;
-		
-	}
+//	private void initializeMonsters(Universe universe) {
+//		monsters = new Monster[GRID_WIDTH_IN_METERS][GRID_HEIGHT_IN_METERS];
+//		
+//		Monster monster1 = new BadlyDrawnMonster(universe);
+//		monster1.setGridPos(1, 1);
+//		monsters[1][1] = monster1;
+//		
+//		Monster monster2 = new OrangeMon(universe);
+//		monster2.setGridPos(3, 4);
+//		monsters[3][4] = monster2;
+//	}
 
 	@Override
 	public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, 
@@ -101,7 +101,7 @@ public class Grid extends Rectangle implements GameConstants{
 			case TouchEvent.ACTION_UP:
 				int activeTilePosX = activeMapTile.getGridX();
 				int activeTilePosY = activeMapTile.getGridY();
-				activeMonster = monsters[activeTilePosX][activeTilePosY];
+				activeMonster = monsterGrid.get(activeTilePosX, activeTilePosY);
 				if(activeMonster != null){
 					sharedMonsterMenu.activate();
 					sharedMonsterMenu.setActiveMonster(activeMonster);

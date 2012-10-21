@@ -10,7 +10,7 @@ import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.util.FPSLogger;
 import org.burstingbrains.andengineext.BBSGameActivity;
-import org.burstingbrains.pocketmonsters.actor.Grid;
+import org.burstingbrains.pocketmonsters.actor.World;
 import org.burstingbrains.pocketmonsters.actor.Monster;
 import org.burstingbrains.pocketmonsters.assets.GameMapActivityAssets;
 import org.burstingbrains.pocketmonsters.constants.GameConstants;
@@ -32,7 +32,7 @@ public class MultiplayerActivity extends BBSGameActivity implements IUpdateHandl
 
 	private Universe gameMapUniverse;
 	
-	private Grid grid;
+	private World grid;
 
 	@Override
 	public EngineOptions onCreateEngineOptions() {
@@ -64,7 +64,7 @@ public class MultiplayerActivity extends BBSGameActivity implements IUpdateHandl
 		final Sprite background = new Sprite(0, 0, assets.skyConceptBGTextureRegion, this.getVertexBufferObjectManager());
 		gameMapUniverse.attachChild(background);
 		
-		grid = new Grid(gameMapUniverse);
+		grid = new World(gameMapUniverse);
 
 		musicPlayer.play();
 		

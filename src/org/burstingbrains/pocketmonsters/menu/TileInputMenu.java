@@ -5,12 +5,12 @@ import org.andengine.input.touch.TouchEvent;
 import org.burstingbrains.pocketmonsters.constants.GameConstants;
 import org.burstingbrains.pocketmonsters.universe.Universe;
 
-public class GridMenu extends Rectangle implements GameConstants{
+public class TileInputMenu extends Rectangle implements GameConstants{
 
 	public static final int DEFAULT_POS_X = 0;
 	public static final int DEFAULT_POS_Y = 0;
 	
-	public GridMenu(final Universe universe) {
+	public TileInputMenu(final Universe universe) {
 		super(0, 0, GRID_WIDTH_IN_METERS*PIXELS_PER_METER, GRID_HEIGHT_IN_METERS*PIXELS_PER_METER, universe.getVertexBufferObjectManager());
 		
 		// Set the overall scene to be transparent

@@ -8,7 +8,7 @@ import org.andengine.engine.options.resolutionpolicy.FillResolutionPolicy;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.util.FPSLogger;
 import org.burstingbrains.andengineext.BBSGameActivity;
-import org.burstingbrains.pocketmonsters.actor.Grid;
+import org.burstingbrains.pocketmonsters.actor.World;
 import org.burstingbrains.pocketmonsters.actor.Monster;
 import org.burstingbrains.pocketmonsters.assets.GameMapActivityAssets;
 import org.burstingbrains.pocketmonsters.constants.GameConstants;
@@ -29,7 +29,7 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 
 	private Universe gameMapUniverse;
 	
-	private Grid grid;
+	private World grid;
 
 	@Override
 	public EngineOptions onCreateEngineOptions() {
@@ -57,7 +57,7 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 	public Scene onCreateScene() {
 		mEngine.registerUpdateHandler(new FPSLogger());
 		gameMapUniverse = new Universe(this, new Scene());
-		grid = new Grid(gameMapUniverse);
+		grid = new World(gameMapUniverse);
 		
 //		Sprite sprite = new Sprite(800, 300, assets.badlyDrawnMonsterDown2TextureRegion, getVertexBufferObjectManager());
 //		gameMapUniverse.getGameScene().attachChild(sprite);
