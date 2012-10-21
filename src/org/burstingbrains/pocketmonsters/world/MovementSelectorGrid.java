@@ -5,6 +5,7 @@ import org.burstingbrains.pocketmonsters.actor.IMonster;
 import org.burstingbrains.pocketmonsters.actor.MapTile;
 import org.burstingbrains.pocketmonsters.constants.GameConstants;
 import org.burstingbrains.pocketmonsters.universe.Universe;
+import org.burstingbrains.pocketmonsters.util.GridUtil;
 
 import android.util.Log;
 
@@ -35,25 +36,23 @@ public class MovementSelectorGrid extends Rectangle implements GameConstants{
 	}
 
 	public void activateTiles(IMonster monster) {
-		int movementPoints = monster.getMovementPoints();
-		int monsterGridPosX = monster.getGridPosX();
-		int monsterGridPosY = monster.getGridPosY();
+		final int movementPoints = monster.getMovementPoints();
+		final int monsterGridPosX = monster.getGridPosX();
+		final int monsterGridPosY = monster.getGridPosY();
 		
 		int minX = Math.max(0, monsterGridPosX - movementPoints);
 		int maxX = Math.min(GRID_WIDTH_IN_METERS - 1, monsterGridPosX + movementPoints);
-		
-
-		Log.d("qwe", "maxX: " + maxX);
-		
 		int minY = Math.max(0, monsterGridPosY - movementPoints);
 		int maxY = Math.min(GRID_HEIGHT_IN_METERS - 1, monsterGridPosY + movementPoints);
 		
 		for(int i=minX; i<=maxX; ++i){
 			for(int j=minY; j<=maxY; ++j){
 				
-				Log.d("qwe", "i,j: " + i + ", " + j);
+				int distance = GridUtil.getDistance(i, j, monsterGridPosX, monsterGridPosY);
 				
-				grid[i][j].setVisible(true);
+				if(distance <= movementPoints){
+					grid[i][j].setVisible(true);
+				}
 			}
 		}
 	}
