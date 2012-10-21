@@ -3,8 +3,11 @@ package org.burstingbrains.pocketmonsters.actor;
 import java.util.ArrayList;
 
 import org.andengine.entity.primitive.Rectangle;
+import org.andengine.entity.text.Text;
+import org.andengine.entity.text.TextOptions;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.vbo.DrawType;
+import org.andengine.util.HorizontalAlign;
 import org.burstingbrains.pocketmonsters.assets.GameMapActivityAssets;
 import org.burstingbrains.pocketmonsters.constants.GameConstants;
 import org.burstingbrains.pocketmonsters.singleton.RandomSingleton;
@@ -30,7 +33,7 @@ public class SharedMonsterMenu extends Rectangle implements GameConstants{
 	private ArrayList<Rectangle> buttons;
 	private Rectangle selectedButton;
 	
-	private Monster activeMonster;
+	private IMonster activeMonster;
 	
 	public SharedMonsterMenu(Universe universe, int numButtons){
 		super(0, 0, ITEM_WIDTH, ITEM_HEIGHT*numButtons, universe.getVertexBufferObjectManager(), DrawType.STATIC);
@@ -54,7 +57,12 @@ public class SharedMonsterMenu extends Rectangle implements GameConstants{
 		}
 		this.attachChild(selectedButton);
 		
-		setPosition(DEFAULT_POS_X, DEFAULT_POS_Y);
+		Text turnLeftText = new Text(0, 0, assets.fontJokalMedium, "Turn Left", universe.getVertexBufferObjectManager());
+		turnLeftText.setPosition(buttons.get(0));
+		this.attachChild(turnLeftText);
+
+		
+		deactivate();
 		
 		universe.attachChild(this);
 		universe.registerTouchArea(this);
@@ -103,8 +111,8 @@ public class SharedMonsterMenu extends Rectangle implements GameConstants{
 		setVisible(false);		
 	}
 
-	public void setActiveMonster(Monster monster) {
-		activeMonster = monster;
+	public void setActiveMonster(IMonster activeMonster2) {
+		activeMonster = activeMonster2;
 	}
 
 }

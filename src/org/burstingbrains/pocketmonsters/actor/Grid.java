@@ -4,13 +4,12 @@ import org.andengine.entity.primitive.Rectangle;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.vbo.DrawType;
 import org.andengine.util.color.Color;
-import org.burstingbrains.pocketmonsters.GameLogic;
 import org.burstingbrains.pocketmonsters.constants.GameConstants;
 import org.burstingbrains.pocketmonsters.handler.BBSHandler;
+import org.burstingbrains.pocketmonsters.monsters.BadlyDrawnMonster;
+import org.burstingbrains.pocketmonsters.monsters.OrangeMon;
 import org.burstingbrains.pocketmonsters.singleton.RandomSingleton;
 import org.burstingbrains.pocketmonsters.universe.Universe;
-
-import android.util.Log;
 
 public class Grid extends Rectangle implements GameConstants{
 	Universe universe;
@@ -20,8 +19,8 @@ public class Grid extends Rectangle implements GameConstants{
 	private MapTile activeMapTile;
 	private MapTile selectorMapTile;
 	
-	private Monster activeMonster;
-	private Monster[][] monsters;
+	private IMonster activeMonster;
+	private IMonster[][] monsters;
 	
 	private SharedMonsterMenu sharedMonsterMenu;
 
@@ -69,9 +68,13 @@ public class Grid extends Rectangle implements GameConstants{
 	private void initializeMonsters(Universe universe) {
 		monsters = new Monster[GRID_WIDTH_IN_METERS][GRID_HEIGHT_IN_METERS];
 		
-		Monster monster1 = new Monster(universe);
+		Monster monster1 = new BadlyDrawnMonster(universe);
 		monster1.setGridPos(1, 1);
 		monsters[1][1] = monster1;
+		
+		Monster monster2 = new OrangeMon(universe);
+		monster2.setGridPos(3, 4);
+		monsters[3][4] = monster2;
 		
 	}
 

@@ -14,21 +14,19 @@ import org.burstingbrains.pocketmonsters.constants.GameConstants;
 import org.burstingbrains.pocketmonsters.universe.Universe;
 import org.burstingbrains.sharedlibs.handler.IButtonHandler;
 
-import android.util.Log;
-
-public class Monster implements IMonster, GameConstants{
-	GameMapActivityAssets assets = GameMapActivityAssets.getSingleton();
+public abstract class Monster implements IMonster, GameConstants{
+	protected GameMapActivityAssets assets = GameMapActivityAssets.getSingleton();
 
 	// Monster Data Members
-	IEntity monsterEntity;
+	private IEntity monsterEntity;
 
-	AnimatedSprite monsterSpriteUp;
-	AnimatedSprite monsterSpriteLeft;
-	AnimatedSprite monsterSpriteDown;
-	AnimatedSprite monsterSpriteRight;
+	protected Sprite monsterSpriteUp;
+	protected Sprite monsterSpriteLeft;
+	protected Sprite monsterSpriteDown;
+	protected Sprite monsterSpriteRight;
 
-	Sprite activeSprite;
-	Dir monsterDir;
+	private Sprite activeSprite;
+	private Dir monsterDir;
 
 	private int maxMovement = 3;
 	private float scaleFactor = 0.6f;
@@ -38,7 +36,10 @@ public class Monster implements IMonster, GameConstants{
 	boolean isMonsterEntityModifierActive;
 
 	public Monster(Universe universe){
+		monsterEntity = new Entity(0, 0);
+		
 		initializeMonsterSprites(universe);
+		attachMonsterSprites();
 		setFaceDirection(Dir.LEFT);
 
 		monsterEntity.setScale(scaleFactor);
@@ -59,31 +60,48 @@ public class Monster implements IMonster, GameConstants{
 		setPos(coordX * PIXELS_PER_METER, coordY * PIXELS_PER_METER);
 	}
 
-	private void initializeMonsterSprites(Universe universe) {
-		monsterEntity = new Entity(0, 0);
+	protected abstract void initializeMonsterSprites(Universe universe);
+	
 
-		monsterSpriteUp = universe.createAnimatedSprite(assets.badlyDrawnMonsterUpTextureRegion);
+	private void attachMonsterSprites() {
 		monsterSpriteUp.setVisible(false);
-		monsterSpriteUp.animate(500);
 		monsterEntity.attachChild(monsterSpriteUp);
 
-		monsterSpriteLeft = universe.createAnimatedSprite(assets.badlyDrawnMonsterLeftTextureRegion);
 		monsterSpriteLeft.setVisible(false);
-		monsterSpriteLeft.animate(500);
 		monsterEntity.attachChild(monsterSpriteLeft);
-
-		monsterSpriteDown = universe.createAnimatedSprite(assets.badlyDrawnMonsterDownTextureRegion);
+		
 		monsterSpriteDown.setVisible(false);
-		monsterSpriteDown.animate(500);
 		monsterEntity.attachChild(monsterSpriteDown);
-
-		monsterSpriteRight = universe.createAnimatedSprite(assets.badlyDrawnMonsterRightTextureRegion);
+		
 		monsterSpriteRight.setVisible(false);
-		monsterSpriteRight.animate(500);
-		monsterEntity.attachChild(monsterSpriteRight);	
-
+		monsterEntity.attachChild(monsterSpriteRight);
+		
 		activeSprite = monsterSpriteDown;
 	}
+	
+//	private void initializeMonsterSprites(Universe universe) {
+//
+//		monsterSpriteUp = universe.createAnimatedSprite(assets.badlyDrawnMonsterUpTextureRegion);
+//		monsterSpriteUp.setVisible(false);
+//		monsterSpriteUp.animate(500);
+//		monsterEntity.attachChild(monsterSpriteUp);
+//
+//		monsterSpriteLeft = universe.createAnimatedSprite(assets.badlyDrawnMonsterLeftTextureRegion);
+//		monsterSpriteLeft.setVisible(false);
+//		monsterSpriteLeft.animate(500);
+//		monsterEntity.attachChild(monsterSpriteLeft);
+//
+//		monsterSpriteDown = universe.createAnimatedSprite(assets.badlyDrawnMonsterDownTextureRegion);
+//		monsterSpriteDown.setVisible(false);
+//		monsterSpriteDown.animate(500);
+//		monsterEntity.attachChild(monsterSpriteDown);
+//
+//		monsterSpriteRight = universe.createAnimatedSprite(assets.badlyDrawnMonsterRightTextureRegion);
+//		monsterSpriteRight.setVisible(false);
+//		monsterSpriteRight.animate(500);
+//		monsterEntity.attachChild(monsterSpriteRight);	
+//
+//	}
 
 	private void setFaceDirection(Dir direction) {
 		activeSprite.setVisible(false);
@@ -107,6 +125,7 @@ public class Monster implements IMonster, GameConstants{
 		monsterDir = direction;
 	}
 
+	@Override
 	public void turnLeft(){
 		
 		switch(monsterDir){

@@ -67,7 +67,7 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 		// Create monsters here !!
 		// GameLogic.addMonster(new Monster(), grid.getMapTileAt(x, y))
 		//---------------------------------------------------------------------
-		GameLogic.addMonster(new Monster(gameMapUniverse), grid.getMapTileAt(4, 4));
+		//GameLogic.addMonster(new Monster(gameMapUniverse), grid.getMapTileAt(4, 4));
 		
 		musicPlayer.play();
 		
