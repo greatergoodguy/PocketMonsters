@@ -12,4 +12,7 @@ public interface IMonster {
 	public int getAttackPower();
 	public int getMovementPoints();
 	
+	public int getGridPosX();
+	public int getGridPosY();
+	
 }

@@ -27,6 +27,9 @@ public abstract class Monster implements IMonster, GameConstants{
 	private Sprite activeSprite;
 	private Dir monsterDir;
 
+	private int gridPosX;
+	private int gridPosY;
+	
 	private final int healthPoints;
 	private final int attackPower;
 	private final int movementPoints;
@@ -51,6 +54,8 @@ public abstract class Monster implements IMonster, GameConstants{
 		monsterEntity.setScale(scaleFactor);
 
 		universe.attachChild(monsterEntity);
+		
+		setGridPos(0, 0);
 	}
 
 	private void setPos(float posX, float posY) {
@@ -61,6 +66,8 @@ public abstract class Monster implements IMonster, GameConstants{
 
 	@Override
 	public void setGridPos(int coordX, int coordY) {
+		gridPosX = coordX;
+		gridPosY = coordY;
 		setPos(coordX * PIXELS_PER_METER, coordY * PIXELS_PER_METER);
 	}
 
@@ -189,6 +196,16 @@ public abstract class Monster implements IMonster, GameConstants{
 	@Override
 	public int getMovementPoints() {
 		return movementPoints;
+	}
+	
+	@Override
+	public int getGridPosX() {
+		return gridPosX;
+	}
+	
+	@Override
+	public int getGridPosY() {
+		return gridPosY;
 	}
 
 	public class TurnLeftButtonHandler implements IButtonHandler{

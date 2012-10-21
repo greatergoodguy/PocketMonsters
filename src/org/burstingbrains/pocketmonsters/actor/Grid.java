@@ -10,6 +10,7 @@ import org.burstingbrains.pocketmonsters.monsters.BadlyDrawnMonster;
 import org.burstingbrains.pocketmonsters.monsters.OrangeMon;
 import org.burstingbrains.pocketmonsters.singleton.RandomSingleton;
 import org.burstingbrains.pocketmonsters.universe.Universe;
+import org.burstingbrains.pocketmonsters.world.MovementSelectorGrid;
 
 public class Grid extends Rectangle implements GameConstants{
 	Universe universe;
@@ -19,13 +20,15 @@ public class Grid extends Rectangle implements GameConstants{
 	private MapTile activeMapTile;
 	private MapTile selectorMapTile;
 	
+	private MovementSelectorGrid movementSelectorGrid;
+	
 	private IMonster activeMonster;
 	private IMonster[][] monsters;
 	
 	private SharedMonsterMenu sharedMonsterMenu;
 
 	public Grid(final Universe universe) {
-		super(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT, universe.getVertexBufferObjectManager(), DrawType.STATIC);
+		super(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT, universe.getVertexBufferObjectManager());
 		this.universe = universe;
 		
 		// Set the overall scene to be transparent
@@ -35,9 +38,10 @@ public class Grid extends Rectangle implements GameConstants{
 		universe.registerTouchArea(this);
 		
 		initializeGrid();
+		movementSelectorGrid = new MovementSelectorGrid(universe);
 		initializeMonsters(universe);
 		
-		sharedMonsterMenu = new SharedMonsterMenu(universe, 4);
+		sharedMonsterMenu = new SharedMonsterMenu(universe, new WorldHandler());
 	}
 
 	private void initializeGrid() {
@@ -112,5 +116,15 @@ public class Grid extends Rectangle implements GameConstants{
 
 	public MapTile getMapTileAt(int x, int y) {
 		return grid[x][y];
+	}
+	
+	public class WorldHandler{
+		public void activateMovementSelectorGridTiles(IMonster monster){
+			movementSelectorGrid.activateTiles(monster);
+		}
+		
+		public void deactivateMovementSelectorGridTiles(){
+			movementSelectorGrid.deactivateTiles();
+		}
 	}
 }
