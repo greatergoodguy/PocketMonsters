@@ -12,10 +12,10 @@ import org.andengine.entity.util.FPSLogger;
 import org.burstingbrains.andengineext.BBSGameActivity;
 import org.burstingbrains.pocketmonsters.actor.Grid;
 import org.burstingbrains.pocketmonsters.actor.Monster;
-import org.burstingbrains.pocketmonsters.actor.SharedMonsterMenu;
 import org.burstingbrains.pocketmonsters.assets.GameMapActivityAssets;
 import org.burstingbrains.pocketmonsters.constants.GameConstants;
 import org.burstingbrains.pocketmonsters.handler.BBSHandler;
+import org.burstingbrains.pocketmonsters.menu.SharedMonsterMenu;
 import org.burstingbrains.pocketmonsters.singleton.MusicPlayerSingleton;
 import org.burstingbrains.pocketmonsters.universe.Universe;
 

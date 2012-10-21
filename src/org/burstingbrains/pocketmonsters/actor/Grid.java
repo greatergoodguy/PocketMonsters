@@ -6,6 +6,7 @@ import org.andengine.opengl.vbo.DrawType;
 import org.andengine.util.color.Color;
 import org.burstingbrains.pocketmonsters.constants.GameConstants;
 import org.burstingbrains.pocketmonsters.handler.BBSHandler;
+import org.burstingbrains.pocketmonsters.menu.SharedMonsterMenu;
 import org.burstingbrains.pocketmonsters.monsters.BadlyDrawnMonster;
 import org.burstingbrains.pocketmonsters.monsters.OrangeMon;
 import org.burstingbrains.pocketmonsters.singleton.RandomSingleton;
@@ -42,6 +43,7 @@ public class Grid extends Rectangle implements GameConstants{
 		initializeMonsters(universe);
 		
 		sharedMonsterMenu = new SharedMonsterMenu(universe, new WorldHandler());
+		sharedMonsterMenu.deactivate();
 	}
 
 	private void initializeGrid() {

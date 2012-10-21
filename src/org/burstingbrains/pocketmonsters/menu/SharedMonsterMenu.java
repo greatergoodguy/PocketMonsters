@@ -1,4 +1,4 @@
-package org.burstingbrains.pocketmonsters.actor;
+package org.burstingbrains.pocketmonsters.menu;
 
 import java.util.ArrayList;
 
@@ -8,6 +8,8 @@ import org.andengine.entity.text.TextOptions;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.vbo.DrawType;
 import org.andengine.util.HorizontalAlign;
+import org.burstingbrains.pocketmonsters.actor.Grid;
+import org.burstingbrains.pocketmonsters.actor.IMonster;
 import org.burstingbrains.pocketmonsters.actor.Grid.WorldHandler;
 import org.burstingbrains.pocketmonsters.assets.GameMapActivityAssets;
 import org.burstingbrains.pocketmonsters.constants.GameConstants;
@@ -21,9 +23,6 @@ public class SharedMonsterMenu extends Rectangle implements GameConstants{
 	public static final int DEFAULT_POS_X = 2*CAMERA_WIDTH/3;
 	public static final int DEFAULT_POS_Y = 0;
 	
-	public static final int VOID_ZONE_POS_X = -2*CAMERA_WIDTH;
-	public static final int VOID_ZONE_POS_Y = -2*CAMERA_HEIGHT;
-	
 	public static final int ITEM_WIDTH = 500;
 	public static final int ITEM_HEIGHT = 100;
 	
@@ -32,6 +31,8 @@ public class SharedMonsterMenu extends Rectangle implements GameConstants{
 	private GameMapActivityAssets assets = GameMapActivityAssets.getSingleton();
 	
 	private WorldHandler handler;
+	
+	private GridMenu secondaryMenu;
 	
 	private ArrayList<Rectangle> buttons;
 	private Rectangle selectedButton;
@@ -42,6 +43,9 @@ public class SharedMonsterMenu extends Rectangle implements GameConstants{
 		super(0, 0, ITEM_WIDTH, ITEM_HEIGHT*MAX_SIZE, universe.getVertexBufferObjectManager(), DrawType.STATIC);		
 		
 		handler = worldHandler;
+		
+		secondaryMenu = new GridMenu(universe);
+		secondaryMenu.deactivate();
 		
 		// Create Buttons
 		buttons = new ArrayList<Rectangle>();
@@ -72,8 +76,6 @@ public class SharedMonsterMenu extends Rectangle implements GameConstants{
 		deactivateMoveText.setPosition(buttons.get(2));
 		this.attachChild(deactivateMoveText);
 		
-		deactivate();
-		
 		universe.attachChild(this);
 		universe.registerTouchArea(this);
 	}
@@ -98,12 +100,16 @@ public class SharedMonsterMenu extends Rectangle implements GameConstants{
 		case TouchEvent.ACTION_UP:
 			if(activeMonster != null && selectedButton.isVisible()){
 				if(selectedButton.getY() == buttons.get(0).getY()){
+					secondaryMenu.deactivate();
+					handler.deactivateMovementSelectorGridTiles();
 					activeMonster.turnLeft();
 				}
 				else if(selectedButton.getY() == buttons.get(1).getY()){
+					secondaryMenu.activate();
 					handler.activateMovementSelectorGridTiles(activeMonster);
 				}
 				else if(selectedButton.getY() == buttons.get(2).getY()){
+					secondaryMenu.deactivate();
 					handler.deactivateMovementSelectorGridTiles();
 				}
 			}
@@ -123,12 +129,13 @@ public class SharedMonsterMenu extends Rectangle implements GameConstants{
 	}
 
 	public void deactivate() {
+		secondaryMenu.deactivate();
 		setPosition(VOID_ZONE_POS_X, VOID_ZONE_POS_Y);
 		setVisible(false);		
 	}
 
-	public void setActiveMonster(IMonster activeMonster2) {
-		activeMonster = activeMonster2;
+	public void setActiveMonster(IMonster activeMonster) {
+		this.activeMonster = activeMonster;
 	}
 
 }
