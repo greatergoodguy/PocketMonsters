@@ -135,7 +135,7 @@ public class Monster implements IMonster, GameConstants{
 		monsterDir = direction;
 	}
 
-	private void turnLeft(){
+	public void turnLeft(){
 		switch(monsterDir){
 		case DOWN:
 			setFaceDirection(Dir.RIGHT);

@@ -28,7 +28,9 @@ public class SharedMonsterMenu extends Rectangle implements GameConstants{
 	private int size;
 	
 	private ArrayList<Rectangle> buttons;
-	private Rectangle selectedRectangle;
+	private Rectangle selectedButton;
+	
+	private Monster activeMonster;
 	
 	public SharedMonsterMenu(Universe universe, int numButtons){
 		super(0, 0, ITEM_WIDTH, ITEM_HEIGHT*numButtons, universe.getVertexBufferObjectManager(), DrawType.STATIC);
@@ -37,8 +39,8 @@ public class SharedMonsterMenu extends Rectangle implements GameConstants{
 		
 		// Create Buttons
 		buttons = new ArrayList<Rectangle>();
-		selectedRectangle = new Rectangle(0, 0, ITEM_WIDTH, ITEM_HEIGHT, universe.getVertexBufferObjectManager());
-		selectedRectangle.setColor(51, 153, 102, 0.4f);
+		selectedButton = new Rectangle(0, 0, ITEM_WIDTH, ITEM_HEIGHT, universe.getVertexBufferObjectManager());
+		selectedButton.setColor(51, 153, 102, 0.4f);
 		
 		for(int i=0; i<size; ++i){
 			Rectangle button = new Rectangle(0, ITEM_HEIGHT * i, ITEM_WIDTH, ITEM_HEIGHT, universe.getVertexBufferObjectManager());
@@ -50,7 +52,7 @@ public class SharedMonsterMenu extends Rectangle implements GameConstants{
 		for(Rectangle button : buttons){
 			this.attachChild(button);
 		}
-		this.attachChild(selectedRectangle);
+		this.attachChild(selectedButton);
 		
 		setPosition(DEFAULT_POS_X, DEFAULT_POS_Y);
 		
@@ -68,14 +70,19 @@ public class SharedMonsterMenu extends Rectangle implements GameConstants{
 		case TouchEvent.ACTION_DOWN:
 		case TouchEvent.ACTION_MOVE:
 			if(selectedButtonIndex >= 0 && selectedButtonIndex < buttons.size()){
-				selectedRectangle.setVisible(true);
-				selectedRectangle.setPosition(buttons.get(selectedButtonIndex));
+				selectedButton.setVisible(true);
+				selectedButton.setPosition(buttons.get(selectedButtonIndex));
 			}
 			else{
-				selectedRectangle.setVisible(false);
+				selectedButton.setVisible(false);
 			}
 			break;
 		case TouchEvent.ACTION_UP:
+			if(activeMonster != null){
+				if(selectedButton.getY() == buttons.get(0).getY()){
+					activeMonster.turnLeft();
+				}
+			}
 			break;
 		}
 
@@ -94,6 +101,10 @@ public class SharedMonsterMenu extends Rectangle implements GameConstants{
 	public void deactivate() {
 		setPosition(VOID_ZONE_POS_X, VOID_ZONE_POS_Y);
 		setVisible(false);		
+	}
+
+	public void setActiveMonster(Monster monster) {
+		activeMonster = monster;
 	}
 
 }
