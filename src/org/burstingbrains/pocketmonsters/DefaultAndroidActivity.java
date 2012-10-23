@@ -27,6 +27,8 @@ import com.amazonaws.services.simpledb.model.ReplaceableAttribute;
 
 public class DefaultAndroidActivity extends Activity{
 	
+	// Test Comment
+	
 	private final static String USER_ACCOUNTS_DOMAIN = "UserAccount";
 	
 	protected AmazonSimpleDBClient sdbClient;
