@@ -19,7 +19,7 @@ public class TileInputMenu extends Rectangle implements GameConstants{
 		this.handler = handler;
 		
 		// Set the overall scene to be transparent
-		this.setColor(0, 0, 0, 0.5f);
+		this.setColor(0, 0, 0, 0);
 		
 		universe.attachChild(this);
 		universe.registerTouchArea(this);

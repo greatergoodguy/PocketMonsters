@@ -17,6 +17,8 @@ import org.burstingbrains.sharedlibs.handler.IButtonHandler;
 public abstract class Monster implements IMonster, GameConstants{
 	protected GameMapActivityAssets assets = GameMapActivityAssets.getSingleton();
 
+	protected final String TAG = this.getClass().getSimpleName();
+	
 	private MonsterGridHandler monsterGridHandler;
 	
 	// Monster Data Members
