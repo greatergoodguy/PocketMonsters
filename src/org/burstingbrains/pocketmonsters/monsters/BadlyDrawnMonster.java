@@ -3,6 +3,7 @@ package org.burstingbrains.pocketmonsters.monsters;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.burstingbrains.pocketmonsters.actor.Monster;
 import org.burstingbrains.pocketmonsters.actor.MonsterGrid.MonsterGridHandler;
+import org.burstingbrains.pocketmonsters.constants.Team;
 import org.burstingbrains.pocketmonsters.universe.Universe;
 
 public class BadlyDrawnMonster extends Monster{
@@ -12,7 +13,7 @@ public class BadlyDrawnMonster extends Monster{
 	private final static int MONSTER_MOVEMENT = 3;
 	
 	public BadlyDrawnMonster(Universe universe, MonsterGridHandler handler) {
-		super(universe, handler, MONSTER_HP, MONSTER_ATTACK, MONSTER_MOVEMENT);
+		super(universe, handler, Team.BLUE_TEAM, MONSTER_HP, MONSTER_ATTACK, MONSTER_MOVEMENT);
 	}
 
 	@Override

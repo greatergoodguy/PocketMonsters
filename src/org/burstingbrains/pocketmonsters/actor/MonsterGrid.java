@@ -36,14 +36,10 @@ public class MonsterGrid implements GameConstants{
 	}
 	
 	public class MonsterGridHandler{
-
 		public void updateGrid(Monster monster, int oldX,
 				int oldY, int newX, int newY) {
-			
 			monsters[oldX][oldY] = null;
 			monsters[newX][newY] = monster;
 		}
-		
-		
 	}
 }

@@ -11,6 +11,7 @@ import org.andengine.util.modifier.ease.EaseLinear;
 import org.burstingbrains.pocketmonsters.actor.MonsterGrid.MonsterGridHandler;
 import org.burstingbrains.pocketmonsters.assets.GameMapActivityAssets;
 import org.burstingbrains.pocketmonsters.constants.GameConstants;
+import org.burstingbrains.pocketmonsters.constants.Team;
 import org.burstingbrains.pocketmonsters.universe.Universe;
 import org.burstingbrains.sharedlibs.handler.IButtonHandler;
 
@@ -42,15 +43,18 @@ public abstract class Monster implements IMonster, GameConstants{
 	private float scaleFactor = 0.6f;
 
 	boolean isMonsterMenuVisible;
-
 	boolean isMonsterEntityModifierActive;
+	
+	Team team;
 
-	public Monster(Universe universe, MonsterGridHandler handler, int healthPoints, int attackPower, int movementPoints){
+	public Monster(Universe universe, MonsterGridHandler handler, Team team, int healthPoints, int attackPower, int movementPoints){
 		this.monsterGridHandler = handler;
 		
 		this.healthPoints = healthPoints;
 		this.attackPower = attackPower;
 		this.movementPoints = movementPoints;
+		
+		this.team = team;
 		
 		monsterEntity = new Entity(0, 0);
 		

@@ -58,21 +58,8 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 		mEngine.registerUpdateHandler(new FPSLogger());
 		gameMapUniverse = new Universe(this, new Scene());
 		grid = new World(gameMapUniverse);
-		
-//		Sprite sprite = new Sprite(800, 300, assets.badlyDrawnMonsterDown2TextureRegion, getVertexBufferObjectManager());
-//		gameMapUniverse.getGameScene().attachChild(sprite);
-		
-		
-		//---------------------------------------------------------------------
-		// Create monsters here !!
-		// GameLogic.addMonster(new Monster(), grid.getMapTileAt(x, y))
-		//---------------------------------------------------------------------
-		//GameLogic.addMonster(new Monster(gameMapUniverse), grid.getMapTileAt(4, 4));
-		
 		musicPlayer.play();
-		
 		gameMapUniverse.registerUpdateHandler(this);
-		
 		return gameMapUniverse.getGameScene();
 	}
 	
