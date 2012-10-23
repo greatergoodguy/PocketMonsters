@@ -14,20 +14,22 @@ import org.burstingbrains.pocketmonsters.universe.Universe;
 import org.burstingbrains.pocketmonsters.world.MovementSelectorGrid;
 
 public class World extends Rectangle implements GameConstants{
+	//-----------------------------------------------------------------------//
+	// Members                                                               //
+	//-----------------------------------------------------------------------//
 	Universe universe;
 	BBSHandler handler;
-
 	private MapTile[][] grid;
 	private MapTile activeMapTile;
 	private MapTile selectorMapTile;
-	
 	private MovementSelectorGrid movementSelectorGrid;
-	
 	private MonsterGrid monsterGrid;
 	private IMonster activeMonster;
-	
 	private SharedMonsterMenu sharedMonsterMenu;
-
+	
+	//-----------------------------------------------------------------------//
+	// Constructors                                                          //
+	//-----------------------------------------------------------------------//
 	public World(final Universe universe) {
 		super(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT, universe.getVertexBufferObjectManager());
 		this.universe = universe;
@@ -47,6 +49,9 @@ public class World extends Rectangle implements GameConstants{
 		sharedMonsterMenu.deactivate();
 	}
 
+	//-----------------------------------------------------------------------//
+	// Methods                                                               //
+	//-----------------------------------------------------------------------//
 	private void initializeGrid() {
 		grid = new MapTile[GRID_WIDTH_IN_METERS][GRID_HEIGHT_IN_METERS];
 		for(int column = 0; column < GRID_WIDTH_IN_METERS; column++){
@@ -84,6 +89,9 @@ public class World extends Rectangle implements GameConstants{
 //		monsters[3][4] = monster2;
 //	}
 
+	//-----------------------------------------------------------------------//
+	// Overloaded Functions
+	//-----------------------------------------------------------------------//
 	@Override
 	public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, 
 			final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
@@ -116,10 +124,16 @@ public class World extends Rectangle implements GameConstants{
 		return true;
 	}
 
+	//-----------------------------------------------------------------------//
+	// Getters                                                               //
+	//-----------------------------------------------------------------------//
 	public MapTile getMapTileAt(int x, int y) {
 		return grid[x][y];
 	}
 	
+	//-----------------------------------------------------------------------//
+	// Inner classes                                                         //
+	//-----------------------------------------------------------------------//
 	public class WorldHandler{
 		public void activateMovementSelectorGridTiles(IMonster monster){
 			movementSelectorGrid.activateTiles(monster);

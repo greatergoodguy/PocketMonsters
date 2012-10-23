@@ -10,6 +10,9 @@ import org.burstingbrains.pocketmonsters.monsters.OrangeMon;
 import org.burstingbrains.pocketmonsters.universe.Universe;
 
 public class MonsterGrid implements GameConstants{
+	//============================================================
+	// Members
+	//============================================================
 	private MonsterGridHandler handler;
 	private IMonster[][] monsters;
 	private HashMap<IMonster, MonsterCard> monsterCardHashMap;
@@ -17,14 +20,18 @@ public class MonsterGrid implements GameConstants{
 	Team RedTeam;
 	Team BlueTeam;
 	
+	//============================================================
+	// Constructors
+	//============================================================
+	
 	public MonsterGrid(Universe universe){
 		handler = new MonsterGridHandler();
 
 		monsters = new Monster[GRID_WIDTH_IN_METERS][GRID_HEIGHT_IN_METERS];
 		monsterCardHashMap = new HashMap<IMonster, MonsterCard>();
 		
-		RedTeam = new Team(TeamColorEnum.RED_TEAM);
-		BlueTeam = new Team(TeamColorEnum.BLUE_TEAM);
+		RedTeam = new Team("Red Team", TeamColorEnum.RED_TEAM);
+		BlueTeam = new Team("Blue Team", TeamColorEnum.BLUE_TEAM);
 		
 		Monster monster1 = new BadlyDrawnMonster(universe, handler, RedTeam);
 		monster1.setGridPos(1, 1);
@@ -36,9 +43,17 @@ public class MonsterGrid implements GameConstants{
 		monsters[3][4] = monster2;
 	}
 	
+	//============================================================
+	// Methods
+	//============================================================
+	
 	public IMonster get(final int coordX, final int coordY){
 		return monsters[coordX][coordY];
 	}
+	
+	//============================================================
+	// Inner Classes
+	//============================================================
 	
 	public class MonsterGridHandler{
 		public void updateGrid(Monster monster, int oldX,
