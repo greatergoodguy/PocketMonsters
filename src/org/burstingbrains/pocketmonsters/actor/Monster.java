@@ -5,15 +5,18 @@ import org.andengine.entity.IEntity;
 import org.andengine.entity.modifier.PathModifier;
 import org.andengine.entity.modifier.PathModifier.IPathModifierListener;
 import org.andengine.entity.modifier.PathModifier.Path;
+import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.util.debug.Debug;
 import org.andengine.util.modifier.ease.EaseLinear;
 import org.burstingbrains.pocketmonsters.actor.MonsterGrid.MonsterGridHandler;
 import org.burstingbrains.pocketmonsters.assets.GameMapActivityAssets;
 import org.burstingbrains.pocketmonsters.constants.GameConstants;
-import org.burstingbrains.pocketmonsters.constants.Team;
+import org.burstingbrains.pocketmonsters.constants.TeamColorEnum;
 import org.burstingbrains.pocketmonsters.universe.Universe;
 import org.burstingbrains.sharedlibs.handler.IButtonHandler;
+
+import android.graphics.Color;
 
 public abstract class Monster implements IMonster, GameConstants{
 	protected GameMapActivityAssets assets = GameMapActivityAssets.getSingleton();
@@ -55,17 +58,22 @@ public abstract class Monster implements IMonster, GameConstants{
 		this.movementPoints = movementPoints;
 		
 		this.team = team;
+		team.addMonster(this);
 		
 		monsterEntity = new Entity(0, 0);
+		
+		Rectangle teamColorSquare = new Rectangle(0, 0, PIXELS_PER_METER, PIXELS_PER_METER, universe.getVertexBufferObjectManager());
+		teamColorSquare.setColor(team.getColor());
+		monsterEntity.attachChild(teamColorSquare);
+		
 		
 		initializeMonsterSprites(universe);
 		attachMonsterSprites();
 		setFaceDirection(Dir.LEFT);
+		
 
 		monsterEntity.setScale(scaleFactor);
-
 		universe.attachChild(monsterEntity);
-		
 		setGridPos(0, 0);
 	}
 
