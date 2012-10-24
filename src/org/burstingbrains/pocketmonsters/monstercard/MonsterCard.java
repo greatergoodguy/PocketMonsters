@@ -37,7 +37,7 @@ public class MonsterCard extends Rectangle implements GameConstants{
 		this.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		
 		// Init and Attach Profile Picture
-		profilePicture = universe.createSprite(assets.orangeMonDownTextureRegion);
+		profilePicture = universe.createSprite(monster.getProfilePicTextureRegion());
 		profilePicture.setScale(0.4f);
 		profilePicture.setPosition(-90, -90);
 		attachChild(profilePicture);

@@ -30,5 +30,7 @@ public class BadlyDrawnMonster extends Monster{
 
 		monsterSpriteRight = universe.createAnimatedSprite(assets.badlyDrawnMonsterRightTextureRegion);
 		((AnimatedSprite) monsterSpriteRight).animate(500);
+		
+		monsterProfilePicTextureRegion = assets.badlyDrawnMonsterProfilePicTextureRegion;
 	}
 }

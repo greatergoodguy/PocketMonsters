@@ -17,6 +17,8 @@ public class MonsterGrid implements GameConstants{
 	private IMonster[][] monsters;
 	private HashMap<IMonster, MonsterCard> monsterCardHashMap;
 	
+	private MonsterCard activeMonsterCard;
+	
 	Team RedTeam;
 	Team BlueTeam;
 	
@@ -36,12 +38,16 @@ public class MonsterGrid implements GameConstants{
 		Monster monster1 = new BadlyDrawnMonster(universe, handler, RedTeam);
 		monster1.setGridPos(1, 1);
 		monsters[1][1] = monster1;
-		monsterCardHashMap.put(monster1, new MonsterCard(universe, monster1));
+		MonsterCard monster1Card = new MonsterCard(universe, monster1);
+		monster1Card.deactivate();
+		monsterCardHashMap.put(monster1, monster1Card);
 		
 		Monster monster2 = new OrangeMon(universe, handler, BlueTeam);
 		monster2.setGridPos(3, 4);
 		monsters[3][4] = monster2;
-		monsterCardHashMap.put(monster2, new MonsterCard(universe, monster2));
+		MonsterCard monster2Card = new MonsterCard(universe, monster2);
+		monster2Card.deactivate();
+		monsterCardHashMap.put(monster2, monster2Card);
 	}
 	
 	//============================================================
@@ -61,6 +67,17 @@ public class MonsterGrid implements GameConstants{
 				int oldY, int newX, int newY) {
 			monsters[oldX][oldY] = null;
 			monsters[newX][newY] = monster;
+		}
+	}
+
+	public void activateMonsterCard(IMonster activeMonster) {
+		activeMonsterCard = monsterCardHashMap.get(activeMonster);
+		activeMonsterCard.activate();
+	}
+
+	public void deactivateMonsterCard(IMonster activeMonster) {
+		if(activeMonsterCard != null){
+			activeMonsterCard.deactivate();
 		}
 	}
 }

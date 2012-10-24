@@ -96,9 +96,13 @@ public class World extends Rectangle implements GameConstants{
 				if(activeMonster != null){
 					sharedMonsterMenu.activate();
 					sharedMonsterMenu.setActiveMonster(activeMonster);
+					
+					monsterGrid.activateMonsterCard(activeMonster);
 				}
 				else{
 					sharedMonsterMenu.deactivate();
+
+					monsterGrid.deactivateMonsterCard(activeMonster);
 				}
 				
 				break;

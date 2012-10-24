@@ -47,14 +47,14 @@ public class GameMapActivityAssets implements IAssets{
 	public ITiledTextureRegion badlyDrawnMonsterLeftTextureRegion;
 	public ITiledTextureRegion badlyDrawnMonsterDownTextureRegion;
 	public ITiledTextureRegion badlyDrawnMonsterRightTextureRegion;
-	
+	public ITextureRegion badlyDrawnMonsterProfilePicTextureRegion;
 
 	public BuildableBitmapTextureAtlas orangeMonTexture;
 	public ITextureRegion orangeMonUpTextureRegion;
 	public ITextureRegion orangeMonLeftTextureRegion;
 	public ITextureRegion orangeMonDownTextureRegion;
 	public ITextureRegion orangeMonRightTextureRegion;
-	
+	public ITextureRegion orangeMonProfilePicTextureRegion;	
 
 	public BuildableBitmapTextureAtlas menuButtonTexture;
 	public ITextureRegion menuButtonOkTextureRegion;
@@ -138,7 +138,8 @@ public class GameMapActivityAssets implements IAssets{
 		badlyDrawnMonsterUpTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(badlyDrawnMonsterTexture, bbsGameActivity, "BadlyDrawnMonsterUp.png", 1, 2);
 		badlyDrawnMonsterLeftTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(badlyDrawnMonsterTexture, bbsGameActivity, "BadlyDrawnMonsterLeft.png", 2, 1);
 		badlyDrawnMonsterDownTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(badlyDrawnMonsterTexture, bbsGameActivity, "BadlyDrawnMonsterDown.png", 1, 2);
-		badlyDrawnMonsterRightTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(badlyDrawnMonsterTexture, bbsGameActivity, "BadlyDrawnMonsterRight.png", 1, 2);		
+		badlyDrawnMonsterRightTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(badlyDrawnMonsterTexture, bbsGameActivity, "BadlyDrawnMonsterRight.png", 1, 2);
+		badlyDrawnMonsterProfilePicTextureRegion =  BitmapTextureAtlasTextureRegionFactory.createFromAsset(badlyDrawnMonsterTexture, bbsGameActivity, "BadlyDrawnMonsterProfilePic.png");
 		try{ 
 			badlyDrawnMonsterTexture.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(1, 1, 1));
 		} catch (final TextureAtlasBuilderException e) {
@@ -148,12 +149,13 @@ public class GameMapActivityAssets implements IAssets{
 		//======================================
 		// OrangeMon
 		//======================================
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("images/monsters/");
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("images/monsters/orangemon/");
 		orangeMonTexture = new BuildableBitmapTextureAtlas(bbsGameActivity.getTextureManager(), 2048, 2048, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		orangeMonUpTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(orangeMonTexture, bbsGameActivity, "OrangeMonUp.png");
 		orangeMonLeftTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(orangeMonTexture, bbsGameActivity, "OrangeMonLeft.png");
 		orangeMonDownTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(orangeMonTexture, bbsGameActivity, "OrangeMonDown.png");
 		orangeMonRightTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(orangeMonTexture, bbsGameActivity, "OrangeMonRight.png");
+		orangeMonProfilePicTextureRegion =  BitmapTextureAtlasTextureRegionFactory.createFromAsset(orangeMonTexture, bbsGameActivity, "OrangeMonProfilePic.png");
 		try{ 
 			orangeMonTexture.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(1, 1, 1));
 		} catch (final TextureAtlasBuilderException e) {

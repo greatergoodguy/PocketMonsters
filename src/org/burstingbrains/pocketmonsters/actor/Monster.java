@@ -7,16 +7,14 @@ import org.andengine.entity.modifier.PathModifier.IPathModifierListener;
 import org.andengine.entity.modifier.PathModifier.Path;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.util.debug.Debug;
 import org.andengine.util.modifier.ease.EaseLinear;
 import org.burstingbrains.pocketmonsters.actor.MonsterGrid.MonsterGridHandler;
 import org.burstingbrains.pocketmonsters.assets.GameMapActivityAssets;
 import org.burstingbrains.pocketmonsters.constants.GameConstants;
-import org.burstingbrains.pocketmonsters.constants.TeamColorEnum;
 import org.burstingbrains.pocketmonsters.universe.Universe;
 import org.burstingbrains.sharedlibs.handler.IButtonHandler;
-
-import android.graphics.Color;
 
 public abstract class Monster implements IMonster, GameConstants{
 	protected GameMapActivityAssets assets = GameMapActivityAssets.getSingleton();
@@ -28,10 +26,16 @@ public abstract class Monster implements IMonster, GameConstants{
 	// Monster Data Members
 	private IEntity monsterEntity;
 
+	/*
+	 * These data members should be initialized in the
+	 * initializeMonsterSprites method of the child class
+	 */
 	protected Sprite monsterSpriteUp;
 	protected Sprite monsterSpriteLeft;
 	protected Sprite monsterSpriteDown;
 	protected Sprite monsterSpriteRight;
+	protected ITextureRegion monsterProfilePicTextureRegion;
+	// ===================================================
 
 	private Sprite activeSprite;
 	private Dir monsterDir;
@@ -77,25 +81,6 @@ public abstract class Monster implements IMonster, GameConstants{
 		setGridPos(0, 0);
 	}
 
-	private void setPos(float posX, float posY) {
-		monsterEntity.setPosition(posX - scaleFactor * monsterSpriteLeft.getWidth()/2 + PIXELS_PER_METER/2,
-								  posY - scaleFactor * monsterSpriteLeft.getHeight()/2 + PIXELS_PER_METER/2);
-		
-	}
-
-	@Override
-	public void setGridPos(int coordX, int coordY) {	
-		final int oldGridPosX = getGridPosX();
-		final int oldGridPosY = getGridPosY();
-		
-		gridPosX = coordX;
-		gridPosY = coordY;
-		
-		setPos(coordX * PIXELS_PER_METER, coordY * PIXELS_PER_METER);
-		
-		monsterGridHandler.updateGrid(this, oldGridPosX, oldGridPosY, gridPosX, gridPosY);
-	}
-
 	protected abstract void initializeMonsterSprites(Universe universe);
 	
 	private void attachMonsterSprites() {
@@ -114,6 +99,25 @@ public abstract class Monster implements IMonster, GameConstants{
 		activeSprite = monsterSpriteDown;
 	}
 
+	private void setPos(float posX, float posY) {
+		monsterEntity.setPosition(posX - scaleFactor * monsterSpriteLeft.getWidth()/2 + PIXELS_PER_METER/2,
+								  posY - scaleFactor * monsterSpriteLeft.getHeight()/2 + PIXELS_PER_METER/2);
+		
+	}
+
+	@Override
+	public void setGridPos(int coordX, int coordY) {	
+		final int oldGridPosX = getGridPosX();
+		final int oldGridPosY = getGridPosY();
+		
+		gridPosX = coordX;
+		gridPosY = coordY;
+		
+		setPos(coordX * PIXELS_PER_METER, coordY * PIXELS_PER_METER);
+		
+		monsterGridHandler.updateGrid(this, oldGridPosX, oldGridPosY, gridPosX, gridPosY);
+	}
+	
 	private void setFaceDirection(Dir direction) {
 		activeSprite.setVisible(false);
 
@@ -221,6 +225,11 @@ public abstract class Monster implements IMonster, GameConstants{
 	@Override
 	public int getMovementPoints() {
 		return movementPoints;
+	}
+	
+	@Override
+	public ITextureRegion getProfilePicTextureRegion() {
+		return monsterProfilePicTextureRegion;
 	}
 	
 	@Override

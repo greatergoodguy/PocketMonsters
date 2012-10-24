@@ -3,7 +3,6 @@ package org.burstingbrains.pocketmonsters.monsters;
 import org.burstingbrains.pocketmonsters.actor.Monster;
 import org.burstingbrains.pocketmonsters.actor.MonsterGrid.MonsterGridHandler;
 import org.burstingbrains.pocketmonsters.actor.Team;
-import org.burstingbrains.pocketmonsters.constants.TeamColorEnum;
 import org.burstingbrains.pocketmonsters.universe.Universe;
 
 public class OrangeMon extends Monster{
@@ -22,5 +21,6 @@ public class OrangeMon extends Monster{
 		monsterSpriteLeft = universe.createSprite(assets.orangeMonLeftTextureRegion);
 		monsterSpriteDown = universe.createSprite(assets.orangeMonDownTextureRegion);
 		monsterSpriteRight = universe.createSprite(assets.orangeMonRightTextureRegion);
+		monsterProfilePicTextureRegion = assets.orangeMonProfilePicTextureRegion;
 	}
 }
