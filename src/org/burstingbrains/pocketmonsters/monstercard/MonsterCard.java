@@ -17,6 +17,8 @@ public class MonsterCard extends Rectangle implements GameConstants{
 	private final static int MONSTERCARD_WIDTH = 500;
 	private final static int MONSTERCARD_HEIGHT = 250;
 	
+	private final static int MAX_ICONS = 6;
+	
 	GameMapActivityAssets assets = GameMapActivityAssets.getSingleton();
 	
 	private Monster monster;
@@ -34,30 +36,40 @@ public class MonsterCard extends Rectangle implements GameConstants{
 		this.monster = monster;
 		this.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		
-		// Attach Profile Picture
+		// Init and Attach Profile Picture
 		profilePicture = universe.createSprite(assets.orangeMonDownTextureRegion);
 		profilePicture.setScale(0.4f);
 		profilePicture.setPosition(-90, -90);
 		attachChild(profilePicture);
 		
-		// Attach Health Point Icons
+		// Init and Attach Health Point Icons
 		hpIconsEntity = new Entity();
 		hpIcons = new ArrayList<Sprite>();
-		for(int i=0; i<monster.getHealthPoints(); ++i){
+		for(int i=0; i<MAX_ICONS; ++i){
 			Sprite hpIcon = universe.createSprite(assets.monsterCardHeartIconTextureRegion);
 			hpIcon.setPosition(i*85, 0);
+			hpIcon.setVisible(false);
 			hpIconsEntity.attachChild(hpIcon);
+		}
+		for(int i=0; i<monster.getHealthPoints(); ++i){
+			Sprite hpIcon = hpIcons.get(i); 
+			hpIcon.setVisible(true);
 		}
 		hpIconsEntity.setPosition(110, 0);
 		this.attachChild(hpIconsEntity);
 		
-		// Attach Attack Point Icons
+		// Init and Attach Attack Point Icons
 		attackIconsEntity = new Entity();
 		attackIcons = new ArrayList<Sprite>();
-		for(int i=0; i<monster.getAttackPower(); ++i){
+		for(int i=0; i<MAX_ICONS; ++i){
 			Sprite attackIcon = universe.createSprite(assets.monsterCardAttackIconTextureRegion);
 			attackIcon.setPosition(i*85, 0);
+			attackIcon.setVisible(false);
 			attackIconsEntity.attachChild(attackIcon);
+		}
+		for(int i=0; i<monster.getAttackPower(); ++i){
+			Sprite attackIcon = attackIcons.get(i); 
+			attackIcon.setVisible(true);
 		}
 		attackIconsEntity.setPosition(110, 100);
 		this.attachChild(attackIconsEntity);
