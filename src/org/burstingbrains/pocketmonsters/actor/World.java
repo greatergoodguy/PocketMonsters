@@ -20,6 +20,7 @@ public class World extends Rectangle implements GameConstants{
 	private MapTile activeMapTile;
 	private MapTile selectorMapTile;
 	private MonsterGrid monsterGrid;
+	private IMonster previousActiveMonster;
 	private IMonster activeMonster;
 	private SharedMonsterMenu sharedMonsterMenu;
 	
@@ -92,16 +93,23 @@ public class World extends Rectangle implements GameConstants{
 			case TouchEvent.ACTION_UP:
 				int activeTilePosX = activeMapTile.getGridX();
 				int activeTilePosY = activeMapTile.getGridY();
+				previousActiveMonster = activeMonster;
 				activeMonster = monsterGrid.get(activeTilePosX, activeTilePosY);
 				if(activeMonster != null){
-					sharedMonsterMenu.activate();
-					sharedMonsterMenu.setActiveMonster(activeMonster);
-					
-					monsterGrid.activateMonsterCard(activeMonster);
+					if(previousActiveMonster == null){
+						sharedMonsterMenu.activate();
+						sharedMonsterMenu.setActiveMonster(activeMonster);
+						monsterGrid.activateMonsterCard(activeMonster);
+					}
+					else{
+						sharedMonsterMenu.activate();
+						sharedMonsterMenu.setActiveMonster(activeMonster);
+						monsterGrid.deactivateMonsterCard(previousActiveMonster);
+						monsterGrid.activateMonsterCard(activeMonster);
+					}
 				}
 				else{
 					sharedMonsterMenu.deactivate();
-
 					monsterGrid.deactivateMonsterCard(activeMonster);
 				}
 				
