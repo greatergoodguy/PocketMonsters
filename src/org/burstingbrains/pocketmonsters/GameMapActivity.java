@@ -20,21 +20,22 @@ import android.util.Log;
 import android.view.KeyEvent;
 
 public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, GameConstants{
+	//-----------------------------------------------------------------------//
+	// Members                                                               //
+	//-----------------------------------------------------------------------//
 	private final String TAG = this.getClass().getSimpleName();
-	
 	private static MusicPlayerSingleton musicPlayer = MusicPlayerSingleton.getSingleton();
 	private static GameMapActivityAssets assets = GameMapActivityAssets.getSingleton();
-	
 	private Camera camera;
-
 	private Universe gameMapUniverse;
-	
 	private World grid;
 
+	//-----------------------------------------------------------------------//
+	// Overloaded Methods                                                    //
+	//-----------------------------------------------------------------------//
 	@Override
 	public EngineOptions onCreateEngineOptions() {
 		camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		
 
 		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new FillResolutionPolicy(), this.camera);
 		engineOptions.getTouchOptions().setNeedsMultiTouch(true);
@@ -49,8 +50,6 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 		assets.init(this);
 		assets.load();
 		musicPlayer.init(assets.haven_v2Music);
-		
-		
 	}
 
 	@Override
@@ -58,21 +57,8 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 		mEngine.registerUpdateHandler(new FPSLogger());
 		gameMapUniverse = new Universe(this, new Scene());
 		grid = new World(gameMapUniverse);
-		
-//		Sprite sprite = new Sprite(800, 300, assets.badlyDrawnMonsterDown2TextureRegion, getVertexBufferObjectManager());
-//		gameMapUniverse.getGameScene().attachChild(sprite);
-		
-		
-		//---------------------------------------------------------------------
-		// Create monsters here !!
-		// GameLogic.addMonster(new Monster(), grid.getMapTileAt(x, y))
-		//---------------------------------------------------------------------
-		//GameLogic.addMonster(new Monster(gameMapUniverse), grid.getMapTileAt(4, 4));
-		
 		musicPlayer.play();
-		
 		gameMapUniverse.registerUpdateHandler(this);
-		
 		return gameMapUniverse.getGameScene();
 	}
 	
@@ -81,6 +67,27 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 		super.onPauseGame();
 		saveGameStateAndPauseMusic();
 	}
+	
+	@Override
+	public boolean onKeyUp(final int pKeyCode, final KeyEvent pEvent) {
+		
+		if(pKeyCode == KeyEvent.KEYCODE_BACK) {
+			saveGameStateAndPauseMusic();
+			return super.onKeyUp(pKeyCode, pEvent);
+		} 
+		else if(pKeyCode == KeyEvent.KEYCODE_HOME) {
+			saveGameStateAndPauseMusic();
+			
+			return super.onKeyUp(pKeyCode, pEvent);	
+		}
+		else {
+			return super.onKeyUp(pKeyCode, pEvent);
+		}
+	}
+	
+	//-----------------------------------------------------------------------//
+	// Private Methods                                                       //
+	//-----------------------------------------------------------------------//
 
 	private void saveGameStateAndPauseMusic() {
 		musicPlayer.pause();
@@ -98,7 +105,6 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 
 	@Override
 	protected void onDestroy(){
-
 		super.onDestroy();
 	}
 
@@ -114,7 +120,9 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 		
 	}
 	
-	
+	//-----------------------------------------------------------------------//
+	// Inner classes                                                         //
+	//-----------------------------------------------------------------------//
 	private class MoveMonsterHandler implements BBSHandler{
 		@Override
 		public void onGridTouchUp() {
@@ -131,20 +139,4 @@ public class GameMapActivity extends BBSGameActivity implements IUpdateHandler, 
 		}
 	}
 
-	@Override
-	public boolean onKeyUp(final int pKeyCode, final KeyEvent pEvent) {
-		
-		if(pKeyCode == KeyEvent.KEYCODE_BACK) {
-			saveGameStateAndPauseMusic();
-			return super.onKeyUp(pKeyCode, pEvent);
-		} 
-		else if(pKeyCode == KeyEvent.KEYCODE_HOME) {
-			saveGameStateAndPauseMusic();
-			
-			return super.onKeyUp(pKeyCode, pEvent);	
-		}
-		else {
-			return super.onKeyUp(pKeyCode, pEvent);
-		}
-	}
 }
