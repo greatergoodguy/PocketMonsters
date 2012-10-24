@@ -49,6 +49,7 @@ public class MonsterCard extends Rectangle implements GameConstants{
 			Sprite hpIcon = universe.createSprite(assets.monsterCardHeartIconTextureRegion);
 			hpIcon.setPosition(i*85, 0);
 			hpIcon.setVisible(false);
+			hpIcons.add(hpIcon);
 			hpIconsEntity.attachChild(hpIcon);
 		}
 		for(int i=0; i<monster.getHealthPoints(); ++i){
@@ -65,6 +66,7 @@ public class MonsterCard extends Rectangle implements GameConstants{
 			Sprite attackIcon = universe.createSprite(assets.monsterCardAttackIconTextureRegion);
 			attackIcon.setPosition(i*85, 0);
 			attackIcon.setVisible(false);
+			attackIcons.add(attackIcon);
 			attackIconsEntity.attachChild(attackIcon);
 		}
 		for(int i=0; i<monster.getAttackPower(); ++i){
