@@ -4,11 +4,8 @@ import java.util.ArrayList;
 
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.text.Text;
-import org.andengine.entity.text.TextOptions;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.vbo.DrawType;
-import org.andengine.util.HorizontalAlign;
-import org.burstingbrains.pocketmonsters.actor.World;
 import org.burstingbrains.pocketmonsters.actor.IMonster;
 import org.burstingbrains.pocketmonsters.actor.World.WorldHandler;
 import org.burstingbrains.pocketmonsters.assets.GameMapActivityAssets;
@@ -16,8 +13,6 @@ import org.burstingbrains.pocketmonsters.constants.GameConstants;
 import org.burstingbrains.pocketmonsters.singleton.RandomSingleton;
 import org.burstingbrains.pocketmonsters.universe.Universe;
 import org.burstingbrains.pocketmonsters.util.GridUtil;
-
-import android.util.Log;
 
 public class SharedMonsterMenu extends Rectangle implements GameConstants{
 	

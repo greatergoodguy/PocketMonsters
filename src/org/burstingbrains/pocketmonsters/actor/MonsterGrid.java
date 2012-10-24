@@ -29,6 +29,7 @@ public class MonsterGrid implements GameConstants{
 		Monster monster2 = new OrangeMon(universe, handler);
 		monster2.setGridPos(3, 4);
 		monsters[3][4] = monster2;
+		monsterCardHashMap.put(monster2, new MonsterCard(universe, monster2));
 	}
 	
 	public IMonster get(final int coordX, final int coordY){

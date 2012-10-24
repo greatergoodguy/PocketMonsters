@@ -2,13 +2,10 @@ package org.burstingbrains.pocketmonsters.actor;
 
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.input.touch.TouchEvent;
-import org.andengine.opengl.vbo.DrawType;
 import org.andengine.util.color.Color;
 import org.burstingbrains.pocketmonsters.constants.GameConstants;
 import org.burstingbrains.pocketmonsters.handler.BBSHandler;
 import org.burstingbrains.pocketmonsters.menu.SharedMonsterMenu;
-import org.burstingbrains.pocketmonsters.monsters.BadlyDrawnMonster;
-import org.burstingbrains.pocketmonsters.monsters.OrangeMon;
 import org.burstingbrains.pocketmonsters.singleton.RandomSingleton;
 import org.burstingbrains.pocketmonsters.universe.Universe;
 import org.burstingbrains.pocketmonsters.world.MovementSelectorGrid;

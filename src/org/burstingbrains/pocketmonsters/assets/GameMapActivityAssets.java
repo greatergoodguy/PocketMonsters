@@ -38,6 +38,10 @@ public class GameMapActivityAssets implements IAssets{
 	public BuildableBitmapTextureAtlas skyConceptBGTexture;
 	public ITextureRegion skyConceptBGTextureRegion;
 
+	public BuildableBitmapTextureAtlas monsterCardIconsTexture;
+	public ITextureRegion monsterCardHeartIconTextureRegion;
+	public ITextureRegion monsterCardAttackIconTextureRegion;
+
 	public BuildableBitmapTextureAtlas badlyDrawnMonsterTexture;
 	public ITiledTextureRegion badlyDrawnMonsterUpTextureRegion;
 	public ITiledTextureRegion badlyDrawnMonsterLeftTextureRegion;
@@ -112,7 +116,20 @@ public class GameMapActivityAssets implements IAssets{
 		} catch (final TextureAtlasBuilderException e) {
 			Debug.e(e);
 		}
-
+		
+		//======================================
+		// Backgrounds
+		//======================================
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("images/icons/");
+		monsterCardIconsTexture = new BuildableBitmapTextureAtlas(bbsGameActivity.getTextureManager(), 256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		monsterCardHeartIconTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(monsterCardIconsTexture, bbsGameActivity, "heartIcon.png");
+		monsterCardAttackIconTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(monsterCardIconsTexture, bbsGameActivity, "attackIcon.png");
+		try{
+			monsterCardIconsTexture.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(1, 1, 1));
+		} catch (final TextureAtlasBuilderException e) {
+			Debug.e(e);
+		}
+		
 		//======================================
 		// Badly Drawn Monster
 		//======================================
@@ -179,6 +196,7 @@ public class GameMapActivityAssets implements IAssets{
 			fontJokalLarge.load();
 			
 			skyConceptBGTexture.load();
+			monsterCardIconsTexture.load();
 			badlyDrawnMonsterTexture.load();
 			orangeMonTexture.load();
 			menuButtonTexture.load();
@@ -195,6 +213,7 @@ public class GameMapActivityAssets implements IAssets{
 			fontJokalLarge.unload();
 			
 			skyConceptBGTexture.unload();
+			monsterCardIconsTexture.unload();
 			badlyDrawnMonsterTexture.unload();
 			orangeMonTexture.unload();
 			menuButtonTexture.unload();
