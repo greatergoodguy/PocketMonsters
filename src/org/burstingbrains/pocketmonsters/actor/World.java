@@ -19,7 +19,6 @@ public class World extends Rectangle implements GameConstants{
 	private MapTile[][] grid;
 	private MapTile activeMapTile;
 	private MapTile selectorMapTile;
-	private MovementSelectorGrid movementSelectorGrid;
 	private MonsterGrid monsterGrid;
 	private IMonster activeMonster;
 	private SharedMonsterMenu sharedMonsterMenu;
@@ -38,12 +37,11 @@ public class World extends Rectangle implements GameConstants{
 		universe.registerTouchArea(this);
 		
 		initializeGrid();
-		movementSelectorGrid = new MovementSelectorGrid(universe);
-		monsterGrid = new MonsterGrid(universe);
-		//initializeMonsters(universe);
 		
 		sharedMonsterMenu = new SharedMonsterMenu(universe, new WorldHandler());
 		sharedMonsterMenu.deactivate();
+
+		monsterGrid = new MonsterGrid(universe);
 	}
 
 	//-----------------------------------------------------------------------//
@@ -73,18 +71,6 @@ public class World extends Rectangle implements GameConstants{
 		selectorMapTile.setColor(Color.RED);
 		attachChild(selectorMapTile);		
 	}
-
-//	private void initializeMonsters(Universe universe) {
-//		monsters = new Monster[GRID_WIDTH_IN_METERS][GRID_HEIGHT_IN_METERS];
-//		
-//		Monster monster1 = new BadlyDrawnMonster(universe);
-//		monster1.setGridPos(1, 1);
-//		monsters[1][1] = monster1;
-//		
-//		Monster monster2 = new OrangeMon(universe);
-//		monster2.setGridPos(3, 4);
-//		monsters[3][4] = monster2;
-//	}
 
 	//-----------------------------------------------------------------------//
 	// Overloaded Functions
@@ -132,12 +118,5 @@ public class World extends Rectangle implements GameConstants{
 	// Inner classes                                                         //
 	//-----------------------------------------------------------------------//
 	public class WorldHandler{
-		public void activateMovementSelectorGridTiles(IMonster monster){
-			movementSelectorGrid.activateTiles(monster);
-		}
-		
-		public void deactivateMovementSelectorGridTiles(){
-			movementSelectorGrid.deactivateTiles();
-		}
 	}
 }

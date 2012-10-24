@@ -97,16 +97,16 @@ public class SharedMonsterMenu extends Rectangle implements GameConstants{
 			if(activeMonster != null && selectedButton.isVisible()){
 				if(selectedButton.getY() == buttons.get(0).getY()){
 					secondaryMenu.deactivate();
-					handler.deactivateMovementSelectorGridTiles();
+					secondaryMenu.deactivateTiles();
 					activeMonster.turnLeft();
 				}
 				else if(selectedButton.getY() == buttons.get(1).getY()){
 					secondaryMenu.activate();
-					handler.activateMovementSelectorGridTiles(activeMonster);
+					secondaryMenu.activateTiles(activeMonster);
 				}
 				else if(selectedButton.getY() == buttons.get(2).getY()){
 					secondaryMenu.deactivate();
-					handler.deactivateMovementSelectorGridTiles();
+					secondaryMenu.deactivateTiles();
 				}
 				else if(selectedButton.getY() == buttons.get(3).getY()){
 					activeMonster.setGridPos(5, 5);
@@ -147,10 +147,9 @@ public class SharedMonsterMenu extends Rectangle implements GameConstants{
 			
 			if(distance <= activeMonster.getMovementPoints()){
 				activeMonster.setGridPos(newX, newY);
-				handler.deactivateMovementSelectorGridTiles();
+				secondaryMenu.deactivateTiles();
 				deactivate();
 			}
-
 		}
 		
 	}

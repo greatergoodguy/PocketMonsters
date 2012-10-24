@@ -2,24 +2,31 @@ package org.burstingbrains.pocketmonsters.menu;
 
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.input.touch.TouchEvent;
+import org.burstingbrains.pocketmonsters.actor.IMonster;
 import org.burstingbrains.pocketmonsters.constants.GameConstants;
 import org.burstingbrains.pocketmonsters.menu.SharedMonsterMenu.SharedMonsterMenuHandler;
 import org.burstingbrains.pocketmonsters.universe.Universe;
+import org.burstingbrains.pocketmonsters.world.MovementSelectorGrid;
 
 public class TileInputMenu extends Rectangle implements GameConstants{
 
 	public static final int DEFAULT_POS_X = 0;
 	public static final int DEFAULT_POS_Y = 0;
 	
-	SharedMonsterMenuHandler handler;
+	private SharedMonsterMenuHandler handler;
+	
+	private MovementSelectorGrid movementSelectorGrid;
 	
 	public TileInputMenu(final Universe universe, SharedMonsterMenuHandler handler) {
 		super(0, 0, GRID_WIDTH_IN_METERS*PIXELS_PER_METER, GRID_HEIGHT_IN_METERS*PIXELS_PER_METER, universe.getVertexBufferObjectManager());
 		
 		this.handler = handler;
+		this.movementSelectorGrid = new MovementSelectorGrid(universe);
 		
 		// Set the overall scene to be transparent
 		this.setColor(0, 0, 0, 0);
+		
+		
 		
 		universe.attachChild(this);
 		universe.registerTouchArea(this);
@@ -53,5 +60,13 @@ public class TileInputMenu extends Rectangle implements GameConstants{
 			}
 		}
 		return true;
+	}
+	
+	public void activateTiles(IMonster monster) {
+		movementSelectorGrid.activateTiles(monster);
+	}
+
+	public void deactivateTiles() {
+		movementSelectorGrid.deactivateTiles();
 	}
 }
