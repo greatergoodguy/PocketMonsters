@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.burstingbrains.pocketmonsters.singleton.SettingsSingleton;
 import org.burstingbrains.pocketmonsters.singleton.SettingsSingleton.Player;
+import org.jasypt.util.password.BasicPasswordEncryptor;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -79,12 +80,20 @@ public class DefaultAndroidActivity extends Activity{
         String email	= ((EditText) findViewById(R.id.user_email_edit_text)).getText().toString();
         String password = ((EditText) findViewById(R.id.user_password_edit_text)).getText().toString();
         
+        BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
+        String encryptedPassword = passwordEncryptor.encryptPassword(password);
+//        if (passwordEncryptor.checkPassword(inputPassword, encryptedPassword)) {
+//          // correct!
+//        } else {
+//          // bad login!
+//        }
+        
         if("".equals(email) || "".equals(password)){
             Toast.makeText(DefaultAndroidActivity.this, "Field cannot be empty.", Toast.LENGTH_SHORT).show();
         }
 	    else{
 	        new CreateDomainRequestTask().execute(USER_ACCOUNTS_DOMAIN);
-	        new PutAttributesInUserAccountRequestTask().execute(email, password);
+	        new PutAttributesInUserAccountRequestTask().execute(email, encryptedPassword);
 	        Toast.makeText(DefaultAndroidActivity.this, "Success!!", Toast.LENGTH_SHORT).show();
 	    }
 	}
