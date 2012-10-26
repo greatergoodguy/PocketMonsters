@@ -10,7 +10,7 @@ import org.burstingbrains.pocketmonsters.universe.Universe;
 public class BadlyDrawnMonster extends Monster{
 
 	private final static int MONSTER_HP = 3;
-	private final static int MONSTER_ATTACK = 3;
+	private final static int MONSTER_ATTACK = 1;
 	private final static int MONSTER_MOVEMENT = 3;
 	
 	public BadlyDrawnMonster(Universe universe, MonsterGridHandler handler, Team team) {

@@ -23,6 +23,10 @@ public abstract class Monster implements IMonster, GameConstants{
 	
 	private MonsterGridHandler monsterGridHandler;
 	
+	private final int originalHealthPoints;
+	private final int originalAttackPower;
+	private final int originalMovementPoints;	
+	
 	// Monster Data Members
 	private IEntity monsterEntity;
 
@@ -43,9 +47,9 @@ public abstract class Monster implements IMonster, GameConstants{
 	private int gridPosX;
 	private int gridPosY;
 	
-	private final int healthPoints;
-	private final int attackPower;
-	private final int movementPoints;
+	private int healthPoints;
+	private int attackPower;
+	private int movementPoints;
 	
 	private float scaleFactor = 0.6f;
 
@@ -54,12 +58,15 @@ public abstract class Monster implements IMonster, GameConstants{
 	
 	Team team;
 
-	public Monster(Universe universe, MonsterGridHandler handler, Team team, int healthPoints, int attackPower, int movementPoints){
+	public Monster(Universe universe, MonsterGridHandler handler, Team team, int originalHealthPoints, int originalAttackPower, int originalMovementPoints){
 		this.monsterGridHandler = handler;
 		
-		this.healthPoints = healthPoints;
-		this.attackPower = attackPower;
-		this.movementPoints = movementPoints;
+		this.originalHealthPoints = originalHealthPoints;
+		this.originalAttackPower = originalAttackPower;
+		this.originalMovementPoints = originalMovementPoints;
+		healthPoints = originalHealthPoints;
+		attackPower = originalAttackPower;
+		movementPoints = originalMovementPoints;
 		
 		this.team = team;
 		team.addMonster(this);
@@ -242,6 +249,11 @@ public abstract class Monster implements IMonster, GameConstants{
 		return gridPosY;
 	}
 
+	public void takeDamage(int attackPower){
+		healthPoints -= attackPower;
+	}
+
+	
 	public class TurnLeftButtonHandler implements IButtonHandler{
 		@Override
 		public void onButtonUp(){

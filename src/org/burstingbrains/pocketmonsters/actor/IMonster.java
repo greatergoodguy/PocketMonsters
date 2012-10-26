@@ -18,5 +18,5 @@ public interface IMonster {
 	public int getGridPosX();
 	public int getGridPosY();
 
-	
+	public void takeDamage(int attackPower);	
 }

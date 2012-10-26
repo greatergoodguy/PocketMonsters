@@ -165,6 +165,12 @@ public class SharedMonsterMenu extends Rectangle implements GameConstants{
 			}
 		}
 		
+		public void attackMonster(int attackedMonsterCoordX, int attackedMonsterCoordY) {
+			assert activeMonster != null;
+			worldHandler.attackMonster(activeMonster, attackedMonsterCoordX, attackedMonsterCoordY);
+			tileInputMenu.deactivateEnemyTiles();
+			deactivate();
+		}
 
 		public boolean isTileOccupied(int coordX, int coordY) {
 			return worldHandler.isTileOccupied(coordX, coordY);

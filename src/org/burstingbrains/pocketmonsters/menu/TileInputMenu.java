@@ -45,17 +45,22 @@ public class TileInputMenu extends Rectangle implements GameConstants{
 	@Override
 	public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, 
 			final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-		int posXInMeters = (int) (pTouchAreaLocalX / PIXELS_PER_METER);
-		int posYInMeters = (int) (pTouchAreaLocalY / PIXELS_PER_METER);
-		if (posXInMeters < GRID_WIDTH_IN_METERS &&
-				posYInMeters < GRID_HEIGHT_IN_METERS) {
+		int coordX = (int) (pTouchAreaLocalX / PIXELS_PER_METER);
+		int coordY = (int) (pTouchAreaLocalY / PIXELS_PER_METER);
+		if (coordX < GRID_WIDTH_IN_METERS &&
+				coordY < GRID_HEIGHT_IN_METERS) {
 
 			switch(pSceneTouchEvent.getAction()) {
 			case TouchEvent.ACTION_DOWN:
 			case TouchEvent.ACTION_MOVE:
 				break;
 			case TouchEvent.ACTION_UP:
-				handler.moveMonster(posXInMeters, posYInMeters);
+				if(enemySelectorGrid.isSelected(coordX, coordY)){
+					handler.attackMonster(coordX, coordY);
+				}
+				else if(movementSelectorGrid.isSelected(coordX, coordY)){
+					handler.moveMonster(coordX, coordY);
+				}
 				break;
 			}
 		}

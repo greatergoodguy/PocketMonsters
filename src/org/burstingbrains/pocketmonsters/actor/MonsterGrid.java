@@ -86,14 +86,7 @@ public class MonsterGrid implements GameConstants{
 
 	public boolean isTileOccupied(int coordX, int coordY) {
 		
-		Log.d("qwe", "qwe: " + coordX + ", " + coordY);
-		Log.d("qwe", "GridUtil: " + GridUtil.isValidCoordinate(coordX, coordY));
-		
 		if(GridUtil.isValidCoordinate(coordX, coordY)){
-			
-			boolean b = monsters[coordX][coordY] == null;
-			Log.d("qwe", "monsters[x][y]: " + b);
-			
 			if(monsters[coordX][coordY] != null){
 				return true;
 			}
@@ -103,5 +96,10 @@ public class MonsterGrid implements GameConstants{
 		}
 		
 		return true;
+	}
+
+	public void updateMonsterCard(IMonster attackedMonster) {
+		MonsterCard attackedMonsterCard = monsterCardHashMap.get(attackedMonster);
+		attackedMonsterCard.updateMonsterCard(attackedMonster);
 	}
 }

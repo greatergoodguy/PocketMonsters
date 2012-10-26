@@ -136,6 +136,15 @@ public class World extends Rectangle implements GameConstants{
 	// Inner classes                                                         //
 	//-----------------------------------------------------------------------//
 	public class WorldHandler{
+		public void attackMonster(IMonster attacker, int attackedMonsterCoordX, int attackedMonsterCoordY) {
+			IMonster attackedMonster = monsterGrid.get(attackedMonsterCoordX, attackedMonsterCoordY);
+			assert attackedMonster != null;
+			
+			int attackPower = attacker.getAttackPower();
+			attackedMonster.takeDamage(attackPower);
+			monsterGrid.updateMonsterCard(attackedMonster);
+		}
+
 		public boolean isTileOccupied(int coordX, int coordY){
 			return monsterGrid.isTileOccupied(coordX, coordY);
 		}

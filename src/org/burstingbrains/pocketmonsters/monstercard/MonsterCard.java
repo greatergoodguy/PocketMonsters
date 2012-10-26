@@ -7,10 +7,13 @@ import org.andengine.entity.Entity;
 import org.andengine.entity.IEntity;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.sprite.Sprite;
+import org.burstingbrains.pocketmonsters.actor.IMonster;
 import org.burstingbrains.pocketmonsters.actor.Monster;
 import org.burstingbrains.pocketmonsters.assets.GameMapActivityAssets;
 import org.burstingbrains.pocketmonsters.constants.GameConstants;
 import org.burstingbrains.pocketmonsters.universe.Universe;
+
+import android.util.Log;
 
 public class MonsterCard extends Rectangle implements GameConstants{
 	
@@ -21,7 +24,6 @@ public class MonsterCard extends Rectangle implements GameConstants{
 	
 	GameMapActivityAssets assets = GameMapActivityAssets.getSingleton();
 	
-	private Monster monster;
 	private Sprite profilePicture;
 	
 	private IEntity hpIconsEntity;
@@ -33,7 +35,6 @@ public class MonsterCard extends Rectangle implements GameConstants{
 	public MonsterCard(Universe universe, Monster monster){
 		super(0, 0, MONSTERCARD_WIDTH, MONSTERCARD_HEIGHT, universe.getVertexBufferObjectManager());
 
-		this.monster = monster;
 		this.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		
 		// Init and Attach Profile Picture
@@ -78,6 +79,21 @@ public class MonsterCard extends Rectangle implements GameConstants{
 		
 		universe.attachChild(this);
 		this.setPosition(2*CAMERA_WIDTH/3, 2*CAMERA_HEIGHT/3);
+	}
+	
+	public void updateMonsterCard(IMonster monster) {
+		
+		int i = Math.max(0, monster.getHealthPoints());
+		while(i < hpIcons.size()){
+			hpIcons.get(i).setVisible(false);
+			++i;
+		}
+		
+		int j = Math.max(0, monster.getAttackPower());
+		while(j < attackIcons.size()){
+			attackIcons.get(j).setVisible(false);
+			++j;
+		}
 	}
 	
 	public void activate(){

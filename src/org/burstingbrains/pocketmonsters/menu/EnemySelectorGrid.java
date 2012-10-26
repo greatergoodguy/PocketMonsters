@@ -70,4 +70,8 @@ public class EnemySelectorGrid extends Rectangle implements GameConstants{
 			}
 		}
 	}
+
+	public boolean isSelected(int coordX, int coordY) {
+		return grid[coordX][coordY].isVisible();
+	}
 }
