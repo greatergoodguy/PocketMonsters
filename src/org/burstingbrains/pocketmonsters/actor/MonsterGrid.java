@@ -8,6 +8,9 @@ import org.burstingbrains.pocketmonsters.monstercard.MonsterCard;
 import org.burstingbrains.pocketmonsters.monsters.BadlyDrawnMonster;
 import org.burstingbrains.pocketmonsters.monsters.OrangeMon;
 import org.burstingbrains.pocketmonsters.universe.Universe;
+import org.burstingbrains.pocketmonsters.util.GridUtil;
+
+import android.util.Log;
 
 public class MonsterGrid implements GameConstants{
 	//============================================================
@@ -79,5 +82,26 @@ public class MonsterGrid implements GameConstants{
 		if(activeMonsterCard != null){
 			activeMonsterCard.deactivate();
 		}
+	}
+
+	public boolean isTileOccupied(int coordX, int coordY) {
+		
+		Log.d("qwe", "qwe: " + coordX + ", " + coordY);
+		Log.d("qwe", "GridUtil: " + GridUtil.isValidCoordinate(coordX, coordY));
+		
+		if(GridUtil.isValidCoordinate(coordX, coordY)){
+			
+			boolean b = monsters[coordX][coordY] == null;
+			Log.d("qwe", "monsters[x][y]: " + b);
+			
+			if(monsters[coordX][coordY] != null){
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+		
+		return true;
 	}
 }

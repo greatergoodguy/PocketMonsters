@@ -5,10 +5,13 @@ import org.andengine.input.touch.TouchEvent;
 import org.andengine.util.color.Color;
 import org.burstingbrains.pocketmonsters.constants.GameConstants;
 import org.burstingbrains.pocketmonsters.handler.BBSHandler;
+import org.burstingbrains.pocketmonsters.menu.MovementSelectorGrid;
 import org.burstingbrains.pocketmonsters.menu.SharedMonsterMenu;
 import org.burstingbrains.pocketmonsters.singleton.RandomSingleton;
 import org.burstingbrains.pocketmonsters.universe.Universe;
-import org.burstingbrains.pocketmonsters.world.MovementSelectorGrid;
+import org.burstingbrains.pocketmonsters.util.GridUtil;
+
+import android.util.Log;
 
 public class World extends Rectangle implements GameConstants{
 	//-----------------------------------------------------------------------//
@@ -16,12 +19,15 @@ public class World extends Rectangle implements GameConstants{
 	//-----------------------------------------------------------------------//
 	Universe universe;
 	BBSHandler handler;
-	private MapTile[][] grid;
+	
+	private MapTile[][] mapTileGrid;
 	private MapTile activeMapTile;
 	private MapTile selectorMapTile;
+	
 	private MonsterGrid monsterGrid;
 	private IMonster previousActiveMonster;
 	private IMonster activeMonster;
+	
 	private SharedMonsterMenu sharedMonsterMenu;
 	
 	//-----------------------------------------------------------------------//
@@ -49,7 +55,7 @@ public class World extends Rectangle implements GameConstants{
 	// Methods                                                               //
 	//-----------------------------------------------------------------------//
 	private void initializeGrid() {
-		grid = new MapTile[GRID_WIDTH_IN_METERS][GRID_HEIGHT_IN_METERS];
+		mapTileGrid = new MapTile[GRID_WIDTH_IN_METERS][GRID_HEIGHT_IN_METERS];
 		for(int column = 0; column < GRID_WIDTH_IN_METERS; column++){
 			for(int row = 0; row < GRID_HEIGHT_IN_METERS; row++){
 				MapTile tile = new MapTile(column * PIXELS_PER_METER, row * PIXELS_PER_METER, PIXELS_PER_METER,
@@ -62,14 +68,14 @@ public class World extends Rectangle implements GameConstants{
 
 				attachChild(tile);
 
-				grid[column][row] = tile;
+				mapTileGrid[column][row] = tile;
 			}
 		}
 		
-		activeMapTile = grid[0][0];
+		activeMapTile = mapTileGrid[0][0];
 		
 		selectorMapTile = new MapTile(0, 0, PIXELS_PER_METER, PIXELS_PER_METER, getVertexBufferObject());
-		selectorMapTile.setColor(Color.RED);
+		selectorMapTile.setColor(Color.CYAN);
 		attachChild(selectorMapTile);		
 	}
 
@@ -87,7 +93,7 @@ public class World extends Rectangle implements GameConstants{
 			switch(pSceneTouchEvent.getAction()) {
 			case TouchEvent.ACTION_DOWN:
 			case TouchEvent.ACTION_MOVE:
-				activeMapTile = grid[posXInMeters][posYInMeters];
+				activeMapTile = mapTileGrid[posXInMeters][posYInMeters];
 				selectorMapTile.setPosition(activeMapTile);
 				break;
 			case TouchEvent.ACTION_UP:
@@ -123,12 +129,15 @@ public class World extends Rectangle implements GameConstants{
 	// Getters                                                               //
 	//-----------------------------------------------------------------------//
 	public MapTile getMapTileAt(int x, int y) {
-		return grid[x][y];
+		return mapTileGrid[x][y];
 	}
 	
 	//-----------------------------------------------------------------------//
 	// Inner classes                                                         //
 	//-----------------------------------------------------------------------//
 	public class WorldHandler{
+		public boolean isTileOccupied(int coordX, int coordY){
+			return monsterGrid.isTileOccupied(coordX, coordY);
+		}
 	}
 }

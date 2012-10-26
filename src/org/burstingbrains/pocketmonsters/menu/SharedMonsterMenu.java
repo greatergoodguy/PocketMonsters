@@ -22,13 +22,13 @@ public class SharedMonsterMenu extends Rectangle implements GameConstants{
 	public static final int ITEM_WIDTH = 500;
 	public static final int ITEM_HEIGHT = 100;
 	
-	public static final int MAX_SIZE = 4;
+	public static final int MAX_SIZE = 5;
 
 	private GameMapActivityAssets assets = GameMapActivityAssets.getSingleton();
 	
-	private WorldHandler handler;
+	private WorldHandler worldHandler;
 	
-	private TileInputMenu secondaryMenu;
+	private TileInputMenu tileInputMenu;
 	
 	private ArrayList<Rectangle> buttons;
 	private Rectangle selectedButton;
@@ -38,10 +38,10 @@ public class SharedMonsterMenu extends Rectangle implements GameConstants{
 	public SharedMonsterMenu(Universe universe, WorldHandler worldHandler){
 		super(0, 0, ITEM_WIDTH, ITEM_HEIGHT*MAX_SIZE, universe.getVertexBufferObjectManager(), DrawType.STATIC);		
 		
-		handler = worldHandler;
+		this.worldHandler = worldHandler;
 		
-		secondaryMenu = new TileInputMenu(universe, new SharedMonsterMenuHandler());
-		secondaryMenu.deactivate();
+		tileInputMenu = new TileInputMenu(universe, new SharedMonsterMenuHandler());
+		tileInputMenu.deactivate();
 		
 		// Create Buttons
 		buttons = new ArrayList<Rectangle>();
@@ -72,6 +72,14 @@ public class SharedMonsterMenu extends Rectangle implements GameConstants{
 		deactivateMoveText.setPosition(buttons.get(2));
 		this.attachChild(deactivateMoveText);
 		
+		Text attackText = new Text(0, 0, assets.fontJokalMedium, "Attack", universe.getVertexBufferObjectManager());
+		attackText.setPosition(buttons.get(3));
+		this.attachChild(attackText);
+		
+		Text deactivateAttackText = new Text(0, 0, assets.fontJokalMedium, "Deactivate Attack", universe.getVertexBufferObjectManager());
+		deactivateAttackText.setPosition(buttons.get(4));
+		this.attachChild(deactivateAttackText);
+		
 		universe.attachChild(this);
 		universe.registerTouchArea(this);
 	}
@@ -96,20 +104,25 @@ public class SharedMonsterMenu extends Rectangle implements GameConstants{
 		case TouchEvent.ACTION_UP:
 			if(activeMonster != null && selectedButton.isVisible()){
 				if(selectedButton.getY() == buttons.get(0).getY()){
-					secondaryMenu.deactivate();
-					secondaryMenu.deactivateTiles();
+					tileInputMenu.deactivate();
+					tileInputMenu.deactivateMovementTiles();
 					activeMonster.turnLeft();
 				}
 				else if(selectedButton.getY() == buttons.get(1).getY()){
-					secondaryMenu.activate();
-					secondaryMenu.activateTiles(activeMonster);
+					tileInputMenu.activate();
+					tileInputMenu.activateMovementTiles(activeMonster);
 				}
 				else if(selectedButton.getY() == buttons.get(2).getY()){
-					secondaryMenu.deactivate();
-					secondaryMenu.deactivateTiles();
+					tileInputMenu.deactivate();
+					tileInputMenu.deactivateMovementTiles();
 				}
 				else if(selectedButton.getY() == buttons.get(3).getY()){
-					activeMonster.setGridPos(5, 5);
+					tileInputMenu.activate();
+					tileInputMenu.activeEnemyTiles(activeMonster);
+				}
+				else if(selectedButton.getY() == buttons.get(4).getY()){
+					tileInputMenu.deactivate();
+					tileInputMenu.deactivateEnemyTiles();
 				}
 			}
 			break;
@@ -128,7 +141,7 @@ public class SharedMonsterMenu extends Rectangle implements GameConstants{
 	}
 
 	public void deactivate() {
-		secondaryMenu.deactivate();
+		tileInputMenu.deactivate();
 		setPosition(VOID_ZONE_POS_X, VOID_ZONE_POS_Y);
 		setVisible(false);		
 	}
@@ -147,11 +160,15 @@ public class SharedMonsterMenu extends Rectangle implements GameConstants{
 			
 			if(distance <= activeMonster.getMovementPoints()){
 				activeMonster.setGridPos(newX, newY);
-				secondaryMenu.deactivateTiles();
+				tileInputMenu.deactivateMovementTiles();
 				deactivate();
 			}
 		}
 		
+
+		public boolean isTileOccupied(int coordX, int coordY) {
+			return worldHandler.isTileOccupied(coordX, coordY);
+		}
 	}
 
 }
