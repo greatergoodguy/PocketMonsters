@@ -31,4 +31,11 @@
         android:layout_toRightOf="@+id/refresh_button"
         android:text="@string/create" />
 
+    <Button
+        android:id="@+id/quickplay_button"
+        style="@style/wrap"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/create_button"
+        android:text="@string/quickplay" />
+
 </RelativeLayout>

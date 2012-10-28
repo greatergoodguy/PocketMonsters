@@ -35,6 +35,8 @@
         android:id="@+id/login_register_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/user_password_edit_text"
+        android:layout_alignRight="@+id/user_password_edit_text"
         android:layout_below="@+id/user_password_edit_text"
         android:text="@string/login_register" />
     
@@ -42,7 +44,7 @@
         android:id="@+id/waiting_room_activity_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_alignLeft="@+id/login_register_button"
         android:layout_alignRight="@+id/multiplayer_activity_button"
         android:layout_below="@+id/login_register_button"
         android:text="@string/waiting_room" />
@@ -51,7 +53,7 @@
         android:id="@+id/game_map_activity_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_alignLeft="@+id/login_register_button"
         android:layout_alignRight="@+id/login_register_button"
         android:layout_below="@+id/waiting_room_activity_button"
         android:text="@string/game_map" />
@@ -60,7 +62,7 @@
         android:id="@+id/multiplayer_activity_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_alignLeft="@+id/game_map_activity_button"
         android:layout_alignRight="@+id/game_map_activity_button"
         android:layout_below="@+id/game_map_activity_button"
         android:text="@string/multiplayer" />
@@ -78,14 +80,16 @@
             android:layout_height="wrap_content"
             android:checked="true"
         	android:onClick="onRadioButtonClicked"
-            android:text="@string/player_one" />
+            android:text="@string/player_one"
+            android:visibility="gone" />
 
         <RadioButton
             android:id="@+id/player_two_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
         	android:onClick="onRadioButtonClicked"
-            android:text="@string/player_two" />
+            android:text="@string/player_two"
+            android:visibility="gone" />
     </RadioGroup>
 
 </RelativeLayout>

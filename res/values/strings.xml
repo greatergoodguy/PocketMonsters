@@ -23,8 +23,10 @@
     <string name="sit">Sit</string>
     <string name="p1">P1</string>
     <string name="p2">P2</string>
+    <string name="ready">Ready</string>
     <string name="refresh">Refresh</string>
     <string name="create">Create</string>
-    <string name="ready">Ready</string>
+    <string name="quickplay">Quickplay</string>
+    
     
 </resources>

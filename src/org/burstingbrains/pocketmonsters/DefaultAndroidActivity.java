@@ -33,7 +33,7 @@ public class DefaultAndroidActivity extends Activity{
 	private final static String USER_ACCOUNTS_DOMAIN = "UserAccount";
 	
 	protected AmazonSimpleDBClient sdbClient;
-	protected Handler handler;
+	protected Handler androidHandler;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class DefaultAndroidActivity extends Activity{
        
         AWSCredentials credentials = new BasicAWSCredentials(PropertyLoader.getInstance().getAccessKey(), PropertyLoader.getInstance().getSecretKey()  );
         sdbClient = new AmazonSimpleDBClient( credentials);
-        handler = new Handler();
+        androidHandler = new Handler();
         
         final Button loginOrRegisterButton = (Button) findViewById(R.id.login_register_button);
         loginOrRegisterButton.setOnClickListener(new View.OnClickListener() {
@@ -57,21 +57,21 @@ public class DefaultAndroidActivity extends Activity{
         final Button waitingRoomActivityButton = (Button) findViewById(R.id.waiting_room_activity_button);
         waitingRoomActivityButton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
-        		handler.postDelayed(launchWaitingRoomActivityRunnable, delayInMilliSeconds);
+        		androidHandler.postDelayed(launchWaitingRoomActivityRunnable, delayInMilliSeconds);
         	}
         });
 
         final Button gameMapActivityButton = (Button) findViewById(R.id.game_map_activity_button);
         gameMapActivityButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-            	handler.postDelayed(launchGameMapActivityRunnable, delayInMilliSeconds);
+            	androidHandler.postDelayed(launchGameMapActivityRunnable, delayInMilliSeconds);
             }
         });
         
         final Button multiplayerActivityButton = (Button) findViewById(R.id.multiplayer_activity_button);
         multiplayerActivityButton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
-        		handler.postDelayed(launchMultiplayerActivityRunnable, delayInMilliSeconds);
+        		androidHandler.postDelayed(launchMultiplayerActivityRunnable, delayInMilliSeconds);
         	}
         });
     }

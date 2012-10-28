@@ -86,11 +86,21 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 			}
 		});
 		
+		Button quickplayButton = (Button) this.findViewById(R.id.quickplay_button);
+		quickplayButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				long delayInMilli = 80;
+				androidHandler.postDelayed(launchMultiplayerActivityRunnable, delayInMilli);
+			}
+		});
+		
 		Timer timer = new Timer();
 		androidHandler = new Handler();
 		mainLoopTimerTask = new CheckIfGameIsReadyToStartTask(); 
 		int loopTimeInMilli = 1000;
 		timer.schedule(mainLoopTimerTask, 0, loopTimeInMilli);
+		
 	}
 
 
@@ -100,6 +110,11 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 
 	}
 
+	
+
+	//====================================
+	// Async Tasks
+	//====================================
 	class GetAndShowDataFromServerTask extends AsyncTask<Void, Void, Void>{
 		
 		ProgressDialog dialog;
@@ -176,30 +191,6 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 		}
 	}
 	
-	public class WaitingRoomHandler extends BBSHandler{
-		
-		public boolean isPlayerSatDown(){
-			return selectedSitButton != null;
-		}
-		
-		public void activatePlayerSitDown(WaitingRoomGameView newGameView, Button newSitButton, String gameId, String playerReady){
-			selectedGameView = newGameView;
-			selectedSitButton = newSitButton;
-			new SitTask().execute(gameId, playerReady);
-		}
-		
-		public void activatePlayerStandUp(String gameId, String playerReady){
-			if(selectedSitButton != null){
-				new UnsitTask().execute(gameId, playerReady);
-			}
-		}
-
-		public Button getActiveButton() {
-			return selectedSitButton;
-		}
-		
-	}
-	
 	class SitTask extends AsyncTask<String, Void, Void>{
 		
 		@Override
@@ -237,13 +228,16 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 	    {
 	    	if(selectedGameView != null && selectedGameView.isGameModelReady()){
 	    		long delayInMilli = 80;
-	    		
 	    		androidHandler.postDelayed(cancelTimerTaskAndStartGameRunnable, delayInMilli);
 	    	}
 
 	    }
 	}
-	
+
+
+	//====================================
+	// Runnables
+	//====================================
 	public Runnable cancelTimerTaskAndStartGameRunnable = new Runnable(){
 		public void run(){
 			mainLoopTimerTask.cancel();
@@ -251,4 +245,38 @@ public class WaitingRoomActivity extends Activity implements GameConstants{
 			startActivity(myIntent);
 		}
 	};
+	
+	private Runnable launchMultiplayerActivityRunnable = new Runnable(){
+		public void run(){
+			Intent myIntent = new Intent(WaitingRoomActivity.this, MultiplayerActivity.class);
+			startActivity(myIntent);
+		}
+	};
+	
+	//====================================
+	// Waiting Room Handler
+	//====================================
+	public class WaitingRoomHandler{
+		
+		public boolean isPlayerSatDown(){
+			return selectedSitButton != null;
+		}
+		
+		public void activatePlayerSitDown(WaitingRoomGameView newGameView, Button newSitButton, String gameId, String playerReady){
+			selectedGameView = newGameView;
+			selectedSitButton = newSitButton;
+			new SitTask().execute(gameId, playerReady);
+		}
+		
+		public void activatePlayerStandUp(String gameId, String playerReady){
+			if(selectedSitButton != null){
+				new UnsitTask().execute(gameId, playerReady);
+			}
+		}
+
+		public Button getActiveButton() {
+			return selectedSitButton;
+		}
+		
+	}
 }
