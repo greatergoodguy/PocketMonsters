@@ -6,7 +6,6 @@
     <string name="app_launcher_text">Pocket Monsters</string>
     
     <!-- New Account / Login -->
-
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
     <string name="login_register">Login/Register</string>
@@ -17,6 +16,9 @@
     <string name="player_one">Player 1</string>
     <string name="player_two">Player 2</string>
     <string name="waiting_room">Waiting Room</string>
+    <string name="profile">Profile</string>
+    <string name="deck">Deck</string>
+    <string name="settings">Settings</string>
     
     <!-- Waiting Room -->
     <string name="game_name">Game Name</string>

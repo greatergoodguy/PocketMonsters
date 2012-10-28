@@ -74,6 +74,27 @@ public class DefaultAndroidActivity extends Activity{
         		androidHandler.postDelayed(launchMultiplayerActivityRunnable, delayInMilliSeconds);
         	}
         });
+        
+        final Button profileButton = (Button) findViewById(R.id.profile_button);
+        profileButton.setOnClickListener(new View.OnClickListener() {
+        	public void onClick(View v) {
+        		Toast.makeText(DefaultAndroidActivity.this, "Profile Button not yet wired", Toast.LENGTH_SHORT).show();
+        	}
+        });
+        
+        final Button deckButton = (Button) findViewById(R.id.deck_button);
+        deckButton.setOnClickListener(new View.OnClickListener() {
+        	public void onClick(View v) {
+        		Toast.makeText(DefaultAndroidActivity.this, "Deck Button not yet wired", Toast.LENGTH_SHORT).show();
+        	}
+        });
+        
+        final Button settingsButton = (Button) findViewById(R.id.settings_button);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+        	public void onClick(View v) {
+        		Toast.makeText(DefaultAndroidActivity.this, "Settings Button not yet wired", Toast.LENGTH_SHORT).show();
+        	}
+        });
     }
 
 	protected void LoginOrRegister() {
